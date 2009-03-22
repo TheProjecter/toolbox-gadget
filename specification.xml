@@ -36,7 +36,6 @@
                 <property>usestyle</property>
                 <property>value</property>
                 <property>disabled</property>
-                <property>type"</property>
                 <property>usestyle</property>
                 <property>value</property>
                 <property>width</property>
@@ -82,7 +81,6 @@
                 <property>name</property>
                 <property>readonly</property>
                 <property>size</property>
-                <property>type</property>
                 <property>usestyle</property>
                 <property>value</property>
                 <property>width</property>
@@ -128,7 +126,6 @@
                 <property>name</property>
                 <property>readonly</property>
                 <property>size</property>
-                <property>type</property>
                 <property>usestyle</property>
                 <property>value</property>
                 <property>width</property>
