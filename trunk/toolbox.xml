@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Module>
-<ModulePrefs title="toolbox gadget" height="500" width="1000">
+<ModulePrefs title="toolbox gadget" height="500" width="1000" author="Goran Petrovic">
     <Require feature="minimessage"/>
+    <Require feature="drag" />
+    <Require feature="grid" />
 </ModulePrefs>
 <Content type="html"><![CDATA[
 
 <style type="text/css"> 
+
   .header1
   {
     background:#E5ECF9 none repeat scroll 0 0;
     font-size:1.2em;
-    margin:1em 0 0px;
+    margin:0 0 0px;
     padding:4px 6px;
     font-size-adjust:none;
     font-style:normal;
@@ -18,7 +21,40 @@
     font-weight:normal;
     line-height:normal;
   }
-
+  
+  .panelItem
+  {
+      clear: both; 
+      border-bottom: 1px dotted black;
+      border-left: 1px dotted black;
+      border-right: 1px dotted black;
+      padding: 10px 0px 10px 10px; 
+      width: 350px; 
+      background-color: #e9e6f9;
+  }
+  
+  .alt
+  {
+      background-color: #e6f6f9;
+  }
+  
+  .selected
+  {
+      border: 1px solid black;
+  }
+  
+  .propertyText
+  {
+    width : 120px;
+    border:none;
+  }
+  
+  #debug_div
+  {
+    float:left;
+    width:500px;
+  }
+  
   #workBox
   {  
     width: 400px;
@@ -27,20 +63,42 @@
     float: left;
   }
 
-  #propertyBox
+  #propertyBox, #navBox
   { 
     margin-left: 15px;
     height: 300px;
-    width: 200px;
     float: left;
+    width: 250px;
+  }
+  
+  #propertyBox select
+  { 
+    border:1px solid #78ACFF;
+    vertical-align:middle;
+    width:175px;
+  }
+    
+  #navBox
+  { 
+    width: 200px;
+  }
+  
+  #propertyBoxContainer, #workBoxContainer, #navcontainer
+  {
+    overflow : scroll;
+    overflow-x:hidden;
+    height: 240px;
+  }
+  
+  #propertyBox p, #workBox p, #navBox p
+  {   
+    font-size: 0.8em;
   }
 
   #navcontainer
   {
-	float: left; 
-	width: 200px
-	margin-left: 30px;
-	height: 300px;
+    float: left; 
+    width:200px;
   }
 
   #navcontainer ul
@@ -51,8 +109,9 @@
 	font-family: verdana, arial, sans-serif;
   }
 
-  #navcontainer li
+  #navcontainer li img
   {
+        vertical-align:middle;
 	margin: 0;
   }
 
@@ -61,7 +120,7 @@
 	display: block;
 	color: #333;
 	background-color: transparent;
-	width: 140px;
+	width: 180px;
 	padding: 2px 10px;
 	text-decoration: none;
 	font-size: 12px;
@@ -101,28 +160,119 @@
 	text-decoration: none;
 	font-size: 12px;
   }
+  
+  body
+  {
+        scrollbar-face-color: #f0f0f0;
+        scrollbar-highlight-color: #cccccc;
+        scrollbar-shadow-color: #cccccc;
+        scrollbar-3dlight-color: #f0f0f0;
+        scrollbar-arrow-color: #330066;
+        scrollbar-darkshadow-color: #cccccc;
+        scrollbar-base-color: #cccccc;
+  }
+  
+  table.sofT
+  {
+	text-align: center;
+	font-family: Verdana;
+	font-weight: normal;
+	font-size: 11px;
+	color: #404040;
+	background-color: #fafafa;
+	border: 1px #6699CC solid;
+	border-collapse: collapse;
+	border-spacing: 0px;
+  }
 </style>  
 
 <h1 class="header1"> Toolbox Gadget </h1>
-		
-<div id="navcontainer" class="header1">
+
+<div id="navBox">
+   <p id="p_toolbox_label">
+      <b> Toolbox </b>
+  </p>
+  
+  <div id="navcontainer" class="header1">
+  </div>
 </div>
 
-<div id="workBox" class="header1">
-	<p>This is content</p>
+<div id="workBox" >
+ <p id="p_control_count">
+      <b> Control grid: </b> <em>(0)</em>
+  </p>
+  
+  <div class="header1" id="workBoxContainer">
+    <p> <em>Drag controls here </em> </p>
+ </div>
 </div>
 		
-<div id="propertyBox" class="header1">
-	<p>This is property box</p>
+<div id="propertyBox">
+  <p id="p_current_control">
+      <b> Current </b> <em>none</em>
+  </p>
+  
+  <div class="header1" id="propertyBoxContainer">
+    <span id="properties_grid_span"></span>
+  </div>
 </div>
+
+<div id="debug_div"></div>
 
 <script type="text/javascript">
     var gpHC = function () {
 
-	function HTML_Element (name, description, properties) {
+	var msg = new _IG_MiniMessage(__MODULE_ID__);
+        var controller, viewPanel, viewList, viewStatus;
+    
+  
+        function object(o) {
+            function F() {}
+            F.prototype = o;
+            return new F();
+        }
+        
+        var errorHelper = function() {
+          return {
+              postError : function(errorText) {
+                  _gel("debug_div").innerHTML += errorText+"<hr/>"
+              },
+              
+              clearErrors : function() {
+                  _gel("debug_div").innerHTML="";
+              }
+          }
+        } ();
+        
+        
+        function HTML_Property(name, value) {
+                this.name = name;
+                this.value = value;
+        }
+        
+        function gridParameters() {
+            this.data = new Array();
+        }
+        
+        gridParameters.prototype._IGG_getNormalView = function(index) { 
+                if (index % 2 == 0)
+                  return this.data[index];
+                else return "<input class='propertyText' type='text' id='toolbox_"+this.data[index-1]+"' value ='"+this.data[index]+"' />";
+        }  
+      
+        gridParameters.prototype._IGG_isDragSource = function(index) {
+                return false;
+        }
+
+        gridParameters.prototype._IGG_isDragTarget = function(index, sourceIndex) {
+                return false;
+        }
+  
+        function HTML_Element (name, description, properties, tag) {
 		this.name = name;
 		this.description = description;
 		this.properties = properties || arguments.slice(2);
+                this.tag = tag;
 	}
 	
 	function createXMLParser () {
@@ -144,15 +294,14 @@
 	}
 		
 	function createToolBox (xmlDoc) {
-                
-                //msg.createDismissibleMessage("velicina "+xmlDoc.getElementsByTagName("element").length);
-		
                 for(var i=0, elements = xmlDoc.getElementsByTagName("element");i<elements.length;++i) {
                         
-			var current_element = new HTML_Element(elements[i].attributes["id"].firstChild.nodeValue, elements[i].attributes["desc"].firstChild.nodeValue, {});
+			var current_element = new HTML_Element(elements[i].attributes["id"].firstChild.nodeValue, elements[i].attributes["desc"].firstChild.nodeValue, {}, elements[i].attributes["tag"].firstChild.nodeValue);
+                        current_element.properties = new Array();
 			for(var j=0, properties = elements[i].childNodes; j<properties.length;++j) {
-				if(properties[j].nodeName == "property")
-					current_element.properties[properties[j].firstChild.nodeValue] = "N/A";
+				if(properties[j].nodeName == "property") {
+  					current_element.properties[current_element.properties.length] = new HTML_Property(properties[j].firstChild.nodeValue, (properties[j].attributes && properties[j].attributes.default)?properties[j].attributes["default"].nodeValue:"");
+                                }
 			}
 			DataElements.push(current_element);
 		}
@@ -165,13 +314,82 @@
 		for(var i=0; i<DataElements.length;++i) {
 			var listItem = document.createElement("li");
 			var innerA = document.createElement("a");
+                
 			innerA.setAttribute("href", "#");
+                        innerA.setAttribute("tag", i);
+                        innerA.setAttribute("id", "toolbox_a_"+DataElements[i].name);
 			innerA.innerHTML  = DataElements[i].toToolboxItem();
-			listItem.appendChild(innerA);
+                  	listItem.appendChild(innerA);
 			parentUl.appendChild(listItem);
 		}
 		
 		parentDiv.appendChild(parentUl);
+                
+         	for(var i=0; i<DataElements.length;++i) {
+                  drag_obj.addSource("toolbox_a_"+DataElements[i].name);
+                }
+                
+                // MVC init
+                controller = new gpHC.MVCLibrary.Controller(new gpHC.MVCLibrary.Model([]));
+
+                viewPanel = new gpHC.MVCLibrary.View(controller.model, _gel("workBoxContainer"), function(targetControl) {
+                      while(targetControl.firstChild) targetControl.removeChild(targetControl.firstChild);
+                      
+                      for(var i = 0; i<controller.model.data.length; ++i) {
+                            var newDiv = document.createElement("div");
+                            var newDOMElement = document.createElement(this.model.data[i].tag);
+                            var classValue =  "panelItem" + ((i%2==0)?"":" alt") + ((this.model.selected==i)?" selected":"");
+                            
+                            newDiv.setAttribute("class", classValue)
+
+                            for(var j=0, attributes = this.model.data[i].properties; j < attributes.length; ++j) {
+                                  if(attributes[j] && attributes[j].value != "") {
+                                      newDOMElement.setAttribute(attributes[j].name, attributes[j].value); 
+                                  }
+                       
+                                newDiv.appendChild(newDOMElement);
+                            }
+
+                          newDiv.setAttribute("onclick","showProperties("+i+")");
+                          targetControl.appendChild(newDiv);
+                      }
+                });
+  
+                viewList = new gpHC.MVCLibrary.View(controller.model, _gel("p_current_control"), function(targetControl) {
+                      while(targetControl.firstChild) targetControl.removeChild(targetControl.firstChild);
+  
+                      var newSelect = document.createElement("select");
+  
+                      for(var i = 0; i<this.model.data.length; ++i) {
+                                var newOption = document.createElement("option");
+                                newOption.setAttribute("value", i);
+                      
+                                if(this.model.selected == i)
+                                    newOption.setAttribute("selected", "selected");
+                      
+                                newOption.innerHTML = controller.model.data[i].name + " (id = " + i + ")";
+                       
+                                newSelect.appendChild(newOption);
+                            }
+                      
+                      newSelect.setAttribute("id","selectList");
+                      newSelect.setAttribute("onchange","showProperties(this.selectedIndex)");
+                      var bold_text = document.createElement("b");
+                      bold_text.innerHTML = "<b> Current: </b>";
+  
+                      targetControl.appendChild(bold_text);
+                      targetControl.appendChild(newSelect);
+                });
+  
+                viewStatus = new gpHC.MVCLibrary.View(controller.model, _gel("p_control_count"), function(targetControl) {
+                      while(targetControl.firstChild) targetControl.removeChild(targetControl.firstChild);
+                      
+                      targetControl.innerHTML = "<b> Control grid: </b> <em>("+this.model.data.length+")</em>";
+                });
+                
+                controller.addListener(viewPanel);
+                controller.addListener(viewStatus);
+                controller.addListener(viewList);
 	}
 	
 	function $ (id) {
@@ -199,23 +417,168 @@
         }
   
         response = function (obj) { 
-                  createToolBox(obj);
+                createToolBox(obj);
         }
+  
+        var drag_obj = new _IG_Drag();
+        drag_obj.addTarget("workBox_div", _gel("workBoxContainer"));
+  
+        drag_obj.onDragEnd = function(source, target) {
+                if (target == null) return;
+    
+                var i = parseInt(source.getAttribute("tag")); 
+                var addedElement = new object(DataElements[i]);
+  
+                controller.addItem(addedElement);
+        }
+        
+        showProperties = function (i) {                
+                 properties = controller.model.getDataByIndex(i).properties;
+                 controller.select(i);
+                 
+                 var pGridValues = new gridParameters();
+                 
+                 for(var i=0;i<properties.length;++i) {
+                      pGridValues.data[pGridValues.data.length] = properties[i].name;
+                      pGridValues.data[pGridValues.data.length] = properties[i].value;
+                 }
+        
+                 var properties_grid = new _IG_Grid(pGridValues, "toolbox_properties_grid", properties.length, 2);
+                 
+                 properties_grid.getTable().border = 2;
+                 //properties_grid.getTable().cellPadding = 5;
+                 var table_element = _gel("properties_grid_span");
+                 var given_table = properties_grid.getTable();                 
+                 
+                 properties_grid.table.setAttribute("class", "sofT");
 
+                 while(table_element.firstChild) {
+                       table_element.removeChild(table_element.firstChild)
+                 }
+                 
+                 table_element.appendChild(given_table);
+        }
+  
 	DataElements = new Array();
- 
-        var msg = new _IG_MiniMessage(__MODULE_ID__);
   
 	return {
 		
 		init: function () {
-                        makeDOMRequest("http://toolbox-gadget.googlecode.com/svn/trunk/specification.xml");
+                    makeDOMRequest("http://toolbox-gadget.googlecode.com/svn/trunk/specification.xml");
 		}
 	
 	};
   }( );
 
-  gpHC.init();
+gpHC.MVCLibrary = function() {
+        
+        var listContains = function(list, value) {
+            if(list && list.length){
+                   for(var i = 0; i < list.length; ++i) {
+                       if (list[i] == value)
+                           return i;
+                   }
+                 return -1;
+            }
+            return -1;
+        };
+  
+        var listRemove = function(list, value) {
+            if(list && list.length){
+                   var newList = [];
+                   
+                   for(var i = 0; i < list.length; ++i) {
+                       if (list[i] != value)
+                           newList[newList.length] = list[i];
+                   }
+                   
+                   return newList;
+            }
+            return null;
+        };
+  
+        var Model = function(data) {
+                   this.data = data;
+                   this.selected = -1;
+        };
+        
+        Model.prototype.getDataByIndex = function (i) {
+                return this.data[i];
+        };
+                   
+        Model.prototype.addItem = function(item) {
+                if (listContains(this.data, item)==-1) {
+                           this.data[this.data.length]=item;
+                }
+        };
+
+        Model.prototype.removeItem = function(item) {
+                  if (listContains(this.data, item)  =!-1) {
+                           listRemove(this.data, item);  
+                  }
+        };
+  
+        var Controller = function (model) {
+                   this.listeners = [];
+                   this.model = model;
+        };
+        
+        Controller.prototype.select = function(index) {
+                this.model.selected = index;
+                this.triggerUpdate();
+        };
+        
+        Controller.prototype.addItem = function(item) {
+                 this.model.addItem(item);
+                 this.triggerUpdate();
+        };
+                     
+        Controller.prototype.removeItem = function(item) {
+                 this.model.removeItem(item);
+                 this.triggerUpdate();
+        };
+  
+        Controller.prototype.updateModel = function(data) {
+              this.model.data = data;
+              this.triggerUpdate();
+        };
+
+        Controller.prototype.addListener = function(view) {
+              if (listContains(this.listeners, view)==-1) {
+                  this.listeners[this.listeners.length]=view;
+              }
+        };
+
+        Controller.prototype.removeListener = function(view) {
+              if (listContains(this.listeners, view) =!-1) {
+                  listRemove(this.listeners, view);
+              }
+        };
+
+        Controller.prototype.triggerUpdate = function() {
+              for(var i = 0; i < this.listeners.length; ++i) {
+                    this.listeners[i].modelUpdated();
+              }
+        };
+        
+        var View = function(model, targetControl, drawMethod) {
+                     this.targetControl = targetControl;
+                     this.model = model;
+                     this.drawMethod = drawMethod;
+        };
+        
+        View.prototype.modelUpdated = function() {
+                     this.redraw();
+        };
+                     
+        View.prototype.redraw = function (){
+                    this.drawMethod(this.targetControl);
+        };
+                     
+        return { "Model":Model, "Controller":Controller, "View":View };
+}( );
+
+gpHC.init();
 </script>
 
 ]]></Content>
