@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Module>
-<ModulePrefs title="toolbox gadget" height="500" width="1000" author="Goran Petrovic">
+<ModulePrefs title="toolbox gadget" height="350" width="1000" author="Goran Petrovic">
     <Require feature="minimessage"/>
     <Require feature="drag" />
     <Require feature="grid" />
@@ -25,9 +25,7 @@
   .panelItem
   {
       clear: both; 
-      border-bottom: 1px dotted black;
-      border-left: 1px dotted black;
-      border-right: 1px dotted black;
+      border: 1px dotted black;
       padding: 10px 0px 10px 10px; 
       width: 350px; 
       background-color: #e9e6f9;
@@ -52,7 +50,7 @@
   #debug_div
   {
     float:left;
-    width:500px;
+    width:100%;
   }
   
   #workBox
@@ -172,7 +170,7 @@
         scrollbar-base-color: #cccccc;
   }
   
-  table.sofT
+  table.column
   {
 	text-align: center;
 	font-family: Verdana;
@@ -186,7 +184,7 @@
   }
 </style>  
 
-<h1 class="header1"> Toolbox Gadget </h1>
+<h1 class="header1"> Toolbox Gadget v0.3 <em> alpha </em> </h1>
 
 <div id="navBox">
    <p id="p_toolbox_label">
@@ -218,19 +216,23 @@
 </div>
 
 <div id="debug_div"></div>
-
 <script type="text/javascript">
     var gpHC = function () {
 
-	var msg = new _IG_MiniMessage(__MODULE_ID__);
-        var controller, viewPanel, viewList, viewStatus;
+	var msg = new _IG_MiniMessage(__MODULE_ID__, $("debug_div"));
+        var controller, viewPanel, viewList, viewStatus, viewProperties;
     
-  
-        function object(o) {
-            function F() {}
-            F.prototype = o;
-            return new F();
-        }
+        Object.prototype.clone = function() {
+              var newObj = (this instanceof Array) ? [] : {};
+              for (i in this) {
+                  if (i == 'clone') continue;
+                  if (this[i] && typeof this[i] == "object") {
+                      newObj[i] = this[i].clone();
+                  }
+                  else newObj[i] = this[i]
+              }
+              return newObj;
+        };        
         
         var errorHelper = function() {
           return {
@@ -254,10 +256,18 @@
             this.data = new Array();
         }
         
+        propertyUpdated = function(index, value) {
+                if(controller.model.selected == -1)
+                    return;
+                    
+                controller.updateProperty(index, value);
+                msg.createTimerMessage("Control edited, saving changes...", 2);
+        };
+        
         gridParameters.prototype._IGG_getNormalView = function(index) { 
                 if (index % 2 == 0)
-                  return this.data[index];
-                else return "<input class='propertyText' type='text' id='toolbox_"+this.data[index-1]+"' value ='"+this.data[index]+"' />";
+                    return this.data[index];
+                else return "<input class='propertyText' onchange='propertyUpdated("+parseInt(index/2)+",this.value);' type='text' id='toolbox_"+this.data[index-1]+"' value ='"+this.data[index]+"' />";
         }  
       
         gridParameters.prototype._IGG_isDragSource = function(index) {
@@ -300,12 +310,12 @@
                         current_element.properties = new Array();
 			for(var j=0, properties = elements[i].childNodes; j<properties.length;++j) {
 				if(properties[j].nodeName == "property") {
-  					current_element.properties[current_element.properties.length] = new HTML_Property(properties[j].firstChild.nodeValue, (properties[j].attributes && properties[j].attributes.default)?properties[j].attributes["default"].nodeValue:"");
+  					current_element.properties[current_element.properties.length] = new HTML_Property(properties[j].firstChild.nodeValue, ((properties[j].attributes && properties[j].attributes["default"])?properties[j].attributes["default"].nodeValue:""));
                                 }
 			}
 			DataElements.push(current_element);
 		}
-		
+		msg.createTimerMessage(DataElements.length,2);
 		var parentDiv = $("navcontainer");
 		var parentUl = document.createElement("ul");
 		parentUl.setAttribute("id", "navlist");
@@ -334,7 +344,15 @@
 
                 viewPanel = new gpHC.MVCLibrary.View(controller.model, _gel("workBoxContainer"), function(targetControl) {
                       while(targetControl.firstChild) targetControl.removeChild(targetControl.firstChild);
-                      
+
+                       var italic_text = document.createElement("em");
+                       var p_italic_text = document.createElement("p");
+                            
+                       italic_text.innerHTML = "Drop controls here: ";
+                       p_italic_text.appendChild(italic_text);
+                       targetControl.appendChild(p_italic_text);
+
+                                                                        
                       for(var i = 0; i<controller.model.data.length; ++i) {
                             var newDiv = document.createElement("div");
                             var newDOMElement = document.createElement(this.model.data[i].tag);
@@ -375,10 +393,31 @@
                       newSelect.setAttribute("id","selectList");
                       newSelect.setAttribute("onchange","showProperties(this.selectedIndex)");
                       var bold_text = document.createElement("b");
-                      bold_text.innerHTML = "<b> Current: </b>";
+                      bold_text.innerHTML = "Current: ";
   
                       targetControl.appendChild(bold_text);
                       targetControl.appendChild(newSelect);
+                });
+                      
+                viewProperties = new gpHC.MVCLibrary.View(controller.model, _gel("properties_grid_span"), function(targetControl) {
+                      
+                      while(targetControl.firstChild) targetControl.removeChild(targetControl.firstChild);
+  
+                      var properties = this.model.getDataByIndex(this.model.selected).properties;
+                      var pGridValues = new gridParameters();
+                 
+                      for(var j=0;j<properties.length;++j) {
+                           pGridValues.data[pGridValues.data.length] = properties[j].name;
+                           pGridValues.data[pGridValues.data.length] = properties[j].value;
+                      }
+        
+                      var properties_grid = new _IG_Grid(pGridValues, "toolbox_properties_grid", properties.length, 2);
+                      properties_grid.getTable().border = 2;
+                      var given_table = properties_grid.getTable();                 
+                 
+                      properties_grid.table.setAttribute("class", "column");
+                 
+                      targetControl.appendChild(given_table);
                 });
   
                 viewStatus = new gpHC.MVCLibrary.View(controller.model, _gel("p_control_count"), function(targetControl) {
@@ -390,6 +429,7 @@
                 controller.addListener(viewPanel);
                 controller.addListener(viewStatus);
                 controller.addListener(viewList);
+                controller.addListener(viewProperties);
 	}
 	
 	function $ (id) {
@@ -427,36 +467,15 @@
                 if (target == null) return;
     
                 var i = parseInt(source.getAttribute("tag")); 
-                var addedElement = new object(DataElements[i]);
+                var addedElement = DataElements[i].clone();
   
                 controller.addItem(addedElement);
+  
+                msg.createTimerMessage("New control added: " + addedElement.name, 2);        
         }
         
         showProperties = function (i) {                
-                 properties = controller.model.getDataByIndex(i).properties;
                  controller.select(i);
-                 
-                 var pGridValues = new gridParameters();
-                 
-                 for(var i=0;i<properties.length;++i) {
-                      pGridValues.data[pGridValues.data.length] = properties[i].name;
-                      pGridValues.data[pGridValues.data.length] = properties[i].value;
-                 }
-        
-                 var properties_grid = new _IG_Grid(pGridValues, "toolbox_properties_grid", properties.length, 2);
-                 
-                 properties_grid.getTable().border = 2;
-                 //properties_grid.getTable().cellPadding = 5;
-                 var table_element = _gel("properties_grid_span");
-                 var given_table = properties_grid.getTable();                 
-                 
-                 properties_grid.table.setAttribute("class", "sofT");
-
-                 while(table_element.firstChild) {
-                       table_element.removeChild(table_element.firstChild)
-                 }
-                 
-                 table_element.appendChild(given_table);
         }
   
 	DataElements = new Array();
@@ -468,7 +487,7 @@
 		}
 	
 	};
-  }( );
+}( );
 
 gpHC.MVCLibrary = function() {
         
@@ -513,7 +532,7 @@ gpHC.MVCLibrary = function() {
         };
 
         Model.prototype.removeItem = function(item) {
-                  if (listContains(this.data, item)  =!-1) {
+                  if (listContains(this.data, item)  !=-1) {
                            listRemove(this.data, item);  
                   }
         };
@@ -525,6 +544,11 @@ gpHC.MVCLibrary = function() {
         
         Controller.prototype.select = function(index) {
                 this.model.selected = index;
+                this.triggerUpdate();
+        };
+        
+        Controller.prototype.updateProperty = function(index, value) {
+                this.model.data[this.model.selected].properties[index].value = value;
                 this.triggerUpdate();
         };
         
@@ -550,7 +574,7 @@ gpHC.MVCLibrary = function() {
         };
 
         Controller.prototype.removeListener = function(view) {
-              if (listContains(this.listeners, view) =!-1) {
+              if (listContains(this.listeners, view) !=-1) {
                   listRemove(this.listeners, view);
               }
         };
