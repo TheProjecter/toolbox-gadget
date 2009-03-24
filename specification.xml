@@ -29,7 +29,7 @@
 		<property desc="(Script) A client-side script event that occurs when a key is released over an element.">onkeyup</property>
 		<property regex="/[A-Za-z_0-9]*/" desc="(Text) This attribute specifies formatting style information for the current element. The content of this attribute is called inline CSS. The style attribute is deprecated (considered outdated), because it fuses together content and formatting.">style</property>
 	</element>
-	<element id="Submit button" desc="The input element is a multi-purpose form control. Creates a submit button." tag="input">
+	<element id="Submit" desc="The input element is a multi-purpose form control. Creates a submit button." tag="input">
                 <property desc="(ContentTypes) This attribute specifies a comma-separated list of content types that a server processing this form will handle correctly.">accept</property>
                 <property desc="(Character) Accessibility key character.">accesskey</property>
                 <property regex="/[A-Za-z_0-9]*/" desc="(Text) Alternate text for controls of the type image.">alt</property>
