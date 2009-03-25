@@ -5,7 +5,7 @@
 		<property regex="/[A-Za-z_0-9]*/" desc="(Text) Form control name.">name</property>
 		<property regex="/^\d*$/" desc="(Number) This attribute specifies the number of visible text lines. This attribute is required.">rows</property>
 		<property regex="/[A-Za-z_]/" desc="(Character) Accessibility key character.">accesskey</property>
-		<property regex="/disabled|\0)/" desc="Disables the control for user input. Possible value is disabled.">disabled</property>
+		<property regex="/disabled|^$)/" desc="Disables the control for user input. Possible value is disabled.">disabled</property>
 		<property desc="(Script) A client-side script event that occurs when an element loses focus either by the pointing device or by tabbing navigation.">onblur</property>
 		<property desc="(Script) A client-side script event that occurs when a control loses the input focus and its value is modified prior to regaining focus.">onchange</property>
 		<property desc="(Script) A client-side script event that occurs when an element receives focus either by the pointing device or by tabbing navigation.">onfocus</property>
@@ -27,7 +27,7 @@
 		<property desc="(Script) A client-side script event that occurs when a key is pressed down over an element then released.">onkeypress</property>
 		<property desc="(Script) A client-side script event that occurs when a key is pressed down over an element.">onkeydown</property>
 		<property desc="(Script) A client-side script event that occurs when a key is released over an element.">onkeyup</property>
-		<property regex="/[A-Za-z_0-9]*/" desc="(Text) This attribute specifies formatting style information for the current element. The content of this attribute is called inline CSS. The style attribute is deprecated (considered outdated), because it fuses together content and formatting.">style</property>
+		<property regex="/[A-Za-z_;-0-9]*/" desc="(Text) This attribute specifies formatting style information for the current element. The content of this attribute is called inline CSS. The style attribute is deprecated (considered outdated), because it fuses together content and formatting.">style</property>
 	</element>
 	<element id="Submit" desc="The input element is a multi-purpose form control. Creates a submit button." tag="input">
                 <property desc="(ContentTypes) This attribute specifies a comma-separated list of content types that a server processing this form will handle correctly.">accept</property>
@@ -47,7 +47,7 @@
 		<property regex="/[A-Za-z_0-9]*/" desc="(Text) This attribute offers advisory information. Some Web browsers will display this information as tooltips. Assistive technologies may make this information available to users as additional information about the element.">title</property>
                 <property desc="Type of control to create." default="submit">type</property>
                 <property desc="(Text) Value associated with a control.">value</property>
-                <property regex="/disabled|\0)/" desc="Disables the control for user input. Possible value is disabled.">disabled</property>
+                <property regex="/disabled|^$)/" desc="Disables the control for user input. Possible value is disabled.">disabled</property>
 		<property regex="/ismap|\0)/" desc="If present, this attribute specifies that a server-side image map should be used. Possible value is ismap.">ismap</property>
 		<property desc="(Script) A client-side script event that occurs when an element loses focus either by the pointing device or by tabbing navigation.">onblur</property>
 		<property desc="(Script) A client-side script event that occurs when a control loses the input focus and its value is modified prior to regaining focus.">onchange</property>
@@ -64,7 +64,7 @@
 		<property desc="(Script) A client-side script event that occurs when a key is pressed down over an element then released.">onkeypress</property>
 		<property desc="(Script) A client-side script event that occurs when a key is pressed down over an element.">onkeydown</property>
 		<property desc="(Script) A client-side script event that occurs when a key is released over an element.">onkeyup</property>
-		<property regex="/[A-Za-z_0-9]*/" desc="(Text) This attribute specifies formatting style information for the current element. The content of this attribute is called inline CSS. The style attribute is deprecated (considered outdated), because it fuses together content and formatting.">style</property>
+		<property regex="/[A-Za-z_:-0-9]*/" desc="(Text) This attribute specifies formatting style information for the current element. The content of this attribute is called inline CSS. The style attribute is deprecated (considered outdated), because it fuses together content and formatting.">style</property>
 		<property desc="(NameToken) This attribute specifies the base language of an element's attribute values and text content.">xml:lang</property>
 		<property regex="/[A-Za-z_0-9]*/" desc="This attribute specifies the base direction of text. Possible values: lrt, rtl.">dir</property>
         </element>

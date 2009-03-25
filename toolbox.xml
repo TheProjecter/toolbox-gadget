@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Module>
-<ModulePrefs title="toolbox gadget" height="350" width="1000" author="Goran Petrovic">
+<ModulePrefs title="toolbox gadget" height="375" width="1000" author="Goran Petrovic">
     <Require feature="minimessage"/>
     <Require feature="drag" />
     <Require feature="grid" />
@@ -24,11 +24,22 @@
   
   .panelItem
   {
-      clear: both; 
+      float:left;
       border: 1px dotted black;
       padding: 10px 0px 10px 10px; 
-      width: 350px; 
+      width: 275px; 
       background-color: #e9e6f9;
+  }
+  
+  .panelProperties
+  {
+      float:right;
+      padding: 5px 0px 10px 0px; 
+  }
+  
+  .panelPropertiesContainer
+  {
+      width:350px;
   }
   
   .alt
@@ -246,10 +257,13 @@
           }
         } ();
         
-        
         function HTML_Property(name, value) {
                 this.name = name;
                 this.value = value;
+        }
+  
+        HTML_Property.prototype.getProperty = function (name) {
+                return this.value[name];
         }
         
         function gridParameters() {
@@ -266,8 +280,8 @@
         
         gridParameters.prototype._IGG_getNormalView = function(index) { 
                 if (index % 2 == 0)
-                    return this.data[index];
-                else return "<input class='propertyText' onchange='propertyUpdated("+parseInt(index/2)+",this.value);' type='text' id='toolbox_"+this.data[index-1]+"' value ='"+this.data[index]+"' />";
+                    return "<p title='"+this.data[index+1].desc+"'>" + this.data[index] +"</p>";
+                else return "<input class='propertyText' onchange='propertyUpdated("+parseInt(index/2)+",this.value);' type='text' id='toolbox_"+this.data[index-1]+"' value ='"+this.data[index].default+"' />";
         }  
       
         gridParameters.prototype._IGG_isDragSource = function(index) {
@@ -310,12 +324,11 @@
                         current_element.properties = new Array();
 			for(var j=0, properties = elements[i].childNodes; j<properties.length;++j) {
 				if(properties[j].nodeName == "property") {
-  					current_element.properties[current_element.properties.length] = new HTML_Property(properties[j].firstChild.nodeValue, ((properties[j].attributes && properties[j].attributes["default"])?properties[j].attributes["default"].nodeValue:""));
+  					current_element.properties[current_element.properties.length] = new HTML_Property(properties[j].firstChild.nodeValue, {"default":((properties[j].attributes && properties[j].attributes["default"])?properties[j].attributes["default"].nodeValue:""), "desc":((properties[j].attributes && properties[j].attributes["desc"])?properties[j].attributes["desc"].nodeValue:""),"regex":((properties[j].attributes && properties[j].attributes["regex"])?properties[j].attributes["regex"].nodeValue:"")});
                                 }
 			}
 			DataElements.push(current_element);
 		}
-		msg.createTimerMessage(DataElements.length,2);
 		var parentDiv = $("navcontainer");
 		var parentUl = document.createElement("ul");
 		parentUl.setAttribute("id", "navlist");
@@ -343,7 +356,7 @@
                 controller = new gpHC.MVCLibrary.Controller(new gpHC.MVCLibrary.Model([]));
 
                 viewPanel = new gpHC.MVCLibrary.View(controller.model, _gel("workBoxContainer"), function(targetControl) {
-                      while(targetControl.firstChild) targetControl.removeChild(targetControl.firstChild);
+                       while(targetControl.firstChild) targetControl.removeChild(targetControl.firstChild);
 
                        var italic_text = document.createElement("em");
                        var p_italic_text = document.createElement("p");
@@ -356,20 +369,36 @@
                       for(var i = 0; i<controller.model.data.length; ++i) {
                             var newDiv = document.createElement("div");
                             var newDOMElement = document.createElement(this.model.data[i].tag);
+                            var propertiesDiv = document.createElement("div");
+                            var propertiesContainerDiv = document.createElement("div");
+                            var deleteImage = document.createElement("img");
+                            
                             var classValue =  "panelItem" + ((i%2==0)?"":" alt") + ((this.model.selected==i)?" selected":"");
                             
                             newDiv.setAttribute("class", classValue)
+                            propertiesDiv.setAttribute("class", "panelProperties")
+                            propertiesContainerDiv.setAttribute("class", "panelPropertiesContainer")
+                            
+                            deleteImage.setAttribute("src", "http://static.ak.fbcdn.net/images/streams/x_hide_story.gif");
+                            deleteImage.setAttribute("title", "Delete this control.");
+                            deleteImage.setAttribute("onclick", "javascript:removeElement("+i+")");
 
                             for(var j=0, attributes = this.model.data[i].properties; j < attributes.length; ++j) {
-                                  if(attributes[j] && attributes[j].value != "") {
-                                      newDOMElement.setAttribute(attributes[j].name, attributes[j].value); 
+                                  if(attributes[j] && attributes[j].value.default != "") {
+                                      newDOMElement.setAttribute(attributes[j].name, attributes[j].value.default); 
                                   }
                        
                                 newDiv.appendChild(newDOMElement);
                             }
 
                           newDiv.setAttribute("onclick","showProperties("+i+")");
-                          targetControl.appendChild(newDiv);
+
+                          propertiesDiv.appendChild(deleteImage);
+                          
+                          propertiesContainerDiv.appendChild(newDiv);
+                          propertiesContainerDiv.appendChild(propertiesDiv);
+                                                   
+                          targetControl.appendChild(propertiesContainerDiv);
                       }
                 });
   
@@ -453,7 +482,7 @@
 	}
 
         makeDOMRequest = function (url) {
-                _IG_FetchXmlContent(url, response);
+                _IG_FetchXmlContent(url, response, {refreshInterval:0});
         }
   
         response = function (obj) { 
@@ -473,6 +502,12 @@
   
                 msg.createTimerMessage("New control added: " + addedElement.name, 2);        
         }
+  
+        removeElement = function (i) {
+                 msg.createTimerMessage("Removing control " + DataElements[i].name+"...", 2); 
+                 controller.removeItem(i);
+
+        }
         
         showProperties = function (i) {                
                  controller.select(i);
@@ -490,6 +525,7 @@
 }( );
 
 gpHC.MVCLibrary = function() {
+        var msg = new _IG_MiniMessage(__MODULE_ID__, _gel("debug_div"));        
         
         var listContains = function(list, value) {
             if(list && list.length){
@@ -502,12 +538,12 @@ gpHC.MVCLibrary = function() {
             return -1;
         };
   
-        var listRemove = function(list, value) {
+        var listRemove = function(list, index) {
             if(list && list.length){
                    var newList = [];
                    
                    for(var i = 0; i < list.length; ++i) {
-                       if (list[i] != value)
+                       if (i != index)
                            newList[newList.length] = list[i];
                    }
                    
@@ -531,9 +567,9 @@ gpHC.MVCLibrary = function() {
                 }
         };
 
-        Model.prototype.removeItem = function(item) {
-                  if (listContains(this.data, item)  !=-1) {
-                           listRemove(this.data, item);  
+        Model.prototype.removeItem = function(index) {
+                  if (this.data.length - 1 >= index) {
+                           this.data = listRemove(this.data, index);  
                   }
         };
   
@@ -548,8 +584,16 @@ gpHC.MVCLibrary = function() {
         };
         
         Controller.prototype.updateProperty = function(index, value) {
-                this.model.data[this.model.selected].properties[index].value = value;
-                this.triggerUpdate();
+                var re = new RegExp(this.model.data[this.model.selected].properties[index].value.regex.substring(1, this.model.data[this.model.selected].properties[index].value.regex.length-1));
+                if(this.model.data[this.model.selected].properties[index].value.regex != "") {
+                    if(value !=="" && value.match(re)==value) {
+                          this.model.data[this.model.selected].properties[index].value.default = value;
+                          this.triggerUpdate();
+                    }
+                    else {
+                          msg.createTimerMessage("Update unsuccessfull: wrong attribute value! value = "+ value + "; Regular expression: "+ re, 3)
+                    } 
+                }
         };
         
         Controller.prototype.addItem = function(item) {
