@@ -8,7 +8,15 @@
 <Content type="html"><![CDATA[
 
 <style type="text/css"> 
-
+  
+  
+  #modalDialogDiv td#dialogClose {padding-right: 2px; background-color:#DBE6DE;border-bottom:1px solid #AAAAAA;width:15px;}  
+  #modalDialogDiv td#dialogTitle {padding: 2px; font-size:13px; background-color:#DBE6DE;border-bottom:1px solid #AAAAAA;font-weight:bold;} 
+  #disableDiv {background-color:gray;left:0;opacity:0.5;position:absolute;top:0;z-index:5;height: 100%; display: none; width: 100%;}
+  #modalDialogDiv table {border:medium none;width:100%;}
+  #modalDialogDiv { background-color:#FFFFFF;border:1px solid #676767;display:none;position:absolute;z-index:100; height:300px;}
+  #dialogClose img { width:15 height:15; cursor: pointer; }
+  
   .header1
   {
     background:#E5ECF9 none repeat scroll 0 0;
@@ -96,7 +104,7 @@
   {
     overflow : scroll;
     overflow-x:hidden;
-    height: 240px;
+    height: 210px;
   }
   
   #propertyBox p, #workBox p, #navBox p
@@ -195,36 +203,120 @@
   }
 </style>  
 
-<h1 class="header1"> Toolbox Gadget v0.3 <em> alpha </em> </h1>
+<div id="toolbox_container">
+  <h1 class="header1"> Toolbox Gadget v0.5 <em> alpha </em> </h1>
 
-<div id="navBox">
-   <p id="p_toolbox_label">
-      <b> Toolbox </b>
-  </p>
+  <div id="navBox">
+     <p id="p_toolbox_label">
+        <b> Toolbox </b>
+    </p>
   
-  <div id="navcontainer" class="header1">
+    <div id="navcontainer" class="header1">
+    </div>
   </div>
-</div>
 
-<div id="workBox" >
- <p id="p_control_count">
-      <b> Control grid: </b> <em>(0)</em>
-  </p>
+  <div id="workBox" >
+   <p id="p_control_count">
+        <b> Control grid: </b> <em>(0)</em>
+   </p>
   
-  <div class="header1" id="workBoxContainer">
-    <p> <em>Drag controls here </em> </p>
- </div>
-</div>
+   <div class="header1" id="workBoxContainer">
+      <p> <em>Drag controls here </em> </p>
+   </div>
+  </div>
 		
-<div id="propertyBox">
-  <p id="p_current_control">
-      <b> Current </b> <em>none</em>
-  </p>
+  <div id="propertyBox">
+    <p id="p_current_control">
+        <b>Current </b> <em>none</em>
+    </p>
   
-  <div class="header1" id="propertyBoxContainer">
-    <span id="properties_grid_span"></span>
+    <div class="header1" id="propertyBoxContainer">
+      <span id="properties_grid_span"></span>
+    </div>  
   </div>
-</div>
+  
+  <div id="disableDiv"></div>
+  
+  <div id="modalDialogDiv">
+      <table cellspacing="0" cellpadding="0" border="0">
+	    <tbody>
+	    	<tr>
+	  	  <td id="dialogTitle">Cascading style sheed editor</td>
+	 	  <td id="dialogClose">
+	  	    <img onclick="closeDialog();" src="http://img0.gmodules.com/ig/modules/close_box.gif"/>
+	  	  </td>
+	  	</tr>
+	  </tbody>
+      </table> 
+      
+      <div id="dialogContents">
+        <center>
+          
+            <table id="FontTable" style="width: 420px;">
+			<tbody><tr>
+				<td class="AusrichtungUnten" style="width: 147px;">Font Family:</td>
+				<td class="AusrichtungUnten"><input type="text" size="35" id="usedFonts" name="usedFonts" onchange="manualFontInput()" onfocus="showSelector('usedFonts', 'font')"/></td>
+			</tr>
+			<tr>
+				<td class="AusrichtungUnten">Text color:</td>
+				<td><input type="text" onchange="setFontStyle()" size="35" name="CBox" onfocus="showSelector('CBox', 'color')" id="CBox"/></td>
+			</tr>
+			<tr>
+				<td class="AusrichtungUnten">Size:</td>
+				<td><input type="text" onchange="setFontStyle()" size="20" id="FontSizeTextBox" name="FontSizeTextBox" onfocus="showSelector('FontSizeTextBox', 'fontSize')"/><select onchange="setFontStyle()" id="dropDownListFontSize" size="1" onfocus="showSelector('FontSizeTextBox', 'fontSize')">
+					<option value=""/>
+					<option value="px">px</option>
+					<option value="%">%</option>
+					<option value="pt">pt</option>
+					<option value="pc">pc</option>
+					<option value="mm">mm</option>
+					<option value="cm">cm</option>
+					<option value="in">in</option>
+					<option value="em">em</option>
+					<option value="ex">ex</option>
+				</select></td>
+			</tr>
+			<tr>
+				<td class="AusrichtungUnten">Bold:</td>
+				<td><input type="text" onchange="setFontStyle()" size="20" id="BoldTextBox" name="BoldTextBox" onfocus="showSelector('BoldTextBox', 'bold')"/></td>
+			</tr>
+			<tr>
+				<td class="AusrichtungUnten">Italic:</td>
+				<td>Yes<input type="radio" name="R1" onclick="setFontStyle(),changeRadioButtonItalic(1)" onfocus="hideSelector()" id="radioButtonItalic" value="V1"/>&nbsp;
+				No<input type="radio" name="R2" onclick="setFontStyle(),changeRadioButtonItalic(2)" onfocus="hideSelector()" id="radioButtonItalicNormal" value="V1"/>
+				Inherit<input type="radio" name="R3" onclick="setFontStyle(),changeRadioButtonItalic(3)" onfocus="hideSelector()" id="radioButtonItalicClear" checked="checked" value="V1"/></td>
+			</tr>
+			<tr>
+				<td class="AusrichtungUnten">Small caps:</td>
+				<td>Yes<input type="radio" name="R4" onclick="setFontStyle(),changeRadioButtonSmallCaps(1)" onfocus="hideSelector()" id="radioButtonSmallCaps" value="V1"/>&nbsp;
+				No<input type="radio" name="R5" onclick="setFontStyle(),changeRadioButtonSmallCaps(2)" onfocus="hideSelector()" id="radioButtonSmallCapsNormal" value="V1"/>
+				Inherit<input type="radio" name="R6" onclick="setFontStyle(),changeRadioButtonSmallCaps(3)" onfocus="hideSelector()" id="radioButtonSmallCapsClear" checked="checked" value="V1"/></td>
+			</tr>
+			<tr>
+				<td class="AusrichtungUnten">Capitalization:</td>
+				<td><select onchange="setFontStyle()" id="dropDownListCapitalization" size="1" onfocus="hideSelector()">
+					<option value=""/>
+					<option value="none">None</option>
+					<option value="capitalize">Initial Cap</option>
+					<option value="lowercase">lowercase</option>
+					<option value="uppercase">UPPERCASE</option>
+				</select></td>
+			</tr>
+			<tr>
+				<td colspan="2">Effects<br/>
+				<input type="checkbox" onclick="uncheckCheckboxesIfNone()" value="ON" id="CheckBoxNone" onfocus="hideSelector()"/>None<br/>
+				<input type="checkbox" onclick="setFontStyle(),uncheckCheckboxesElse()" value="ON" id="CheckBoxUnderline" onfocus="hideSelector()"/>Underline<br/>
+				<input type="checkbox" onclick="setFontStyle(),uncheckCheckboxesElse()" value="ON" id="CheckBoxStrikethrough" onfocus="hideSelector()"/>Strikethrough<br/>
+				<input type="checkbox" onclick="setFontStyle(),uncheckCheckboxesElse()" value="ON" id="CheckBoxOverline" onfocus="hideSelector()"/>Overline</td>
+			</tr>
+		</tbody>
+            </table>
+            
+          <p></p>
+        </center>
+        <div id="dialogMessages"/></div>
+      </div>
+  </div>
 
 <div id="debug_div"></div>
 <script type="text/javascript">
@@ -273,7 +365,7 @@
         propertyUpdated = function(index, value) {
                 if(controller.model.selected == -1)
                     return;
-                    
+
                 controller.updateProperty(index, value);
                 msg.createTimerMessage("Control edited, saving changes...", 2);
         };
@@ -372,6 +464,7 @@
                             var propertiesDiv = document.createElement("div");
                             var propertiesContainerDiv = document.createElement("div");
                             var deleteImage = document.createElement("img");
+                            var cssImage = document.createElement("img");
                             
                             var classValue =  "panelItem" + ((i%2==0)?"":" alt") + ((this.model.selected==i)?" selected":"");
                             
@@ -379,9 +472,13 @@
                             propertiesDiv.setAttribute("class", "panelProperties")
                             propertiesContainerDiv.setAttribute("class", "panelPropertiesContainer")
                             
-                            deleteImage.setAttribute("src", "http://static.ak.fbcdn.net/images/streams/x_hide_story.gif");
+                            deleteImage.setAttribute("src", "http://toolbox-gadget.googlecode.com/svn/trunk/images/delete.gif");
                             deleteImage.setAttribute("title", "Delete this control.");
                             deleteImage.setAttribute("onclick", "javascript:removeElement("+i+")");
+                            
+                            cssImage.setAttribute("src", "http://toolbox-gadget.googlecode.com/svn/trunk/images/editstyle.gif");
+                            cssImage.setAttribute("title", "Edit style for this contorl.");
+                            cssImage.setAttribute("onclick", "javascript:editCSS("+i+")");
 
                             for(var j=0, attributes = this.model.data[i].properties; j < attributes.length; ++j) {
                                   if(attributes[j] && attributes[j].value.default != "") {
@@ -394,6 +491,7 @@
                           newDiv.setAttribute("onclick","showProperties("+i+")");
 
                           propertiesDiv.appendChild(deleteImage);
+                          propertiesDiv.appendChild(cssImage);
                           
                           propertiesContainerDiv.appendChild(newDiv);
                           propertiesContainerDiv.appendChild(propertiesDiv);
@@ -429,6 +527,9 @@
                 });
                       
                 viewProperties = new gpHC.MVCLibrary.View(controller.model, _gel("properties_grid_span"), function(targetControl) {
+                      if (!this.model || this.model.selected==-1) {
+                              return;
+                      }
                       
                       while(targetControl.firstChild) targetControl.removeChild(targetControl.firstChild);
   
@@ -482,7 +583,7 @@
 	}
 
         makeDOMRequest = function (url) {
-                _IG_FetchXmlContent(url, response, {refreshInterval:0});
+                _IG_FetchXmlContent(url, response);
         }
   
         response = function (obj) { 
@@ -508,9 +609,22 @@
                  controller.removeItem(i);
 
         }
+  
+        editCSS = function (i) {
+                 msg.createTimerMessage("Editing style of control " + DataElements[i].name+"...", 2); 
+                 
+                 _gel("disableDiv").style.display = "block";
+                 _gel("modalDialogDiv").style.display = "block";
+                 _gel("modalDialogDiv").style.left =   300 - _gel("modalDialogDiv").style.width/2;
+        }
         
         showProperties = function (i) {                
                  controller.select(i);
+        }
+  
+        closeDialog = function () {
+              _gel("disableDiv").style.display = "none";
+              _gel("modalDialogDiv").style.display = "none";
         }
   
 	DataElements = new Array();
@@ -579,20 +693,37 @@ gpHC.MVCLibrary = function() {
         };
         
         Controller.prototype.select = function(index) {
+                if (this.model.selected == index) {
+                      return;
+                }
+                
                 this.model.selected = index;
                 this.triggerUpdate();
         };
         
-        Controller.prototype.updateProperty = function(index, value) {
-                var re = new RegExp(this.model.data[this.model.selected].properties[index].value.regex.substring(1, this.model.data[this.model.selected].properties[index].value.regex.length-1));
-                if(this.model.data[this.model.selected].properties[index].value.regex != "") {
-                    if(value !=="" && value.match(re)==value) {
-                          this.model.data[this.model.selected].properties[index].value.default = value;
+        Controller.prototype.updateProperty = function(index, new_value) {
+                var re=null;
+                
+                if(this.model.data[this.model.selected].properties[index].value.regex!="") {
+                        //msg.createTimerMessage(this.model.data[this.model.selected].properties[index].value.regex,2);
+                        re = new RegExp(this.model.data[this.model.selected].properties[index].value.regex.substring(1, this.model.data[this.model.selected].properties[index].value.regex.length-1));
+
+                }
+                
+                if(re!=null) {
+                    if(new_value !=="" && new_value.match(re)==new_value) {
+                          this.model.data[this.model.selected].properties[index].value.default = new_value;
                           this.triggerUpdate();
+                          return;
                     }
                     else {
-                          msg.createTimerMessage("Update unsuccessfull: wrong attribute value! value = "+ value + "; Regular expression: "+ re, 3)
+                          msg.createTimerMessage("Update unsuccessfull: wrong attribute value! value = "+ new_value + "; Regular expression: "+ re, 3)
                     } 
+                }
+                else
+                {
+                          this.model.data[this.model.selected].properties[index].value.default = new_value;
+                          this.triggerUpdate();
                 }
         };
         
