@@ -1,26 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Module>
-<ModulePrefs title="toolbox gadget" height="375" width="1000" author="Goran Petrovic">
+<ModulePrefs title="toolbox gadget" height="500" width="1000" author="Goran Petrovic">
     <Require feature="minimessage"/>
     <Require feature="drag" />
     <Require feature="grid" />
+    <Require feature="tabs" /> 
 </ModulePrefs>
 <Content type="html"><![CDATA[
 
 <style type="text/css"> 
   
   
-  #modalDialogDiv td#dialogClose {padding-right: 2px; background-color:#DBE6DE;border-bottom:1px solid #AAAAAA;width:15px;}  
-  #modalDialogDiv td#dialogTitle {padding: 2px; font-size:13px; background-color:#DBE6DE;border-bottom:1px solid #AAAAAA;font-weight:bold;} 
+  #modalDialogDiv td#dialogClose {padding-right: 2px; background-color:#DBE6DE;border-bottom:1px solid #aaaaaa;width:15px;}  
+  #modalDialogDiv td#dialogTitle {padding: 2px; font-size:13px; background-color:#DBE6DE;border-bottom:1px solid #aaaaaa;font-weight:bold;} 
   #disableDiv {background-color:gray;left:0;opacity:0.5;position:absolute;top:0;z-index:5;height: 100%; display: none; width: 100%;}
   #modalDialogDiv table {border:medium none;width:100%;}
-  #modalDialogDiv { background-color:#FFFFFF;border:1px solid #676767;display:none;position:absolute;z-index:100; height:300px;}
+  #modalDialogDiv { background-color:#ffffff;border:1px solid #676767;display:none;position:absolute;z-index:100; height:400px; width:700px}
   #dialogClose img { width:15 height:15; cursor: pointer; }
+  
+  
+  .td_selectColor {border:1px solid Black;cursor:pointer;font-size:4pt;height:22px;margin:0;padding:0;width:17px;}
+  #tabFont { font-size: 0.9 em; }
+  #tabFont td {vertical-align:top;}
+  #fontBoldDiv td, #fontSizesDiv {font-size: 0.8em;}
   
   .header1
   {
     background:#E5ECF9 none repeat scroll 0 0;
     font-size:1.2em;
+    margin:0 0 0px;
+    padding:4px 6px;
+    font-size-adjust:none;
+    font-style:normal;
+    font-variant:normal;
+    font-weight:normal;
+    line-height:normal;
+  }
+  
+  .header2
+  {
+    font-size:1.0em;
     margin:0 0 0px;
     padding:4px 6px;
     font-size-adjust:none;
@@ -68,7 +87,7 @@
   
   #debug_div
   {
-    float:left;
+    clear:both;
     width:100%;
   }
   
@@ -76,24 +95,28 @@
   {  
     width: 400px;
     margin-left: 15px;
-    height: 300px;
+    height: 425px;
     float: left;
   }
 
   #propertyBox, #navBox
   { 
     margin-left: 15px;
-    height: 300px;
+    height: 425px;
     float: left;
     width: 250px;
   }
   
-  #propertyBox select
+  .smallSelect {width:75px;}
+  
+  .bigInput {width:200px;}
+  .smallInput {width:120px;}
+  
+  #propertyBox select, #dialogContents select, #dialogContents input
   { 
     border:1px solid #78ACFF;
     vertical-align:middle;
-    width:175px;
-  }
+  }  
     
   #navBox
   { 
@@ -104,7 +127,7 @@
   {
     overflow : scroll;
     overflow-x:hidden;
-    height: 210px;
+    height: 335px;
   }
   
   #propertyBox p, #workBox p, #navBox p
@@ -204,7 +227,7 @@
 </style>  
 
 <div id="toolbox_container">
-  <h1 class="header1"> Toolbox Gadget v0.5 <em> alpha </em> </h1>
+  <h1 class="header1"> Toolbox Gadget v0.7 <em> alpha </em> </h1>
 
   <div id="navBox">
      <p id="p_toolbox_label">
@@ -238,82 +261,402 @@
   <div id="disableDiv"></div>
   
   <div id="modalDialogDiv">
-      <table cellspacing="0" cellpadding="0" border="0">
+      <table summary="This table is a caption of the modal dialog." cellspacing="0" cellpadding="0" border="0">
 	    <tbody>
 	    	<tr>
-	  	  <td id="dialogTitle">Cascading style sheed editor</td>
+	  	  <td id="dialoitle">Cascading style sheed editor</td>
 	 	  <td id="dialogClose">
-	  	    <img onclick="closeDialog();" src="http://img0.gmodules.com/ig/modules/close_box.gif"/>
+	  	    <img alt="Close modal dialog" onclick="closeDialog();" src="http://img0.gmodules.com/ig/modules/close_box.gif"/>
 	  	  </td>
 	  	</tr>
 	  </tbody>
       </table> 
       
       <div id="dialogContents">
-        <center>
-          
-            <table id="FontTable" style="width: 420px;">
+
+          <div id="tabFont">
+            <h1 class="header1">Edit CSS for Font </h1>
+                  <table summary="This table is for font selection." id="FontTable" style="float:left; display: inherit; width: 370px;" class="thinDarkblueBorders">
+			<tbody>
+				<tr>
+					<td class="colTitle" style="width: 147px;">Font Family:</td>
+					<td <input class="bigInput" type="text" size="35" id="usedFonts" name="usedFonts" onfocus="showFontSelector();"/></td>
+				</tr>
+				<tr>
+					<td class="colTitle"> Text color:</td>
+					<td><input class="bigInput" type="text"  size="35" name="CBox" onfocus="showColorSelector();" id="CBox"/></td>
+				</tr>
+				<tr>
+					<td>Size:</td>
+					<td><input type="text" class="smallInput"  size="20" id="FontSizeTextBox" name="FontSizeTextBox" onfocus="showFontSizeSelector();"/>
+                                        <select  id="dropDownListFontSize" size="1" class="smallSelect">
+						<option value=""/>
+						<option value="px">px</option>
+						<option value="%">%</option>
+						<option value="pt">pt</option>
+						<option value="pc">pc</option>
+						<option value="mm">mm</option>
+						<option value="cm">cm</option>
+						<option value="in">in</option>
+						<option value="em">em</option>
+						<option value="ex">ex</option>
+					</select></td>
+				</tr>
+				<tr>
+					<td>Bold:</td>
+					<td><input type="text"  size="20" id="BoldTextBox" name="BoldTextBox" onfocus="showFontBoldSelector();"/></td>
+				</tr>
+				<tr>
+					<td>Italic:</td>
+					<td>Yes<input name="radioFontTypeItalic" type="radio" id="radioButtonItalic" value="V1"/>&nbsp;
+					No<input name="radioFontTypeItalic" type="radio" id="radioButtonItalicNormal" value="V1"/>
+					Inherit<input type="radio" name="radioFontTypeItalic"  id="radioButtonItalicClear" checked="checked" value="V1"/></td>
+				</tr>
+				<tr>
+					<td>Small caps:</td>
+					<td>Yes<input type="radio" name="radioFontTypeSmall" id="radioButtonSmallCaps" value="V1"/>&nbsp;
+					No<input type="radio" name="radioFontTypeSmall"  id="radioButtonSmallCapsNormal" value="V1"/>
+					Inherit<input type="radio" name="radioFontTypeSmall" id="radioButtonSmallCapsClear" checked="checked" value="V1"/></td>
+				</tr>
+				<tr>
+					<td class="colTitle">Capitalization:</td>
+					<td><select  id="dropDownListCapitalization" size="1"  class="bigInput">
+						<option value=""/>
+						<option value="none">None</option>
+						<option value="capitalize">Initial Cap</option>
+						<option value="lowercase">lowercase</option>
+						<option value="uppercase">UPPERCASE</option>
+					</select></td>
+				</tr>
+				<tr>
+					<td class="colTitle" colspan="2">Effects<br/>
+					<input type="checkbox" onclick="uncheckCheckboxesIfNone()" value="ON" id="CheckBoxNone" />None<br/>
+					<input type="checkbox" value="ON" id="CheckBoxUnderline" />Underline<br/>
+					<input type="checkbox" value="ON" id="CheckBoxStrikethrough" />Strikethrough<br/>
+					<input type="checkbox" value="ON" id="CheckBoxOverline" />Overline</td>
+				</tr>
+			</tbody>
+		</table>
+
+                <div id="fontsDiv" style="display:none;float:left; width:320px;">
+                    <table summary="This table is for font selection.">
 			<tbody><tr>
-				<td class="AusrichtungUnten" style="width: 147px;">Font Family:</td>
-				<td class="AusrichtungUnten"><input type="text" size="35" id="usedFonts" name="usedFonts" onchange="manualFontInput()" onfocus="showSelector('usedFonts', 'font')"/></td>
+				<td style="width: 50%;">Special Fonts:<br/>
+				<select onchange="showFontSampleSpe()" ondblclick="chooseSpeFonts()" id="specialFontsMultipleBox" size="10">
+					<option value="Arial, ">Arial</option>
+					<option value="Arial Black, ">Arial Black</option>
+					<option value="Comic Sans MS, ">Comic Sans MS</option>
+					<option value="Courier New, ">Courier New</option>
+					<option value="Estrangelo Edessa, ">Estrangelo Edessa</option>
+					<option value="Franklin Gothic Medium, ">Franklin Gothic Medium</option>
+					<option value="Gautami, ">Gautami</option>
+					<option value="Georgia, ">Georgia</option>
+					<option value="Georgia Italic Impact, ">Georgia Italic Impact</option>
+					<option value="Latha, ">Latha</option>
+					<option value="Lucida Console, ">Lucida Console</option>
+					<option value="Lucida Sans Unicode, ">Lucida Sans Unicode</option>
+					<option value="Microsoft Sans Serif, ">Microsoft Sans Serif</option>
+					<option value="Modern MS Sans Serif, ">Modern MS Sans Serif</option>
+					<option value="MS Serif, ">MS Serif</option>
+					<option value="Mv Boli, ">Mv Boli</option>
+					<option value="Palatino Linotype, ">Palatino Linotype</option>
+					<option value="Roman, ">Roman</option>
+					<option value="Script, ">Script</option>
+					<option value="Small Fonts, ">Small Fonts</option>
+					<option value="Symbol, ">Symbol</option>
+					<option value="Tahoma, ">Tahoma</option>
+					<option value="Times New Roman, ">Times New Roman</option>
+					<option value="Trebuchet MS, ">Trebuchet MS</option>
+					<option value="Tunga, ">Tunga</option>
+					<option value="Verdana, ">Verdana</option>
+					<option value="Webdings, ">Webdings</option>
+					<option value="WingDings, ">WingDings</option>
+				</select>
+				<div style="height: 24px;" id="specialSampleTextBox">AaBbCc</div>
+				</td>
+				<td style="width: 50%;">Generic<br/>
+				<select onchange="showFontSampleGen()" ondblclick="chooseGenFonts()" id="genericFontsMultipleBox" size="5">
+					<option va  lue="Serif, ">Serif</option>
+					<option value="Sans-Serif, ">Sans-Serif</option>
+					<option value="Cursive, ">Cursive</option>
+					<option value="Fantasy, ">Fantasy</option>
+					<option value="Monospace, ">Monospace</option>
+				</select>
+				<div style="height: 24px;" id="genericSampleTextBox">AaBbCc</div>
+			</td></tr>
+		</tbody></table>
+                </div>
+
+                <div id="fontBoldDiv" style="display:none;float:left; width:320px;">
+                    <table summary="This table is for font weight." id="BoldTable" class="Hand thinDarkblueBorders" style="width: 100%;">
+			<tbody>
+                        <tr> <th class="header2">Click to select</th> </tr>
+                        <tr>
+				<td onclick="selectBoldOnClickTD('normal')">normal</td>
 			</tr>
 			<tr>
-				<td class="AusrichtungUnten">Text color:</td>
-				<td><input type="text" onchange="setFontStyle()" size="35" name="CBox" onfocus="showSelector('CBox', 'color')" id="CBox"/></td>
+				<td onclick="selectBoldOnClickTD('bold')">bold</td>
 			</tr>
 			<tr>
-				<td class="AusrichtungUnten">Size:</td>
-				<td><input type="text" onchange="setFontStyle()" size="20" id="FontSizeTextBox" name="FontSizeTextBox" onfocus="showSelector('FontSizeTextBox', 'fontSize')"/><select onchange="setFontStyle()" id="dropDownListFontSize" size="1" onfocus="showSelector('FontSizeTextBox', 'fontSize')">
-					<option value=""/>
-					<option value="px">px</option>
-					<option value="%">%</option>
-					<option value="pt">pt</option>
-					<option value="pc">pc</option>
-					<option value="mm">mm</option>
-					<option value="cm">cm</option>
-					<option value="in">in</option>
-					<option value="em">em</option>
-					<option value="ex">ex</option>
-				</select></td>
+				<td onclick="selectBoldOnClickTD('bolder')">bolder</td>
 			</tr>
 			<tr>
-				<td class="AusrichtungUnten">Bold:</td>
-				<td><input type="text" onchange="setFontStyle()" size="20" id="BoldTextBox" name="BoldTextBox" onfocus="showSelector('BoldTextBox', 'bold')"/></td>
+				<td onclick="selectBoldOnClickTD('lighter')">lighter</td>
 			</tr>
 			<tr>
-				<td class="AusrichtungUnten">Italic:</td>
-				<td>Yes<input type="radio" name="R1" onclick="setFontStyle(),changeRadioButtonItalic(1)" onfocus="hideSelector()" id="radioButtonItalic" value="V1"/>&nbsp;
-				No<input type="radio" name="R2" onclick="setFontStyle(),changeRadioButtonItalic(2)" onfocus="hideSelector()" id="radioButtonItalicNormal" value="V1"/>
-				Inherit<input type="radio" name="R3" onclick="setFontStyle(),changeRadioButtonItalic(3)" onfocus="hideSelector()" id="radioButtonItalicClear" checked="checked" value="V1"/></td>
+				<td onclick="selectBoldOnClickTD('100')">100</td>
 			</tr>
 			<tr>
-				<td class="AusrichtungUnten">Small caps:</td>
-				<td>Yes<input type="radio" name="R4" onclick="setFontStyle(),changeRadioButtonSmallCaps(1)" onfocus="hideSelector()" id="radioButtonSmallCaps" value="V1"/>&nbsp;
-				No<input type="radio" name="R5" onclick="setFontStyle(),changeRadioButtonSmallCaps(2)" onfocus="hideSelector()" id="radioButtonSmallCapsNormal" value="V1"/>
-				Inherit<input type="radio" name="R6" onclick="setFontStyle(),changeRadioButtonSmallCaps(3)" onfocus="hideSelector()" id="radioButtonSmallCapsClear" checked="checked" value="V1"/></td>
+				<td onclick="selectBoldOnClickTD('200')">200</td>
 			</tr>
 			<tr>
-				<td class="AusrichtungUnten">Capitalization:</td>
-				<td><select onchange="setFontStyle()" id="dropDownListCapitalization" size="1" onfocus="hideSelector()">
-					<option value=""/>
-					<option value="none">None</option>
-					<option value="capitalize">Initial Cap</option>
-					<option value="lowercase">lowercase</option>
-					<option value="uppercase">UPPERCASE</option>
-				</select></td>
+				<td onclick="selectBoldOnClickTD('300')">300</td>
 			</tr>
 			<tr>
-				<td colspan="2">Effects<br/>
-				<input type="checkbox" onclick="uncheckCheckboxesIfNone()" value="ON" id="CheckBoxNone" onfocus="hideSelector()"/>None<br/>
-				<input type="checkbox" onclick="setFontStyle(),uncheckCheckboxesElse()" value="ON" id="CheckBoxUnderline" onfocus="hideSelector()"/>Underline<br/>
-				<input type="checkbox" onclick="setFontStyle(),uncheckCheckboxesElse()" value="ON" id="CheckBoxStrikethrough" onfocus="hideSelector()"/>Strikethrough<br/>
-				<input type="checkbox" onclick="setFontStyle(),uncheckCheckboxesElse()" value="ON" id="CheckBoxOverline" onfocus="hideSelector()"/>Overline</td>
+				<td onclick="selectBoldOnClickTD('400')">400-normal</td>
 			</tr>
-		</tbody>
-            </table>
-            
-          <p></p>
-        </center>
+			<tr>
+				<td onclick="selectBoldOnClickTD('500')">500</td>
+			</tr>
+			<tr>
+				<td onclick="selectBoldOnClickTD('600')">600</td>
+			</tr>
+			<tr>
+				<td onclick="selectBoldOnClickTD('700')">700-bold</td>
+			</tr>
+			<tr>
+				<td onclick="selectBoldOnClickTD('800')">800</td>
+			</tr>
+			<tr>
+				<td onclick="selectBoldOnClickTD('900')">900</td>
+			</tr>
+		</tbody></table>
+                </div>
+                <div id="fontSizesDiv" style="display:none;float:left; width:320px;">
+                  
+                  <table summary="This table is font weight" id="FontSizeTable" style="width: 100%;">
+			<tbody>
+                          <tr> <th class="header2">Click to select</th> </tr>
+                        <tr>
+				<td onclick="selectFontSizeOnClickTD('smaller')">Smaller</td>
+			</tr>
+			<tr>
+				<td onclick="selectFontSizeOnClickTD('larger')">Larger</td>
+			</tr>
+			<tr>
+				<td onclick="selectFontSizeOnClickTD('xx-small')">XX-Small</td>
+			</tr>
+			<tr>
+				<td onclick="selectFontSizeOnClickTD('x-small')">X-Small</td>
+			</tr>
+			<tr>
+				<td onclick="selectFontSizeOnClickTD('small')">Small</td>
+			</tr>
+			<tr>
+				<td onclick="selectFontSizeOnClickTD('medium')">Medium</td>
+			</tr>
+			<tr>
+				<td onclick="selectFontSizeOnClickTD('large')">Large</td>
+			</tr>
+			<tr>
+				<td onclick="selectFontSizeOnClickTD('x-large')">X-Large</td>
+			</tr>
+			<tr>
+				<td onclick="selectFontSizeOnClickTD('xx-large')">XX-Large</td>
+			</tr>
+		</tbody></table>
+                </div>
+                   </div>                 
+                <div id="colorsDiv" style="display:none;float:left; width:320px;">
+                    <div style="" id="namedColorsDiv">
+
+			<div style="width: 100%; clear: both;">Basic:</div>
+
+		    <table summary="This table is color selection." id="namedColorsTable1">
+			<tbody><tr>
+				<td onmouseout="selectColorMouseOutTDNamed('td_green')" onmouseover="selectColorMouseOverTDNamed('td_green')" onclick="selectColorFromTDNamed('td_green', 'CBox')" class="td_selectColor" id="td_green" style="background-color: green;">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_lime')" onmouseover="selectColorMouseOverTDNamed('td_lime')" onclick="selectColorFromTDNamed('td_lime', 'CBox')" class="td_selectColor" id="td_lime" style="background-color: lime;">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_teal')" onmouseover="selectColorMouseOverTDNamed('td_teal')" onclick="selectColorFromTDNamed('td_teal', 'CBox')" class="td_selectColor" id="td_teal" style="background-color: teal;">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_aqua')" onmouseover="selectColorMouseOverTDNamed('td_aqua')" onclick="selectColorFromTDNamed('td_aqua', 'CBox')" class="td_selectColor" id="td_aqua" style="background-color: aqua;">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_navy')" onmouseover="selectColorMouseOverTDNamed('td_navy')" onclick="selectColorFromTDNamed('td_navy', 'CBox')" class="td_selectColor" id="td_navy" style="background-color: navy;">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_blue')" onmouseover="selectColorMouseOverTDNamed('td_blue')" onclick="selectColorFromTDNamed('td_blue', 'CBox')" class="td_selectColor" id="td_blue" style="background-color: blue;">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_purple')" onmouseover="selectColorMouseOverTDNamed('td_purple')" onclick="selectColorFromTDNamed('td_purple', 'CBox')" class="td_selectColor" id="td_purple" style="background-color: purple;">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_fuchsia')" onmouseover="selectColorMouseOverTDNamed('td_fuchsia')" onclick="selectColorFromTDNamed('td_fuchsia', 'CBox')" class="td_selectColor" id="td_fuchsia" style="background-color: fuchsia;">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_maroon')" onmouseover="selectColorMouseOverTDNamed('td_maroon')" onclick="selectColorFromTDNamed('td_maroon', 'CBox')" class="td_selectColor" id="td_maroon" style="background-color: maroon;">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_red')" onmouseover="selectColorMouseOverTDNamed('td_red')" onclick="selectColorFromTDNamed('td_red', 'CBox')" class="td_selectColor" id="td_red" style="background-color: red;">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_olive')" onmouseover="selectColorMouseOverTDNamed('td_olive')" onclick="selectColorFromTDNamed('td_olive', 'CBox')" class="td_selectColor" id="td_olive" style="background-color: olive;">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_yellow')" onmouseover="selectColorMouseOverTDNamed('td_yellow')" onclick="selectColorFromTDNamed('td_yellow', 'CBox')" class="td_selectColor" id="td_yellow" style="background-color: yellow;">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_white')" onmouseover="selectColorMouseOverTDNamed('td_white')" onclick="selectColorFromTDNamed('td_white', 'CBox')" class="td_selectColor" id="td_white" style="background-color: white;">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_silver')" onmouseover="selectColorMouseOverTDNamed('td_silver')" onclick="selectColorFromTDNamed('td_silver', 'CBox')" class="td_selectColor" id="td_silver" style="background-color: silver;">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_gray')" onmouseover="selectColorMouseOverTDNamed('td_gray')" onclick="selectColorFromTDNamed('td_gray', 'CBox')" class="td_selectColor" id="td_gray" style="background-color: gray;">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_black')" onmouseover="selectColorMouseOverTDNamed('td_black')" onclick="selectColorFromTDNamed('td_black', 'CBox')" class="td_selectColor" id="td_black" style="background-color: black;">&nbsp;</td>
+			</tr>
+			</tbody></table>
+			<div style="width: 100%; clear: both; margin-top: 8px;">Additional:</div>
+		<table summary="This table is named colros."  id="namedColorsTable" class="thinDarkblueBorders">
+			<tbody><tr>
+				<td onmouseout="selectColorMouseOutTDNamed('td_darkolivegreen')" onmouseover="selectColorMouseOverTDNamed('td_darkolivegreen')" onclick="selectColorFromTDNamed('td_darkolivegreen', 'CBox')" class="td_selectColor" id="td_darkolivegreen" style="background-color: rgb(85, 107, 47);">
+				&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_darkgreen')" onmouseover="selectColorMouseOverTDNamed('td_darkgreen')" onclick="selectColorFromTDNamed('td_darkgreen', 'CBox')" class="td_selectColor" id="td_darkgreen" style="background-color: rgb(0, 100, 0);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_darkslategray')" onmouseover="selectColorMouseOverTDNamed('td_darkslategray')" onclick="selectColorFromTDNamed('td_darkslategray', 'CBox')" class="td_selectColor" id="td_darkslategray" style="background-color: rgb(47, 79, 79);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_slategray')" onmouseover="selectColorMouseOverTDNamed('td_slategray')" onclick="selectColorFromTDNamed('td_slategray', 'CBox')" class="td_selectColor" id="td_slategray" style="background-color: rgb(112, 128, 144);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_darkblue')" onmouseover="selectColorMouseOverTDNamed('td_darkblue')" onclick="selectColorFromTDNamed('td_darkblue', 'CBox')" class="td_selectColor" id="td_darkblue" style="background-color: rgb(0, 0, 139);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_midnightblue')" onmouseover="selectColorMouseOverTDNamed('td_midnightblue')" onclick="selectColorFromTDNamed('td_midnightblue', 'CBox')" class="td_selectColor" id="td_midnightblue" style="background-color: rgb(25, 25, 112);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_indigo')" onmouseover="selectColorMouseOverTDNamed('td_indigo')" onclick="selectColorFromTDNamed('td_indigo', 'CBox')" class="td_selectColor" id="td_indigo" style="background-color: rgb(75, 0, 130);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_darkmagenta')" onmouseover="selectColorMouseOverTDNamed('td_darkmagenta')" onclick="selectColorFromTDNamed('td_darkmagenta', 'CBox')" class="td_selectColor" id="td_darkmagenta" style="background-color: rgb(139, 0, 139);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_brown')" onmouseover="selectColorMouseOverTDNamed('td_brown')" onclick="selectColorFromTDNamed('td_brown', 'CBox')" class="td_selectColor" id="td_brown" style="background-color: rgb(165, 42, 42);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_darkred')" onmouseover="selectColorMouseOverTDNamed('td_darkred')" onclick="selectColorFromTDNamed('td_darkred', 'CBox')" class="td_selectColor" id="td_darkred" style="background-color: rgb(139, 0, 0);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_sienna')" onmouseover="selectColorMouseOverTDNamed('td_sienna')" onclick="selectColorFromTDNamed('td_sienna', 'CBox')" class="td_selectColor" id="td_sienna" style="background-color: rgb(160, 82, 45);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_saddlebrown')" onmouseover="selectColorMouseOverTDNamed('td_saddlebrown')" onclick="selectColorFromTDNamed('td_saddlebrown', 'CBox')" class="td_selectColor" id="td_saddlebrown" style="background-color: rgb(139, 69, 19);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_darkgoldenrod')" onmouseover="selectColorMouseOverTDNamed('td_darkgoldenrod')" onclick="selectColorFromTDNamed('td_darkgoldenrod', 'CBox')" class="td_selectColor" id="td_darkgoldenrod" style="background-color: rgb(184, 134, 11);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_beige')" onmouseover="selectColorMouseOverTDNamed('td_beige')" onclick="selectColorFromTDNamed('td_beige', 'CBox')" class="td_selectColor" id="td_beige" style="background-color: rgb(245, 245, 220);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_honeydew')" onmouseover="selectColorMouseOverTDNamed('td_honeydew')" onclick="selectColorFromTDNamed('td_honeydew', 'CBox')" class="td_selectColor" id="td_honeydew" style="background-color: rgb(240, 255, 240);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_dimgray')" onmouseover="selectColorMouseOverTDNamed('td_dimgray')" onclick="selectColorFromTDNamed('td_dimgray', 'CBox')" class="td_selectColor" id="td_dimgray" style="background-color: rgb(105, 105, 105);">&nbsp;</td>
+			</tr>
+			<tr>
+				<td onmouseout="selectColorMouseOutTDNamed('td_olivedrab')" onmouseover="selectColorMouseOverTDNamed('td_olivedrab')" onclick="selectColorFromTDNamed('td_olivedrab', 'CBox')" class="td_selectColor" id="td_olivedrab" style="background-color: rgb(107, 142, 35);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_forestgreen')" onmouseover="selectColorMouseOverTDNamed('td_forestgreen')" onclick="selectColorFromTDNamed('td_forestgreen', 'CBox')" class="td_selectColor" id="td_forestgreen" style="background-color: rgb(34, 139, 34);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_darkcyan')" onmouseover="selectColorMouseOverTDNamed('td_darkcyan')" onclick="selectColorFromTDNamed('td_darkcyan', 'CBox')" class="td_selectColor" id="td_darkcyan" style="background-color: rgb(0, 139, 139);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_lightslategray')" onmouseover="selectColorMouseOverTDNamed('td_lightslategray')" onclick="selectColorFromTDNamed('td_lightslategray', 'CBox')" class="td_selectColor" id="td_lightslategray" style="background-color: rgb(119, 136, 153);">
+				&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_mediumblue')" onmouseover="selectColorMouseOverTDNamed('td_mediumblue')" onclick="selectColorFromTDNamed('td_mediumblue', 'CBox')" class="td_selectColor" id="td_mediumblue" style="background-color: rgb(0, 0, 205);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_darkslateblue')" onmouseover="selectColorMouseOverTDNamed('td_darkslateblue')" onclick="selectColorFromTDNamed('td_darkslateblue', 'CBox')" class="td_selectColor" id="td_darkslateblue" style="background-color: rgb(72, 61, 139);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_darkviolet')" onmouseover="selectColorMouseOverTDNamed('td_darkviolet')" onclick="selectColorFromTDNamed('td_darkviolet', 'CBox')" class="td_selectColor" id="td_darkviolet" style="background-color: rgb(148, 0, 211);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_mediumvioletred')" onmouseover="selectColorMouseOverTDNamed('td_mediumvioletred')" onclick="selectColorFromTDNamed('td_mediumvioletred', 'CBox')" class="td_selectColor" id="td_mediumvioletred" style="background-color: rgb(199, 21, 133);">
+				&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_indianred')" onmouseover="selectColorMouseOverTDNamed('td_indianred')" onclick="selectColorFromTDNamed('td_indianred', 'CBox')" class="td_selectColor" id="td_indianred" style="background-color: rgb(205, 92, 92);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_firebrick')" onmouseover="selectColorMouseOverTDNamed('td_firebrick')" onclick="selectColorFromTDNamed('td_firebrick', 'CBox')" class="td_selectColor" id="td_firebrick" style="background-color: rgb(178, 34, 34);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_chocolate')" onmouseover="selectColorMouseOverTDNamed('td_chocolate')" onclick="selectColorFromTDNamed('td_chocolate', 'CBox')" class="td_selectColor" id="td_chocolate" style="background-color: rgb(210, 105, 30);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_peru')" onmouseover="selectColorMouseOverTDNamed('td_peru')" onclick="selectColorFromTDNamed('td_peru', 'CBox')" class="td_selectColor" id="td_peru" style="background-color: rgb(205, 133, 63);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_goldenrod')" onmouseover="selectColorMouseOverTDNamed('td_goldenrod')" onclick="selectColorFromTDNamed('td_goldenrod', 'CBox')" class="td_selectColor" id="td_goldenrod" style="background-color: rgb(218, 165, 32);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_lightgoldenrodyellow')" onmouseover="selectColorMouseOverTDNamed('td_lightgoldenrodyellow')" onclick="selectColorFromTDNamed('td_lightgoldenrodyellow', 'CBox')" class="td_selectColor" id="td_lightgoldenrodyellow" style="background-color: rgb(250, 250, 210);">
+				&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_mintcream')" onmouseover="selectColorMouseOverTDNamed('td_mintcream')" onclick="selectColorFromTDNamed('td_mintcream', 'CBox')" class="td_selectColor" id="td_mintcream" style="background-color: rgb(245, 255, 250);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_darkgray')" onmouseover="selectColorMouseOverTDNamed('td_darkgray')" onclick="selectColorFromTDNamed('td_darkgray', 'CBox')" class="td_selectColor" id="td_darkgray" style="background-color: rgb(169, 169, 169);">&nbsp;</td>
+			</tr>
+			<tr>
+				<td onmouseout="selectColorMouseOutTDNamed('td_yellowgreen')" onmouseover="selectColorMouseOverTDNamed('td_yellowgreen')" onclick="selectColorFromTDNamed('td_yellowgreen', 'CBox')" class="td_selectColor" id="td_yellowgreen" style="background-color: rgb(154, 205, 50);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_seagreen')" onmouseover="selectColorMouseOverTDNamed('td_seagreen')" onclick="selectColorFromTDNamed('td_seagreen', 'CBox')" class="td_selectColor" id="td_seagreen" style="background-color: rgb(46, 139, 87);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_cadetblue')" onmouseover="selectColorMouseOverTDNamed('td_cadetblue')" onclick="selectColorFromTDNamed('td_cadetblue', 'CBox')" class="td_selectColor" id="td_cadetblue" style="background-color: rgb(95, 158, 160);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_steelblue')" onmouseover="selectColorMouseOverTDNamed('td_steelblue')" onclick="selectColorFromTDNamed('td_steelblue', 'CBox')" class="td_selectColor" id="td_steelblue" style="background-color: rgb(70, 130, 180);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_royalblue')" onmouseover="selectColorMouseOverTDNamed('td_royalblue')" onclick="selectColorFromTDNamed('td_royalblue', 'CBox')" class="td_selectColor" id="td_royalblue" style="background-color: rgb(65, 105, 225);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_blueviolet')" onmouseover="selectColorMouseOverTDNamed('td_blueviolet')" onclick="selectColorFromTDNamed('td_blueviolet', 'CBox')" class="td_selectColor" id="td_blueviolet" style="background-color: rgb(138, 43, 226);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_darkorchid')" onmouseover="selectColorMouseOverTDNamed('td_darkorchid')" onclick="selectColorFromTDNamed('td_darkorchid', 'CBox')" class="td_selectColor" id="td_darkorchid" style="background-color: rgb(153, 50, 204);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_deeppink')" onmouseover="selectColorMouseOverTDNamed('td_deeppink')" onclick="selectColorFromTDNamed('td_deeppink', 'CBox')" class="td_selectColor" id="td_deeppink" style="background-color: rgb(255, 20, 147);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_rosybrown')" onmouseover="selectColorMouseOverTDNamed('td_rosybrown')" onclick="selectColorFromTDNamed('td_rosybrown', 'CBox')" class="td_selectColor" id="td_rosybrown" style="background-color: rgb(188, 143, 143);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_crimson')" onmouseover="selectColorMouseOverTDNamed('td_crimson')" onclick="selectColorFromTDNamed('td_crimson', 'CBox')" class="td_selectColor" id="td_crimson" style="background-color: rgb(220, 20, 60);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_darkorange')" onmouseover="selectColorMouseOverTDNamed('td_darkorange')" onclick="selectColorFromTDNamed('td_darkorange', 'CBox')" class="td_selectColor" id="td_darkorange" style="background-color: rgb(255, 140, 0);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_burlywood')" onmouseover="selectColorMouseOverTDNamed('td_burlywood')" onclick="selectColorFromTDNamed('td_burlywood', 'CBox')" class="td_selectColor" id="td_burlywood" style="background-color: rgb(222, 184, 135);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_darkkhaki')" onmouseover="selectColorMouseOverTDNamed('td_darkkhaki')" onclick="selectColorFromTDNamed('td_darkkhaki', 'CBox')" class="td_selectColor" id="td_darkkhaki" style="background-color: rgb(189, 183, 107);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_lightyellow')" onmouseover="selectColorMouseOverTDNamed('td_lightyellow')" onclick="selectColorFromTDNamed('td_lightyellow', 'CBox')" class="td_selectColor" id="td_lightyellow" style="background-color: rgb(255, 255, 224);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_azure')" onmouseover="selectColorMouseOverTDNamed('td_azure')" onclick="selectColorFromTDNamed('td_azure', 'CBox')" class="td_selectColor" id="td_azure" style="background-color: rgb(240, 255, 255);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_lightgrey')" onmouseover="selectColorMouseOverTDNamed('td_lightgrey')" onclick="selectColorFromTDNamed('td_lightgrey', 'CBox')" class="td_selectColor" id="td_lightgrey" style="background-color: rgb(211, 211, 211);">&nbsp;</td>
+			</tr>
+			<tr>
+				<td onmouseout="selectColorMouseOutTDNamed('td_lawngreen')" onmouseover="selectColorMouseOverTDNamed('td_lawngreen')" onclick="selectColorFromTDNamed('td_lawngreen', 'CBox')" class="td_selectColor" id="td_lawngreen" style="background-color: rgb(124, 252, 0);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_mediumseagreen')" onmouseover="selectColorMouseOverTDNamed('td_mediumseagreen')" onclick="selectColorFromTDNamed('td_mediumseagreen', 'CBox')" class="td_selectColor" id="td_mediumseagreen" style="background-color: rgb(60, 179, 113);">
+				&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_lightseagreen')" onmouseover="selectColorMouseOverTDNamed('td_lightseagreen')" onclick="selectColorFromTDNamed('td_lightseagreen', 'CBox')" class="td_selectColor" id="td_lightseagreen" style="background-color: rgb(32, 178, 170);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_deepskyblue')" onmouseover="selectColorMouseOverTDNamed('td_deepskyblue')" onclick="selectColorFromTDNamed('td_deepskyblue', 'CBox')" class="td_selectColor" id="td_deepskyblue" style="background-color: rgb(0, 191, 255);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_dodgerblue')" onmouseover="selectColorMouseOverTDNamed('td_dodgerblue')" onclick="selectColorFromTDNamed('td_dodgerblue', 'CBox')" class="td_selectColor" id="td_dodgerblue" style="background-color: rgb(30, 144, 255);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_slateblue')" onmouseover="selectColorMouseOverTDNamed('td_slateblue')" onclick="selectColorFromTDNamed('td_slateblue', 'CBox')" class="td_selectColor" id="td_slateblue" style="background-color: rgb(106, 90, 205);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_mediumorchid')" onmouseover="selectColorMouseOverTDNamed('td_mediumorchid')" onclick="selectColorFromTDNamed('td_mediumorchid', 'CBox')" class="td_selectColor" id="td_mediumorchid" style="background-color: rgb(186, 85, 211);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_palevioletred')" onmouseover="selectColorMouseOverTDNamed('td_palevioletred')" onclick="selectColorFromTDNamed('td_palevioletred', 'CBox')" class="td_selectColor" id="td_palevioletred" style="background-color: rgb(216, 112, 147);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_salmon')" onmouseover="selectColorMouseOverTDNamed('td_salmon')" onclick="selectColorFromTDNamed('td_salmon', 'CBox')" class="td_selectColor" id="td_salmon" style="background-color: rgb(250, 128, 114);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_orangered')" onmouseover="selectColorMouseOverTDNamed('td_orangered')" onclick="selectColorFromTDNamed('td_orangered', 'CBox')" class="td_selectColor" id="td_orangered" style="background-color: rgb(255, 69, 0);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_sandybrown')" onmouseover="selectColorMouseOverTDNamed('td_sandybrown')" onclick="selectColorFromTDNamed('td_sandybrown', 'CBox')" class="td_selectColor" id="td_sandybrown" style="background-color: rgb(244, 164, 96);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_tan')" onmouseover="selectColorMouseOverTDNamed('td_tan')" onclick="selectColorFromTDNamed('td_tan', 'CBox')" class="td_selectColor" id="td_tan" style="background-color: rgb(210, 180, 140);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_gold')" onmouseover="selectColorMouseOverTDNamed('td_gold')" onclick="selectColorFromTDNamed('td_gold', 'CBox')" class="td_selectColor" id="td_gold" style="background-color: rgb(255, 215, 0);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_ivory')" onmouseover="selectColorMouseOverTDNamed('td_ivory')" onclick="selectColorFromTDNamed('td_ivory', 'CBox')" class="td_selectColor" id="td_ivory" style="background-color: rgb(255, 255, 240);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_ghostwhite')" onmouseover="selectColorMouseOverTDNamed('td_ghostwhite')" onclick="selectColorFromTDNamed('td_ghostwhite', 'CBox')" class="td_selectColor" id="td_ghostwhite" style="background-color: rgb(248, 248, 255);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_gainsboro')" onmouseover="selectColorMouseOverTDNamed('td_gainsboro')" onclick="selectColorFromTDNamed('td_gainsboro', 'CBox')" class="td_selectColor" id="td_gainsboro" style="background-color: rgb(220, 220, 220);">&nbsp;</td>
+			</tr>
+			<tr>
+				<td onmouseout="selectColorMouseOutTDNamed('td_chartreuse')" onmouseover="selectColorMouseOverTDNamed('td_chartreuse')" onclick="selectColorFromTDNamed('td_chartreuse', 'CBox')" class="td_selectColor" id="td_chartreuse" style="background-color: rgb(127, 255, 0);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_limegreen')" onmouseover="selectColorMouseOverTDNamed('td_limegreen')" onclick="selectColorFromTDNamed('td_limegreen', 'CBox')" class="td_selectColor" id="td_limegreen" style="background-color: rgb(50, 205, 50);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_mediumaquamarine')" onmouseover="selectColorMouseOverTDNamed('td_mediumaquamarine')" onclick="selectColorFromTDNamed('td_mediumaquamarine', 'CBox')" class="td_selectColor" id="td_mediumaquamarine" style="background-color: rgb(102, 205, 170);">
+				&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_darkturquoise')" onmouseover="selectColorMouseOverTDNamed('td_darkturquoise')" onclick="selectColorFromTDNamed('td_darkturquoise', 'CBox')" class="td_selectColor" id="td_darkturquoise" style="background-color: rgb(0, 206, 209);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_cornflowerblue')" onmouseover="selectColorMouseOverTDNamed('td_cornflowerblue')" onclick="selectColorFromTDNamed('td_cornflowerblue', 'CBox')" class="td_selectColor" id="td_cornflowerblue" style="background-color: rgb(100, 149, 237);">
+				&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_mediumslateblue')" onmouseover="selectColorMouseOverTDNamed('td_mediumslateblue')" onclick="selectColorFromTDNamed('td_mediumslateblue', 'CBox')" class="td_selectColor" id="td_mediumslateblue" style="background-color: rgb(123, 104, 238);">
+				&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_orchid')" onmouseover="selectColorMouseOverTDNamed('td_orchid')" onclick="selectColorFromTDNamed('td_orchid', 'CBox')" class="td_selectColor" id="td_orchid" style="background-color: rgb(218, 112, 214);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_hotpink')" onmouseover="selectColorMouseOverTDNamed('td_hotpink')" onclick="selectColorFromTDNamed('td_hotpink', 'CBox')" class="td_selectColor" id="td_hotpink" style="background-color: rgb(255, 105, 180);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_lightcoral')" onmouseover="selectColorMouseOverTDNamed('td_lightcoral')" onclick="selectColorFromTDNamed('td_lightcoral', 'CBox')" class="td_selectColor" id="td_lightcoral" style="background-color: rgb(240, 128, 128);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_tomato')" onmouseover="selectColorMouseOverTDNamed('td_tomato')" onclick="selectColorFromTDNamed('td_tomato', 'CBox')" class="td_selectColor" id="td_tomato" style="background-color: rgb(255, 99, 71);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_orange')" onmouseover="selectColorMouseOverTDNamed('td_orange')" onclick="selectColorFromTDNamed('td_orange', 'CBox')" class="td_selectColor" id="td_orange" style="background-color: rgb(255, 165, 0);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_bisque')" onmouseover="selectColorMouseOverTDNamed('td_bisque')" onclick="selectColorFromTDNamed('td_bisque', 'CBox')" class="td_selectColor" id="td_bisque" style="background-color: rgb(255, 228, 196);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_khaki')" onmouseover="selectColorMouseOverTDNamed('td_khaki')" onclick="selectColorFromTDNamed('td_khaki', 'CBox')" class="td_selectColor" id="td_khaki" style="background-color: rgb(240, 230, 140);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_cornsilk')" onmouseover="selectColorMouseOverTDNamed('td_cornsilk')" onclick="selectColorFromTDNamed('td_cornsilk', 'CBox')" class="td_selectColor" id="td_cornsilk" style="background-color: rgb(255, 248, 220);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_linen')" onmouseover="selectColorMouseOverTDNamed('td_linen')" onclick="selectColorFromTDNamed('td_linen', 'CBox')" class="td_selectColor" id="td_linen" style="background-color: rgb(250, 240, 230);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_whitesmoke')" onmouseover="selectColorMouseOverTDNamed('td_whitesmoke')" onclick="selectColorFromTDNamed('td_whitesmoke', 'CBox')" class="td_selectColor" id="td_whitesmoke" style="background-color: rgb(245, 245, 245);">&nbsp;</td>
+			</tr>
+			<tr>
+				<td onmouseout="selectColorMouseOutTDNamed('td_greenyellow')" onmouseover="selectColorMouseOverTDNamed('td_greenyellow')" onclick="selectColorFromTDNamed('td_greenyellow', 'CBox')" class="td_selectColor" id="td_greenyellow" style="background-color: rgb(173, 255, 47);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_darkseagreen')" onmouseover="selectColorMouseOverTDNamed('td_darkseagreen')" onclick="selectColorFromTDNamed('td_darkseagreen', 'CBox')" class="td_selectColor" id="td_darkseagreen" style="background-color: rgb(143, 188, 143);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_turquoise')" onmouseover="selectColorMouseOverTDNamed('td_turquoise')" onclick="selectColorFromTDNamed('td_turquoise', 'CBox')" class="td_selectColor" id="td_turquoise" style="background-color: rgb(64, 224, 208);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_mediumturquoise')" onmouseover="selectColorMouseOverTDNamed('td_mediumturquoise')" onclick="selectColorFromTDNamed('td_mediumturquoise', 'CBox')" class="td_selectColor" id="td_mediumturquoise" style="background-color: rgb(72, 209, 204);">
+				&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_skyblue')" onmouseover="selectColorMouseOverTDNamed('td_skyblue')" onclick="selectColorFromTDNamed('td_skyblue', 'CBox')" class="td_selectColor" id="td_skyblue" style="background-color: rgb(135, 206, 235);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_mediumpurple')" onmouseover="selectColorMouseOverTDNamed('td_mediumpurple')" onclick="selectColorFromTDNamed('td_mediumpurple', 'CBox')" class="td_selectColor" id="td_mediumpurple" style="background-color: rgb(147, 112, 216);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_violet')" onmouseover="selectColorMouseOverTDNamed('td_violet')" onclick="selectColorFromTDNamed('td_violet', 'CBox')" class="td_selectColor" id="td_violet" style="background-color: rgb(238, 130, 238);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_lightpink')" onmouseover="selectColorMouseOverTDNamed('td_lightpink')" onclick="selectColorFromTDNamed('td_lightpink', 'CBox')" class="td_selectColor" id="td_lightpink" style="background-color: rgb(255, 182, 193);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_darksalmon')" onmouseover="selectColorMouseOverTDNamed('td_darksalmon')" onclick="selectColorFromTDNamed('td_darksalmon', 'CBox')" class="td_selectColor" id="td_darksalmon" style="background-color: rgb(233, 150, 122);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_coral')" onmouseover="selectColorMouseOverTDNamed('td_coral')" onclick="selectColorFromTDNamed('td_coral', 'CBox')" class="td_selectColor" id="td_coral" style="background-color: rgb(255, 127, 80);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_navajowhite')" onmouseover="selectColorMouseOverTDNamed('td_navajowhite')" onclick="selectColorFromTDNamed('td_navajowhite', 'CBox')" class="td_selectColor" id="td_navajowhite" style="background-color: rgb(255, 222, 173);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_blanchedalmond')" onmouseover="selectColorMouseOverTDNamed('td_blanchedalmond')" onclick="selectColorFromTDNamed('td_blanchedalmond', 'CBox')" class="td_selectColor" id="td_blanchedalmond" style="background-color: rgb(255, 235, 205);">
+				&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_palegoldenrod')" onmouseover="selectColorMouseOverTDNamed('td_palegoldenrod')" onclick="selectColorFromTDNamed('td_palegoldenrod', 'CBox')" class="td_selectColor" id="td_palegoldenrod" style="background-color: rgb(238, 232, 170);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_oldlace')" onmouseover="selectColorMouseOverTDNamed('td_oldlace')" onclick="selectColorFromTDNamed('td_oldlace', 'CBox')" class="td_selectColor" id="td_oldlace" style="background-color: rgb(253, 245, 230);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_seashell')" onmouseover="selectColorMouseOverTDNamed('td_seashell')" onclick="selectColorFromTDNamed('td_seashell', 'CBox')" class="td_selectColor" id="td_seashell" style="background-color: rgb(255, 245, 238);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_ghostwhite')" onmouseover="selectColorMouseOverTDNamed('td_ghostwhite')" onclick="selectColorFromTDNamed('td_ghostwhite', 'CBox')" class="td_selectColor" id="td_ghostwhite2" style="background-color: rgb(248, 248, 255);">&nbsp;</td>
+			</tr>
+			<tr>
+				<td onmouseout="selectColorMouseOutTDNamed('td_palegreen')" onmouseover="selectColorMouseOverTDNamed('td_palegreen')" onclick="selectColorFromTDNamed('td_palegreen', 'CBox')" class="td_selectColor" id="td_palegreen" style="background-color: rgb(152, 251, 152);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_springgreen')" onmouseover="selectColorMouseOverTDNamed('td_springgreen')" onclick="selectColorFromTDNamed('td_springgreen', 'CBox')" class="td_selectColor" id="td_springgreen" style="background-color: rgb(0, 255, 127);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_aquamarine')" onmouseover="selectColorMouseOverTDNamed('td_aquamarine')" onclick="selectColorFromTDNamed('td_aquamarine', 'CBox')" class="td_selectColor" id="td_aquamarine" style="background-color: rgb(127, 255, 212);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_powderblue')" onmouseover="selectColorMouseOverTDNamed('td_powderblue')" onclick="selectColorFromTDNamed('td_powderblue', 'CBox')" class="td_selectColor" id="td_powderblue" style="background-color: rgb(176, 224, 230);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_lightskyblue')" onmouseover="selectColorMouseOverTDNamed('td_lightskyblue')" onclick="selectColorFromTDNamed('td_lightskyblue', 'CBox')" class="td_selectColor" id="td_lightskyblue" style="background-color: rgb(135, 206, 250);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_lightsteelblue')" onmouseover="selectColorMouseOverTDNamed('td_lightsteelblue')" onclick="selectColorFromTDNamed('td_lightsteelblue', 'CBox')" class="td_selectColor" id="td_lightsteelblue" style="background-color: rgb(176, 196, 222);">
+				&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_plum')" onmouseover="selectColorMouseOverTDNamed('td_plum')" onclick="selectColorFromTDNamed('td_plum', 'CBox')" class="td_selectColor" id="td_plum" style="background-color: rgb(221, 160, 221);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_pink')" onmouseover="selectColorMouseOverTDNamed('td_pink')" onclick="selectColorFromTDNamed('td_pink', 'CBox')" class="td_selectColor" id="td_pink" style="background-color: rgb(255, 192, 203);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_lightsalmon')" onmouseover="selectColorMouseOverTDNamed('td_lightsalmon')" onclick="selectColorFromTDNamed('td_lightsalmon', 'CBox')" class="td_selectColor" id="td_lightsalmon" style="background-color: rgb(255, 160, 122);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_wheat')" onmouseover="selectColorMouseOverTDNamed('td_wheat')" onclick="selectColorFromTDNamed('td_wheat', 'CBox')" class="td_selectColor" id="td_wheat" style="background-color: rgb(245, 222, 179);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_moccasin')" onmouseover="selectColorMouseOverTDNamed('td_moccasin')" onclick="selectColorFromTDNamed('td_moccasin', 'CBox')" class="td_selectColor" id="td_moccasin" style="background-color: rgb(255, 228, 181);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_antiquewhite')" onmouseover="selectColorMouseOverTDNamed('td_antiquewhite')" onclick="selectColorFromTDNamed('td_antiquewhite', 'CBox')" class="td_selectColor" id="td_antiquewhite" style="background-color: rgb(250, 235, 215);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_lemonchiffon')" onmouseover="selectColorMouseOverTDNamed('td_lemonchiffon')" onclick="selectColorFromTDNamed('td_lemonchiffon', 'CBox')" class="td_selectColor" id="td_lemonchiffon" style="background-color: rgb(255, 250, 205);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_floralwhite')" onmouseover="selectColorMouseOverTDNamed('td_floralwhite')" onclick="selectColorFromTDNamed('td_floralwhite', 'CBox')" class="td_selectColor" id="td_floralwhite" style="background-color: rgb(255, 250, 240);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_snow')" onmouseover="selectColorMouseOverTDNamed('td_snow')" onclick="selectColorFromTDNamed('td_snow', 'CBox')" class="td_selectColor" id="td_snow" style="background-color: rgb(255, 250, 250);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_aliceblue')" onmouseover="selectColorMouseOverTDNamed('td_aliceblue')" onclick="selectColorFromTDNamed('td_aliceblue', 'CBox')" class="td_selectColor" id="td_aliceblue" style="background-color: rgb(240, 248, 255);">&nbsp;</td>
+			</tr>
+			<tr>
+				<td onmouseout="selectColorMouseOutTDNamed('td_lightgreen')" onmouseover="selectColorMouseOverTDNamed('td_lightgreen')" onclick="selectColorFromTDNamed('td_lightgreen', 'CBox')" class="td_selectColor" id="td_lightgreen" style="background-color: rgb(144, 238, 144);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_mediumspringgreen')" onmouseover="selectColorMouseOverTDNamed('td_mediumspringgreen')" onclick="selectColorFromTDNamed('td_mediumspringgreen', 'CBox')" class="td_selectColor" id="td_mediumspringgreen" style="background-color: rgb(0, 250, 154);">
+				&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_paleturquoise')" onmouseover="selectColorMouseOverTDNamed('td_paleturquoise')" onclick="selectColorFromTDNamed('td_paleturquoise', 'CBox')" class="td_selectColor" id="td_paleturquoise" style="background-color: rgb(175, 238, 238);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_lightcyan')" onmouseover="selectColorMouseOverTDNamed('td_lightcyan')" onclick="selectColorFromTDNamed('td_lightcyan', 'CBox')" class="td_selectColor" id="td_lightcyan" style="background-color: rgb(224, 255, 255);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_lightblue')" onmouseover="selectColorMouseOverTDNamed('td_lightblue')" onclick="selectColorFromTDNamed('td_lightblue', 'CBox')" class="td_selectColor" id="td_lightblue" style="background-color: rgb(173, 216, 230);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_lavender')" onmouseover="selectColorMouseOverTDNamed('td_lavender')" onclick="selectColorFromTDNamed('td_lavender', 'CBox')" class="td_selectColor" id="td_lavender" style="background-color: rgb(230, 230, 250);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_thistle')" onmouseover="selectColorMouseOverTDNamed('td_thistle')" onclick="selectColorFromTDNamed('td_thistle', 'CBox')" class="td_selectColor" id="td_thistle" style="background-color: rgb(216, 191, 216);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_mistyrose')" onmouseover="selectColorMouseOverTDNamed('td_mistyrose')" onclick="selectColorFromTDNamed('td_mistyrose', 'CBox')" class="td_selectColor" id="td_mistyrose" style="background-color: rgb(255, 228, 225);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_peachpuff')" onmouseover="selectColorMouseOverTDNamed('td_peachpuff')" onclick="selectColorFromTDNamed('td_peachpuff', 'CBox')" class="td_selectColor" id="td_peachpuff" style="background-color: rgb(255, 218, 185);">&nbsp;</td>
+				<td onmouseout="selectColorMouseOutTDNamed('td_papayawhip')" onmouseover="selectColorMouseOverTDNamed('td_papayawhip')" onclick="selectColorFromTDNamed('td_papayawhip', 'CBox')" class="td_selectColor" id="td_papayawhip" style="background-color: rgb(255, 239, 213);">&nbsp;</td>
+			</tr>
+		</tbody></table>
+                                <div id="showNamedColors">&nbsp;</div>
+                </div>
+	</div>
+
+        <div id="tabBackground">T2</div>
+        <div id="tabText">T3</div>
+        <div id="tabPosition">T4</div>
+        <div id="tabLayout">T5</div>
+        <div id="tabBorders">T6</div>
+        <div id="tabLists">T7</div>
+        <div style="clear:both"></div>
+                  <p><center><input type="button" onclick="saveCSSChanges(); closeDialog();" value="Save &amp; Close"/>&nbsp;<input type="button" value="Cancel" onclick="closeDialog();"/></center></p>
         <div id="dialogMessages"/></div>
       </div>
   </div>
@@ -321,10 +664,12 @@
 <div id="debug_div"></div>
 <script type="text/javascript">
     var gpHC = function () {
-
+        var _STYLE_INDEX=0;
 	var msg = new _IG_MiniMessage(__MODULE_ID__, $("debug_div"));
+        var tabs = new _IG_Tabs(__MODULE_ID__, "Font", _gel("dialogContents"));
+  
         var controller, viewPanel, viewList, viewStatus, viewProperties;
-    
+        
         Object.prototype.clone = function() {
               var newObj = (this instanceof Array) ? [] : {};
               for (i in this) {
@@ -336,18 +681,46 @@
               }
               return newObj;
         };        
-        
-        var errorHelper = function() {
-          return {
-              postError : function(errorText) {
-                  _gel("debug_div").innerHTML += errorText+"<hr/>"
-              },
-              
-              clearErrors : function() {
-                  _gel("debug_div").innerHTML="";
-              }
-          }
-        } ();
+                
+        function makeCSS(font_family, color, font_size, font_unit, font_weight, font_style, font_variant, font_transform, text_decoration) {
+                var style="";
+                
+                if(font_family!="")
+                    style +="font-family:"+font_family.toLowerCase()+";";
+                    
+                if(color!="")
+                    style +="color:"+color+";";
+                    
+                    
+                if(font_size!="") {
+                    if(isNaN(font_size)){
+                        style +="font-size:"+font_size+";";
+                    }
+                    else {
+                        style +="font-size:"+font_size+font_unit+";";
+                    }
+                }
+                    
+                    
+                if(font_weight!="")
+                    style +="font-weight:"+font_weight+";";
+  
+  
+                if(font_style!="")
+                    style +="font-style:"+font_style+";";
+  
+                if(font_variant!="")
+                    style +="font-variant:"+font_variant+";";
+                    
+                if(font_transform!="")
+                    style +="font-transform:"+font_transform+";";
+                    
+                    
+                if(text_decoration!="")
+                    style +="text-decoration:"+text_decoration+";";
+  
+                return style;
+        }
         
         function HTML_Property(name, value) {
                 this.name = name;
@@ -373,7 +746,10 @@
         gridParameters.prototype._IGG_getNormalView = function(index) { 
                 if (index % 2 == 0)
                     return "<p title='"+this.data[index+1].desc+"'>" + this.data[index] +"</p>";
-                else return "<input class='propertyText' onchange='propertyUpdated("+parseInt(index/2)+",this.value);' type='text' id='toolbox_"+this.data[index-1]+"' value ='"+this.data[index].default+"' />";
+                else {
+                    if (this.data[index-1] === "style") _STYLE_INDEX=parseInt(index/2);
+                    return "<input class='propertyText' onchange='propertyUpdated("+parseInt(index/2)+",this.value);' type='text' id='toolbox_"+this.data[index-1]+"' value ='"+this.data[index].default+"' />";
+                }
         }  
       
         gridParameters.prototype._IGG_isDragSource = function(index) {
@@ -605,18 +981,48 @@
         }
   
         removeElement = function (i) {
-                 msg.createTimerMessage("Removing control " + DataElements[i].name+"...", 2); 
+                 msg.createTimerMessage("Removing control " + controller.model.data[i].name+"...", 2); 
                  controller.removeItem(i);
 
         }
   
         editCSS = function (i) {
-                 msg.createTimerMessage("Editing style of control " + DataElements[i].name+"...", 2); 
+                 controller.select(i);
+                 msg.createTimerMessage("Editing style of control " + controller.model.data[i].name+"...", 2); 
                  
                  _gel("disableDiv").style.display = "block";
                  _gel("modalDialogDiv").style.display = "block";
-                 _gel("modalDialogDiv").style.left =   300 - _gel("modalDialogDiv").style.width/2;
+                 _gel("modalDialogDiv").style.top =5;
+                 _gel("modalDialogDiv").style.left =   100 - _gel("modalDialogDiv").style.width/2;
         }
+  
+        setUpTabs = function() {
+                 tabs.addTab("Font", "tabFont");
+                 tabs.addTab("Background", "tabBackground");
+                 tabs.addTab("Text", "tabText");
+                 tabs.addTab("Position", "tabPosition");
+                 tabs.addTab("Layout", "tabLayout");
+                 tabs.addTab("Borders", "tabBorders");
+                 tabs.addTab("Lists", "tabLists");
+        }
+  
+        selectBoldOnClickTD = function (InputString) {
+		_gel('BoldTextBox').value = InputString;
+	}
+
+
+	selectFontSizeOnClickTD = function (InputString) {
+		_gel('FontSizeTextBox').value = InputString;
+	}
+  
+  	selectColorMouseOverTDNamed  = function (InputString) {
+		var colorName = InputString.substring(3,InputString.length);
+		_gel('showNamedColors').innerHTML = colorName;
+	}
+
+	selectColorMouseOutTDNamed = function (InputString) {
+		_gel('showNamedColors').innerHTML = "&nbsp;";
+	}
         
         showProperties = function (i) {                
                  controller.select(i);
@@ -627,12 +1033,161 @@
               _gel("modalDialogDiv").style.display = "none";
         }
   
+        saveCSSChanges = function () {
+            var font_style="", font_variant="", text_decoration="";
+            
+            if (_gel('radioButtonItalic').checked)
+                font_style="italic";
+            else if (_gel('radioButtonItalicNormal').checked)
+                font_style="normal";
+            else if (_gel('radioButtonItalicClear').checked)
+                font_style="";
+  
+            if (_gel('radioButtonSmallCaps').checked)
+                font_variant="small-caps";
+            else if (_gel('radioButtonSmallCapsNormal').checked)
+                font_variant="normal";
+            else if (_gel('radioButtonSmallCapsClear').checked)
+                font_variant="";
+                
+            if (_gel('CheckBoxNone').checked)
+                text_decoration="";
+            if (_gel('CheckBoxUnderline').checked)
+                text_decoration+=" underline";
+            if (_gel('CheckBoxStrikethrough').checked)
+                text_decoration+=" line-through";
+            if (_gel('CheckBoxOverline').checked)
+                text_decoration+=" overline";
+
+            controller.updateProperty(_STYLE_INDEX, makeCSS(_gel('usedFonts').value, _gel('CBox').value, _gel('FontSizeTextBox').value, _gel('dropDownListFontSize').value, _gel('BoldTextBox').value, font_style, font_variant, _gel('dropDownListCapitalization').value, text_decoration));
+        }
+  
+  	function showWebPalette() {
+		document.getElementById('colorsDivWeb').style.display = "";
+		document.getElementById('colorsDiv').style.display = "none";
+	}
+
+	function showNamedColors(){
+		document.getElementById('colorsDiv').style.display = "";
+		document.getElementById('colorsDivWeb').style.display = "none";
+	}
+  
+  	showFontSampleGen = function(){
+		var Sammler = "";
+		var i;
+		var vBox = document.getElementById('genericFontsMultipleBox');
+
+		for (i = 0; i < 5; i++) {
+			if (vBox.options[i].selected) {
+				Sammler += vBox.options[i].value;
+			}
+		}
+
+		document.getElementById('genericSampleTextBox').style.fontFamily = Sammler;
+	}
+  
+        showFontSizeSelector = function() {
+                _gel('fontsDiv').style.display = "none";
+                _gel('colorsDiv').style.display = "none";
+                _gel('fontBoldDiv').style.display = "none";
+  
+                _gel('fontSizesDiv').style.display = "block";   
+        }
+        
+        
+        showFontBoldSelector = function() {
+                _gel('fontsDiv').style.display = "none";
+                _gel('colorsDiv').style.display = "none"; 
+                _gel('fontSizesDiv').style.display = "none";
+                
+                _gel('fontBoldDiv').style.display = "block";
+        }
+  
+        showFontSelector = function() {
+                _gel('fontSizesDiv').style.display = "none";
+                _gel('colorsDiv').style.display = "none";
+                _gel('fontBoldDiv').style.display = "none";
+                
+                _gel('fontsDiv').style.display = "block"
+        }
+  
+        showColorSelector = function() {
+                _gel('fontsDiv').style.display = "none"
+                _gel('fontSizesDiv').style.display = "none";
+                _gel('fontBoldDiv').style.display = "none"; 
+                                
+                _gel('colorsDiv').style.display = "block";
+        }
+  
+	chooseSpeFonts = function() {
+		var Sammler = "";
+		var i;
+		var vBox = document.getElementById('specialFontsMultipleBox');
+
+		for (i = 0; i < 28; i++) {
+			if (vBox.options[i].selected) {
+				Sammler += vBox.options[i].value;
+			}
+		}
+		
+		document.getElementById('usedFonts').value = document.getElementById('usedFonts').value + Sammler;
+	}
+  
+        chooseGenFonts = function() {
+		var Sammler = "";
+		var i;
+		var vBox = document.getElementById('genericFontsMultipleBox');
+
+		for (i = 0; i < 5; i++) {
+			if (vBox.options[i].selected) {
+				Sammler += vBox.options[i].value;
+			}
+		}
+		
+		document.getElementById('usedFonts').value = document.getElementById('usedFonts').value + Sammler;
+	}
+  
+  	selectColorMouseOverTDWeb=function(InputString) {
+		var colorName = InputString.substring(3,InputString.length);
+		document.getElementById('showWebPalette').innerHTML = colorName;
+	}
+
+	selectColorMouseOutTDWeb=function(InputString) {
+		document.getElementById('showWebPalette').innerHTML = "";
+	}
+
+
+	selectColorMouseOverTDNamed = function(InputString) {
+		var colorName = InputString.substring(3,InputString.length);
+		document.getElementById('showNamedColors').innerHTML = colorName;
+	}
+  
+        selectColorFromTDNamed = function(InputString, controlName) {
+                msg.createTimerMessage("Changing font color to: "+ InputString.substring(3,InputString.length), 2);
+		_gel(controlName).value= InputString.substring(3,InputString.length);
+	}
+
+	showFontSampleSpe = function () {
+		var Sammler = "";
+		var i;
+		var vBox = document.getElementById('specialFontsMultipleBox');
+
+		for (i = 0; i < 28; i++) {
+			if (vBox.options[i].selected) {
+				Sammler += vBox.options[i].value;
+			}
+		}
+		
+		document.getElementById('specialSampleTextBox').style.fontFamily = Sammler;
+	}
+  
 	DataElements = new Array();
   
 	return {
 		
 		init: function () {
                     makeDOMRequest("http://toolbox-gadget.googlecode.com/svn/trunk/specification.xml");
+                    setUpTabs();
 		}
 	
 	};
@@ -703,7 +1258,7 @@ gpHC.MVCLibrary = function() {
         
         Controller.prototype.updateProperty = function(index, new_value) {
                 var re=null;
-                
+
                 if(this.model.data[this.model.selected].properties[index].value.regex!="") {
                         //msg.createTimerMessage(this.model.data[this.model.selected].properties[index].value.regex,2);
                         re = new RegExp(this.model.data[this.model.selected].properties[index].value.regex.substring(1, this.model.data[this.model.selected].properties[index].value.regex.length-1));
