@@ -104,7 +104,7 @@ table.column {text-align: center;font-family: Verdana;font-weight: normal;font-s
 <tbody>
 <tr>
 <td class="colTitle" style="width: 147px;">Font Family:</td>
-<td <input class="bigInput" type="text" size="35" id="usedFonts" name="usedFonts" onfocus="showFontSelector();"/></td>
+<td> <input class="bigInput" type="text" size="35" id="usedFonts" name="usedFonts" onfocus="showFontSelector();"/></td>
 </tr>
 <tr>
 <td class="colTitle"> Text color:</td>
