@@ -8,1328 +8,1815 @@
 </ModulePrefs>
 <Content type="html"><![CDATA[
 
-<style type="text/css"> 
-  
-  
-  #modalDialogDiv td#dialogClose {padding-right: 2px; background-color:#DBE6DE;border-bottom:1px solid #aaaaaa;width:15px;}  
-  #modalDialogDiv td#dialogTitle {padding: 2px; font-size:13px; background-color:#DBE6DE;border-bottom:1px solid #aaaaaa;font-weight:bold;} 
-  #disableDiv {background-color:gray;left:0;opacity:0.5;position:absolute;top:0;z-index:5;height: 100%; display: none; width: 100%;}
-  #modalDialogDiv table {border:medium none;width:100%;}
-  #modalDialogDiv { background-color:#ffffff;border:1px solid #676767;display:none;position:absolute;z-index:100; height:400px; width:700px}
-  #dialogClose img { width:15 height:15; cursor: pointer; }
-  
-  
-  .td_selectColor {border:1px solid Black;cursor:pointer;font-size:4pt;height:22px;margin:0;padding:0;width:17px;}
-  #tabFont { font-size: 0.9 em; }
-  #tabFont td {vertical-align:top;}
-  #fontBoldDiv td, #fontSizesDiv {font-size: 0.8em;}
-  
-  .header1
-  {
-    background:#E5ECF9 none repeat scroll 0 0;
-    font-size:1.2em;
-    margin:0 0 0px;
-    padding:4px 6px;
-    font-size-adjust:none;
-    font-style:normal;
-    font-variant:normal;
-    font-weight:normal;
-    line-height:normal;
-  }
-  
-  .header2
-  {
-    font-size:1.0em;
-    margin:0 0 0px;
-    padding:4px 6px;
-    font-size-adjust:none;
-    font-style:normal;
-    font-variant:normal;
-    font-weight:normal;
-    line-height:normal;
-  }
-  
-  .panelItem
-  {
-      float:left;
-      border: 1px dotted black;
-      padding: 10px 0px 10px 10px; 
-      width: 275px; 
-      background-color: #e9e6f9;
-  }
-  
-  .panelProperties
-  {
-      float:right;
-      padding: 5px 0px 10px 0px; 
-  }
-  
-  .panelPropertiesContainer
-  {
-      width:350px;
-  }
-  
-  .alt
-  {
-      background-color: #e6f6f9;
-  }
-  
-  .selected
-  {
-      border: 1px solid black;
-  }
-  
-  .propertyText
-  {
-    width : 120px;
-    border:none;
-  }
-  
-  #debug_div
-  {
-    clear:both;
-    width:100%;
-  }
-  
-  #workBox
-  {  
-    width: 400px;
-    margin-left: 15px;
-    height: 425px;
-    float: left;
-  }
+<style type="text/css">
+.td_s {border:1px solid Black;cursor:pointer;font-size:4pt;height:22px;margin:0;padding:0;width:17px;}
+.header1 { background:#E5ECF9 none repeat scroll 0 0; font-size:1.2em; margin:0 0 0px; padding:4px 6px; font-size-adjust:none; font-style:normal; font-variant:normal; font-weight:normal; line-height:normal; }
+.header2 {font-size:1.0em; margin:0 0 0px; padding:4px 6px; font-size-adjust:none; font-style:normal; font-variant:normal; font-weight:normal; line-height:normal;}
+.panelItem { float:left; border: 1px dotted black; padding: 10px 0px 10px 10px; width: 275px; background-color: #e9e6f9;}
+.panelProperties {float:right; padding: 5px 0px 10px 0px; }
+.panelPropertiesContainer {width:350px;}
+.alt {background-color: #e6f6f9;}
+.selected {border: 1px solid black;}
+.propertyText {width : 120px;border:none; }
+.smallSelect {width:80px;}
+.bigInput {width:200px;}
+.smallInput {width:120px;}
 
-  #propertyBox, #navBox
-  { 
-    margin-left: 15px;
-    height: 425px;
-    float: left;
-    width: 250px;
-  }
-  
-  .smallSelect {width:75px;}
-  
-  .bigInput {width:200px;}
-  .smallInput {width:120px;}
-  
-  #propertyBox select, #dialogContents select, #dialogContents input
-  { 
-    border:1px solid #78ACFF;
-    vertical-align:middle;
-  }  
-    
-  #navBox
-  { 
-    width: 200px;
-  }
-  
-  #propertyBoxContainer, #workBoxContainer, #navcontainer
-  {
-    overflow : scroll;
-    overflow-x:hidden;
-    height: 335px;
-  }
-  
-  #propertyBox p, #workBox p, #navBox p
-  {   
-    font-size: 0.8em;
-  }
+#modalDialogDiv td#dialogClose {padding-right: 2px; background-color:#DBE6DE;border-bottom:1px solid #aaaaaa;width:15px;}
+#modalDialogDiv td#dialogTitle {padding: 2px; font-size:13px; background-color:#DBE6DE;border-bottom:1px solid #aaaaaa;font-weight:bold;}
+#disableDiv {background-color:gray;left:0;opacity:0.5;position:absolute;top:0;z-index:5;height: 100%; display: none; width: 100%;}
+#modalDialogDiv table {border:medium none;width:100%;}
+#modalDialogDiv { background-color:#ffffff;border:1px solid #676767;display:none;position:absolute;z-index:100; height:400px; width:700px}
+#dialogClose img { width:15 height:15; cursor: pointer; }
+#tabFont, #tabBackground, #tabText { font-size: 0.9 em; }
+#tabFont td, #tabBackground td, #tabText td {vertical-align:top;}
+#fontBoldDiv td, #fontSizesDiv, #vPozDiv td, #hPozDiv td, #lettersSpacingDiv td, #linesSpacingDiv td {font-size: 0.8em; cursor:pointer;}
 
-  #navcontainer
-  {
-    float: left; 
-    width:200px;
-  }
+#debug_div{ clear:both;width:100%; }
+#workBox { width: 400px;margin-left: 15px;height: 425px;float: left;}
+#propertyBox, #navBox { margin-left: 15px;height: 425px;float: left;width: 250px;}
+#propertyBox select, #dialogContents select, #dialogContents input { border:1px solid #78ACFF;vertical-align:middle;}
+#navBox { width: 200px;}
+#propertyBoxContainer, #workBoxContainer, #navcontainer { overflow : scroll; overflow-x:hidden;height: 335px;}
+#propertyBox p, #workBox p, #navBox p { font-size: 0.8em;}
+#navcontainer {float: left; width:200px;}
+#navcontainer ul{margin: 0;padding: 0;list-style-type: none;font-family: verdana, arial, sans-serif; }
+#navcontainer li img {vertical-align:middle;margin: 0; }
+#navcontainer a {display: block;color: #333;background-color: transparent;width: 180px;padding: 2px 10px;text-decoration: none;font-size: 12px; }
+#navcontainer img {border: none; }
+#navcontainer a:hover {background-color: #ddd;color: #333;border-right: 10px solid #aaa;padding: 2px 1px 2px 10px; }
+#navcontainer ul ul {margin-left: 30px;padding: 0;list-style-type: none; }
+#navcontainer li li a {display: block;color: #333;background-color: transparent;width: 110px;padding: 2px 10px;margin: 0;border-top: none;border-bottom: none;border-left: 1px solid #aaa;text-decoration: none;font-size: 12px; }
 
-  #navcontainer ul
-  {
-	margin: 0;
-	padding: 0;
-	list-style-type: none;
-	font-family: verdana, arial, sans-serif;
-  }
-
-  #navcontainer li img
-  {
-        vertical-align:middle;
-	margin: 0;
-  }
-
-  #navcontainer a
-  {
-	display: block;
-	color: #333;
-	background-color: transparent;
-	width: 180px;
-	padding: 2px 10px;
-	text-decoration: none;
-	font-size: 12px;
-  }
-
-  #navcontainer img
-  {
-	border: none;
-  }
-
-  #navcontainer a:hover
-  {
-	background-color: #ddd;
-	color: #333;
-	border-right: 10px solid #aaa;
-	padding: 2px 1px 2px 10px;
-  }
-
-  #navcontainer ul ul
-  {
-	margin-left: 30px;
-	padding: 0;
-	list-style-type: none;
-  }
-
-  #navcontainer li li a
-  {
-	display: block;
-	color: #333;
-	background-color: transparent;
-	width: 110px;
-	padding: 2px 10px;
-	margin: 0;
-	border-top: none;
-	border-bottom: none;
-	border-left: 1px solid #aaa;
-	text-decoration: none;
-	font-size: 12px;
-  }
-  
-  body
-  {
-        scrollbar-face-color: #f0f0f0;
-        scrollbar-highlight-color: #cccccc;
-        scrollbar-shadow-color: #cccccc;
-        scrollbar-3dlight-color: #f0f0f0;
-        scrollbar-arrow-color: #330066;
-        scrollbar-darkshadow-color: #cccccc;
-        scrollbar-base-color: #cccccc;
-  }
-  
-  table.column
-  {
-	text-align: center;
-	font-family: Verdana;
-	font-weight: normal;
-	font-size: 11px;
-	color: #404040;
-	background-color: #fafafa;
-	border: 1px #6699CC solid;
-	border-collapse: collapse;
-	border-spacing: 0px;
-  }
-</style>  
+body {scrollbar-face-color: #f0f0f0;scrollbar-highlight-color: #cccccc;scrollbar-shadow-color: #cccccc;scrollbar-3dlight-color: #f0f0f0;scrollbar-arrow-color: #330066;scrollbar-darkshadow-color: #cccccc;scrollbar-base-color: #cccccc;}
+table.column {text-align: center;font-family: Verdana;font-weight: normal;font-size: 11px;color: #404040;background-color: #fafafa;border: 1px #6699CC solid;border-collapse: collapse;border-spacing: 0px;}
+</style>
 
 <div id="toolbox_container">
-  <h1 class="header1"> Toolbox Gadget v0.7 <em> alpha </em> </h1>
+<h1 class="header1"> Toolbox Gadget v0.9 <em> alpha </em> </h1>
 
-  <div id="navBox">
-     <p id="p_toolbox_label">
-        <b> Toolbox </b>
-    </p>
-  
-    <div id="navcontainer" class="header1">
-    </div>
-  </div>
+<div id="navBox">
+<p id="p_toolbox_label">
+<b> Toolbox </b>
+</p>
 
-  <div id="workBox" >
-   <p id="p_control_count">
-        <b> Control grid: </b> <em>(0)</em>
-   </p>
-  
-   <div class="header1" id="workBoxContainer">
-      <p> <em>Drag controls here </em> </p>
-   </div>
-  </div>
-		
-  <div id="propertyBox">
-    <p id="p_current_control">
-        <b>Current </b> <em>none</em>
-    </p>
-  
-    <div class="header1" id="propertyBoxContainer">
-      <span id="properties_grid_span"></span>
-    </div>  
-  </div>
-  
-  <div id="disableDiv"></div>
-  
-  <div id="modalDialogDiv">
-      <table summary="This table is a caption of the modal dialog." cellspacing="0" cellpadding="0" border="0">
-	    <tbody>
-	    	<tr>
-	  	  <td id="dialoitle">Cascading style sheed editor</td>
-	 	  <td id="dialogClose">
-	  	    <img alt="Close modal dialog" onclick="closeDialog();" src="http://img0.gmodules.com/ig/modules/close_box.gif"/>
-	  	  </td>
-	  	</tr>
-	  </tbody>
-      </table> 
-      
-      <div id="dialogContents">
+<div id="navcontainer" class="header1">
+</div>
+</div>
 
-          <div id="tabFont">
-            <h1 class="header1">Edit CSS for Font </h1>
-                  <table summary="This table is for font selection." id="FontTable" style="float:left; display: inherit; width: 370px;" class="thinDarkblueBorders">
-			<tbody>
-				<tr>
-					<td class="colTitle" style="width: 147px;">Font Family:</td>
-					<td <input class="bigInput" type="text" size="35" id="usedFonts" name="usedFonts" onfocus="showFontSelector();"/></td>
-				</tr>
-				<tr>
-					<td class="colTitle"> Text color:</td>
-					<td><input class="bigInput" type="text"  size="35" name="CBox" onfocus="showColorSelector();" id="CBox"/></td>
-				</tr>
-				<tr>
-					<td>Size:</td>
-					<td><input type="text" class="smallInput"  size="20" id="FontSizeTextBox" name="FontSizeTextBox" onfocus="showFontSizeSelector();"/>
-                                        <select  id="dropDownListFontSize" size="1" class="smallSelect">
-						<option value=""/>
-						<option value="px">px</option>
-						<option value="%">%</option>
-						<option value="pt">pt</option>
-						<option value="pc">pc</option>
-						<option value="mm">mm</option>
-						<option value="cm">cm</option>
-						<option value="in">in</option>
-						<option value="em">em</option>
-						<option value="ex">ex</option>
-					</select></td>
-				</tr>
-				<tr>
-					<td>Bold:</td>
-					<td><input type="text"  size="20" id="BoldTextBox" name="BoldTextBox" onfocus="showFontBoldSelector();"/></td>
-				</tr>
-				<tr>
-					<td>Italic:</td>
-					<td>Yes<input name="radioFontTypeItalic" type="radio" id="radioButtonItalic" value="V1"/>&nbsp;
-					No<input name="radioFontTypeItalic" type="radio" id="radioButtonItalicNormal" value="V1"/>
-					Inherit<input type="radio" name="radioFontTypeItalic"  id="radioButtonItalicClear" checked="checked" value="V1"/></td>
-				</tr>
-				<tr>
-					<td>Small caps:</td>
-					<td>Yes<input type="radio" name="radioFontTypeSmall" id="radioButtonSmallCaps" value="V1"/>&nbsp;
-					No<input type="radio" name="radioFontTypeSmall"  id="radioButtonSmallCapsNormal" value="V1"/>
-					Inherit<input type="radio" name="radioFontTypeSmall" id="radioButtonSmallCapsClear" checked="checked" value="V1"/></td>
-				</tr>
-				<tr>
-					<td class="colTitle">Capitalization:</td>
-					<td><select  id="dropDownListCapitalization" size="1"  class="bigInput">
-						<option value=""/>
-						<option value="none">None</option>
-						<option value="capitalize">Initial Cap</option>
-						<option value="lowercase">lowercase</option>
-						<option value="uppercase">UPPERCASE</option>
-					</select></td>
-				</tr>
-				<tr>
-					<td class="colTitle" colspan="2">Effects<br/>
-					<input type="checkbox" onclick="uncheckCheckboxesIfNone()" value="ON" id="CheckBoxNone" />None<br/>
-					<input type="checkbox" value="ON" id="CheckBoxUnderline" />Underline<br/>
-					<input type="checkbox" value="ON" id="CheckBoxStrikethrough" />Strikethrough<br/>
-					<input type="checkbox" value="ON" id="CheckBoxOverline" />Overline</td>
-				</tr>
-			</tbody>
-		</table>
+<div id="workBox" >
+<p id="p_control_count">
+<b> Control grid: </b> <em>(0)</em>
+</p>
 
-                <div id="fontsDiv" style="display:none;float:left; width:320px;">
-                    <table summary="This table is for font selection.">
-			<tbody><tr>
-				<td style="width: 50%;">Special Fonts:<br/>
-				<select onchange="showFontSampleSpe()" ondblclick="chooseSpeFonts()" id="specialFontsMultipleBox" size="10">
-					<option value="Arial, ">Arial</option>
-					<option value="Arial Black, ">Arial Black</option>
-					<option value="Comic Sans MS, ">Comic Sans MS</option>
-					<option value="Courier New, ">Courier New</option>
-					<option value="Estrangelo Edessa, ">Estrangelo Edessa</option>
-					<option value="Franklin Gothic Medium, ">Franklin Gothic Medium</option>
-					<option value="Gautami, ">Gautami</option>
-					<option value="Georgia, ">Georgia</option>
-					<option value="Georgia Italic Impact, ">Georgia Italic Impact</option>
-					<option value="Latha, ">Latha</option>
-					<option value="Lucida Console, ">Lucida Console</option>
-					<option value="Lucida Sans Unicode, ">Lucida Sans Unicode</option>
-					<option value="Microsoft Sans Serif, ">Microsoft Sans Serif</option>
-					<option value="Modern MS Sans Serif, ">Modern MS Sans Serif</option>
-					<option value="MS Serif, ">MS Serif</option>
-					<option value="Mv Boli, ">Mv Boli</option>
-					<option value="Palatino Linotype, ">Palatino Linotype</option>
-					<option value="Roman, ">Roman</option>
-					<option value="Script, ">Script</option>
-					<option value="Small Fonts, ">Small Fonts</option>
-					<option value="Symbol, ">Symbol</option>
-					<option value="Tahoma, ">Tahoma</option>
-					<option value="Times New Roman, ">Times New Roman</option>
-					<option value="Trebuchet MS, ">Trebuchet MS</option>
-					<option value="Tunga, ">Tunga</option>
-					<option value="Verdana, ">Verdana</option>
-					<option value="Webdings, ">Webdings</option>
-					<option value="WingDings, ">WingDings</option>
-				</select>
-				<div style="height: 24px;" id="specialSampleTextBox">AaBbCc</div>
-				</td>
-				<td style="width: 50%;">Generic<br/>
-				<select onchange="showFontSampleGen()" ondblclick="chooseGenFonts()" id="genericFontsMultipleBox" size="5">
-					<option va  lue="Serif, ">Serif</option>
-					<option value="Sans-Serif, ">Sans-Serif</option>
-					<option value="Cursive, ">Cursive</option>
-					<option value="Fantasy, ">Fantasy</option>
-					<option value="Monospace, ">Monospace</option>
-				</select>
-				<div style="height: 24px;" id="genericSampleTextBox">AaBbCc</div>
-			</td></tr>
-		</tbody></table>
-                </div>
+<div class="header1" id="workBoxContainer">
+<p> <em>Drag controls here </em> </p>
+</div>
+</div>
 
-                <div id="fontBoldDiv" style="display:none;float:left; width:320px;">
-                    <table summary="This table is for font weight." id="BoldTable" class="Hand thinDarkblueBorders" style="width: 100%;">
-			<tbody>
-                        <tr> <th class="header2">Click to select</th> </tr>
-                        <tr>
-				<td onclick="selectBoldOnClickTD('normal')">normal</td>
-			</tr>
-			<tr>
-				<td onclick="selectBoldOnClickTD('bold')">bold</td>
-			</tr>
-			<tr>
-				<td onclick="selectBoldOnClickTD('bolder')">bolder</td>
-			</tr>
-			<tr>
-				<td onclick="selectBoldOnClickTD('lighter')">lighter</td>
-			</tr>
-			<tr>
-				<td onclick="selectBoldOnClickTD('100')">100</td>
-			</tr>
-			<tr>
-				<td onclick="selectBoldOnClickTD('200')">200</td>
-			</tr>
-			<tr>
-				<td onclick="selectBoldOnClickTD('300')">300</td>
-			</tr>
-			<tr>
-				<td onclick="selectBoldOnClickTD('400')">400-normal</td>
-			</tr>
-			<tr>
-				<td onclick="selectBoldOnClickTD('500')">500</td>
-			</tr>
-			<tr>
-				<td onclick="selectBoldOnClickTD('600')">600</td>
-			</tr>
-			<tr>
-				<td onclick="selectBoldOnClickTD('700')">700-bold</td>
-			</tr>
-			<tr>
-				<td onclick="selectBoldOnClickTD('800')">800</td>
-			</tr>
-			<tr>
-				<td onclick="selectBoldOnClickTD('900')">900</td>
-			</tr>
-		</tbody></table>
-                </div>
-                <div id="fontSizesDiv" style="display:none;float:left; width:320px;">
-                  
-                  <table summary="This table is font weight" id="FontSizeTable" style="width: 100%;">
-			<tbody>
-                          <tr> <th class="header2">Click to select</th> </tr>
-                        <tr>
-				<td onclick="selectFontSizeOnClickTD('smaller')">Smaller</td>
-			</tr>
-			<tr>
-				<td onclick="selectFontSizeOnClickTD('larger')">Larger</td>
-			</tr>
-			<tr>
-				<td onclick="selectFontSizeOnClickTD('xx-small')">XX-Small</td>
-			</tr>
-			<tr>
-				<td onclick="selectFontSizeOnClickTD('x-small')">X-Small</td>
-			</tr>
-			<tr>
-				<td onclick="selectFontSizeOnClickTD('small')">Small</td>
-			</tr>
-			<tr>
-				<td onclick="selectFontSizeOnClickTD('medium')">Medium</td>
-			</tr>
-			<tr>
-				<td onclick="selectFontSizeOnClickTD('large')">Large</td>
-			</tr>
-			<tr>
-				<td onclick="selectFontSizeOnClickTD('x-large')">X-Large</td>
-			</tr>
-			<tr>
-				<td onclick="selectFontSizeOnClickTD('xx-large')">XX-Large</td>
-			</tr>
-		</tbody></table>
-                </div>
-                   </div>                 
-                <div id="colorsDiv" style="display:none;float:left; width:320px;">
-                    <div style="" id="namedColorsDiv">
+<div id="propertyBox">
+<p id="p_current_control">
+<b>Current </b> <em>none</em>
+</p>
 
-			<div style="width: 100%; clear: both;">Basic:</div>
+<div class="header1" id="propertyBoxContainer">
+<span id="properties_grid_span"></span>
+</div>
+</div>
 
-		    <table summary="This table is color selection." id="namedColorsTable1">
-			<tbody><tr>
-				<td onmouseout="selectColorMouseOutTDNamed('td_green')" onmouseover="selectColorMouseOverTDNamed('td_green')" onclick="selectColorFromTDNamed('td_green', 'CBox')" class="td_selectColor" id="td_green" style="background-color: green;">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_lime')" onmouseover="selectColorMouseOverTDNamed('td_lime')" onclick="selectColorFromTDNamed('td_lime', 'CBox')" class="td_selectColor" id="td_lime" style="background-color: lime;">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_teal')" onmouseover="selectColorMouseOverTDNamed('td_teal')" onclick="selectColorFromTDNamed('td_teal', 'CBox')" class="td_selectColor" id="td_teal" style="background-color: teal;">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_aqua')" onmouseover="selectColorMouseOverTDNamed('td_aqua')" onclick="selectColorFromTDNamed('td_aqua', 'CBox')" class="td_selectColor" id="td_aqua" style="background-color: aqua;">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_navy')" onmouseover="selectColorMouseOverTDNamed('td_navy')" onclick="selectColorFromTDNamed('td_navy', 'CBox')" class="td_selectColor" id="td_navy" style="background-color: navy;">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_blue')" onmouseover="selectColorMouseOverTDNamed('td_blue')" onclick="selectColorFromTDNamed('td_blue', 'CBox')" class="td_selectColor" id="td_blue" style="background-color: blue;">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_purple')" onmouseover="selectColorMouseOverTDNamed('td_purple')" onclick="selectColorFromTDNamed('td_purple', 'CBox')" class="td_selectColor" id="td_purple" style="background-color: purple;">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_fuchsia')" onmouseover="selectColorMouseOverTDNamed('td_fuchsia')" onclick="selectColorFromTDNamed('td_fuchsia', 'CBox')" class="td_selectColor" id="td_fuchsia" style="background-color: fuchsia;">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_maroon')" onmouseover="selectColorMouseOverTDNamed('td_maroon')" onclick="selectColorFromTDNamed('td_maroon', 'CBox')" class="td_selectColor" id="td_maroon" style="background-color: maroon;">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_red')" onmouseover="selectColorMouseOverTDNamed('td_red')" onclick="selectColorFromTDNamed('td_red', 'CBox')" class="td_selectColor" id="td_red" style="background-color: red;">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_olive')" onmouseover="selectColorMouseOverTDNamed('td_olive')" onclick="selectColorFromTDNamed('td_olive', 'CBox')" class="td_selectColor" id="td_olive" style="background-color: olive;">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_yellow')" onmouseover="selectColorMouseOverTDNamed('td_yellow')" onclick="selectColorFromTDNamed('td_yellow', 'CBox')" class="td_selectColor" id="td_yellow" style="background-color: yellow;">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_white')" onmouseover="selectColorMouseOverTDNamed('td_white')" onclick="selectColorFromTDNamed('td_white', 'CBox')" class="td_selectColor" id="td_white" style="background-color: white;">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_silver')" onmouseover="selectColorMouseOverTDNamed('td_silver')" onclick="selectColorFromTDNamed('td_silver', 'CBox')" class="td_selectColor" id="td_silver" style="background-color: silver;">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_gray')" onmouseover="selectColorMouseOverTDNamed('td_gray')" onclick="selectColorFromTDNamed('td_gray', 'CBox')" class="td_selectColor" id="td_gray" style="background-color: gray;">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_black')" onmouseover="selectColorMouseOverTDNamed('td_black')" onclick="selectColorFromTDNamed('td_black', 'CBox')" class="td_selectColor" id="td_black" style="background-color: black;">&nbsp;</td>
-			</tr>
-			</tbody></table>
-			<div style="width: 100%; clear: both; margin-top: 8px;">Additional:</div>
-		<table summary="This table is named colros."  id="namedColorsTable" class="thinDarkblueBorders">
-			<tbody><tr>
-				<td onmouseout="selectColorMouseOutTDNamed('td_darkolivegreen')" onmouseover="selectColorMouseOverTDNamed('td_darkolivegreen')" onclick="selectColorFromTDNamed('td_darkolivegreen', 'CBox')" class="td_selectColor" id="td_darkolivegreen" style="background-color: rgb(85, 107, 47);">
-				&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_darkgreen')" onmouseover="selectColorMouseOverTDNamed('td_darkgreen')" onclick="selectColorFromTDNamed('td_darkgreen', 'CBox')" class="td_selectColor" id="td_darkgreen" style="background-color: rgb(0, 100, 0);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_darkslategray')" onmouseover="selectColorMouseOverTDNamed('td_darkslategray')" onclick="selectColorFromTDNamed('td_darkslategray', 'CBox')" class="td_selectColor" id="td_darkslategray" style="background-color: rgb(47, 79, 79);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_slategray')" onmouseover="selectColorMouseOverTDNamed('td_slategray')" onclick="selectColorFromTDNamed('td_slategray', 'CBox')" class="td_selectColor" id="td_slategray" style="background-color: rgb(112, 128, 144);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_darkblue')" onmouseover="selectColorMouseOverTDNamed('td_darkblue')" onclick="selectColorFromTDNamed('td_darkblue', 'CBox')" class="td_selectColor" id="td_darkblue" style="background-color: rgb(0, 0, 139);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_midnightblue')" onmouseover="selectColorMouseOverTDNamed('td_midnightblue')" onclick="selectColorFromTDNamed('td_midnightblue', 'CBox')" class="td_selectColor" id="td_midnightblue" style="background-color: rgb(25, 25, 112);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_indigo')" onmouseover="selectColorMouseOverTDNamed('td_indigo')" onclick="selectColorFromTDNamed('td_indigo', 'CBox')" class="td_selectColor" id="td_indigo" style="background-color: rgb(75, 0, 130);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_darkmagenta')" onmouseover="selectColorMouseOverTDNamed('td_darkmagenta')" onclick="selectColorFromTDNamed('td_darkmagenta', 'CBox')" class="td_selectColor" id="td_darkmagenta" style="background-color: rgb(139, 0, 139);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_brown')" onmouseover="selectColorMouseOverTDNamed('td_brown')" onclick="selectColorFromTDNamed('td_brown', 'CBox')" class="td_selectColor" id="td_brown" style="background-color: rgb(165, 42, 42);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_darkred')" onmouseover="selectColorMouseOverTDNamed('td_darkred')" onclick="selectColorFromTDNamed('td_darkred', 'CBox')" class="td_selectColor" id="td_darkred" style="background-color: rgb(139, 0, 0);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_sienna')" onmouseover="selectColorMouseOverTDNamed('td_sienna')" onclick="selectColorFromTDNamed('td_sienna', 'CBox')" class="td_selectColor" id="td_sienna" style="background-color: rgb(160, 82, 45);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_saddlebrown')" onmouseover="selectColorMouseOverTDNamed('td_saddlebrown')" onclick="selectColorFromTDNamed('td_saddlebrown', 'CBox')" class="td_selectColor" id="td_saddlebrown" style="background-color: rgb(139, 69, 19);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_darkgoldenrod')" onmouseover="selectColorMouseOverTDNamed('td_darkgoldenrod')" onclick="selectColorFromTDNamed('td_darkgoldenrod', 'CBox')" class="td_selectColor" id="td_darkgoldenrod" style="background-color: rgb(184, 134, 11);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_beige')" onmouseover="selectColorMouseOverTDNamed('td_beige')" onclick="selectColorFromTDNamed('td_beige', 'CBox')" class="td_selectColor" id="td_beige" style="background-color: rgb(245, 245, 220);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_honeydew')" onmouseover="selectColorMouseOverTDNamed('td_honeydew')" onclick="selectColorFromTDNamed('td_honeydew', 'CBox')" class="td_selectColor" id="td_honeydew" style="background-color: rgb(240, 255, 240);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_dimgray')" onmouseover="selectColorMouseOverTDNamed('td_dimgray')" onclick="selectColorFromTDNamed('td_dimgray', 'CBox')" class="td_selectColor" id="td_dimgray" style="background-color: rgb(105, 105, 105);">&nbsp;</td>
-			</tr>
-			<tr>
-				<td onmouseout="selectColorMouseOutTDNamed('td_olivedrab')" onmouseover="selectColorMouseOverTDNamed('td_olivedrab')" onclick="selectColorFromTDNamed('td_olivedrab', 'CBox')" class="td_selectColor" id="td_olivedrab" style="background-color: rgb(107, 142, 35);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_forestgreen')" onmouseover="selectColorMouseOverTDNamed('td_forestgreen')" onclick="selectColorFromTDNamed('td_forestgreen', 'CBox')" class="td_selectColor" id="td_forestgreen" style="background-color: rgb(34, 139, 34);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_darkcyan')" onmouseover="selectColorMouseOverTDNamed('td_darkcyan')" onclick="selectColorFromTDNamed('td_darkcyan', 'CBox')" class="td_selectColor" id="td_darkcyan" style="background-color: rgb(0, 139, 139);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_lightslategray')" onmouseover="selectColorMouseOverTDNamed('td_lightslategray')" onclick="selectColorFromTDNamed('td_lightslategray', 'CBox')" class="td_selectColor" id="td_lightslategray" style="background-color: rgb(119, 136, 153);">
-				&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_mediumblue')" onmouseover="selectColorMouseOverTDNamed('td_mediumblue')" onclick="selectColorFromTDNamed('td_mediumblue', 'CBox')" class="td_selectColor" id="td_mediumblue" style="background-color: rgb(0, 0, 205);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_darkslateblue')" onmouseover="selectColorMouseOverTDNamed('td_darkslateblue')" onclick="selectColorFromTDNamed('td_darkslateblue', 'CBox')" class="td_selectColor" id="td_darkslateblue" style="background-color: rgb(72, 61, 139);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_darkviolet')" onmouseover="selectColorMouseOverTDNamed('td_darkviolet')" onclick="selectColorFromTDNamed('td_darkviolet', 'CBox')" class="td_selectColor" id="td_darkviolet" style="background-color: rgb(148, 0, 211);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_mediumvioletred')" onmouseover="selectColorMouseOverTDNamed('td_mediumvioletred')" onclick="selectColorFromTDNamed('td_mediumvioletred', 'CBox')" class="td_selectColor" id="td_mediumvioletred" style="background-color: rgb(199, 21, 133);">
-				&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_indianred')" onmouseover="selectColorMouseOverTDNamed('td_indianred')" onclick="selectColorFromTDNamed('td_indianred', 'CBox')" class="td_selectColor" id="td_indianred" style="background-color: rgb(205, 92, 92);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_firebrick')" onmouseover="selectColorMouseOverTDNamed('td_firebrick')" onclick="selectColorFromTDNamed('td_firebrick', 'CBox')" class="td_selectColor" id="td_firebrick" style="background-color: rgb(178, 34, 34);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_chocolate')" onmouseover="selectColorMouseOverTDNamed('td_chocolate')" onclick="selectColorFromTDNamed('td_chocolate', 'CBox')" class="td_selectColor" id="td_chocolate" style="background-color: rgb(210, 105, 30);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_peru')" onmouseover="selectColorMouseOverTDNamed('td_peru')" onclick="selectColorFromTDNamed('td_peru', 'CBox')" class="td_selectColor" id="td_peru" style="background-color: rgb(205, 133, 63);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_goldenrod')" onmouseover="selectColorMouseOverTDNamed('td_goldenrod')" onclick="selectColorFromTDNamed('td_goldenrod', 'CBox')" class="td_selectColor" id="td_goldenrod" style="background-color: rgb(218, 165, 32);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_lightgoldenrodyellow')" onmouseover="selectColorMouseOverTDNamed('td_lightgoldenrodyellow')" onclick="selectColorFromTDNamed('td_lightgoldenrodyellow', 'CBox')" class="td_selectColor" id="td_lightgoldenrodyellow" style="background-color: rgb(250, 250, 210);">
-				&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_mintcream')" onmouseover="selectColorMouseOverTDNamed('td_mintcream')" onclick="selectColorFromTDNamed('td_mintcream', 'CBox')" class="td_selectColor" id="td_mintcream" style="background-color: rgb(245, 255, 250);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_darkgray')" onmouseover="selectColorMouseOverTDNamed('td_darkgray')" onclick="selectColorFromTDNamed('td_darkgray', 'CBox')" class="td_selectColor" id="td_darkgray" style="background-color: rgb(169, 169, 169);">&nbsp;</td>
-			</tr>
-			<tr>
-				<td onmouseout="selectColorMouseOutTDNamed('td_yellowgreen')" onmouseover="selectColorMouseOverTDNamed('td_yellowgreen')" onclick="selectColorFromTDNamed('td_yellowgreen', 'CBox')" class="td_selectColor" id="td_yellowgreen" style="background-color: rgb(154, 205, 50);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_seagreen')" onmouseover="selectColorMouseOverTDNamed('td_seagreen')" onclick="selectColorFromTDNamed('td_seagreen', 'CBox')" class="td_selectColor" id="td_seagreen" style="background-color: rgb(46, 139, 87);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_cadetblue')" onmouseover="selectColorMouseOverTDNamed('td_cadetblue')" onclick="selectColorFromTDNamed('td_cadetblue', 'CBox')" class="td_selectColor" id="td_cadetblue" style="background-color: rgb(95, 158, 160);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_steelblue')" onmouseover="selectColorMouseOverTDNamed('td_steelblue')" onclick="selectColorFromTDNamed('td_steelblue', 'CBox')" class="td_selectColor" id="td_steelblue" style="background-color: rgb(70, 130, 180);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_royalblue')" onmouseover="selectColorMouseOverTDNamed('td_royalblue')" onclick="selectColorFromTDNamed('td_royalblue', 'CBox')" class="td_selectColor" id="td_royalblue" style="background-color: rgb(65, 105, 225);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_blueviolet')" onmouseover="selectColorMouseOverTDNamed('td_blueviolet')" onclick="selectColorFromTDNamed('td_blueviolet', 'CBox')" class="td_selectColor" id="td_blueviolet" style="background-color: rgb(138, 43, 226);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_darkorchid')" onmouseover="selectColorMouseOverTDNamed('td_darkorchid')" onclick="selectColorFromTDNamed('td_darkorchid', 'CBox')" class="td_selectColor" id="td_darkorchid" style="background-color: rgb(153, 50, 204);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_deeppink')" onmouseover="selectColorMouseOverTDNamed('td_deeppink')" onclick="selectColorFromTDNamed('td_deeppink', 'CBox')" class="td_selectColor" id="td_deeppink" style="background-color: rgb(255, 20, 147);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_rosybrown')" onmouseover="selectColorMouseOverTDNamed('td_rosybrown')" onclick="selectColorFromTDNamed('td_rosybrown', 'CBox')" class="td_selectColor" id="td_rosybrown" style="background-color: rgb(188, 143, 143);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_crimson')" onmouseover="selectColorMouseOverTDNamed('td_crimson')" onclick="selectColorFromTDNamed('td_crimson', 'CBox')" class="td_selectColor" id="td_crimson" style="background-color: rgb(220, 20, 60);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_darkorange')" onmouseover="selectColorMouseOverTDNamed('td_darkorange')" onclick="selectColorFromTDNamed('td_darkorange', 'CBox')" class="td_selectColor" id="td_darkorange" style="background-color: rgb(255, 140, 0);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_burlywood')" onmouseover="selectColorMouseOverTDNamed('td_burlywood')" onclick="selectColorFromTDNamed('td_burlywood', 'CBox')" class="td_selectColor" id="td_burlywood" style="background-color: rgb(222, 184, 135);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_darkkhaki')" onmouseover="selectColorMouseOverTDNamed('td_darkkhaki')" onclick="selectColorFromTDNamed('td_darkkhaki', 'CBox')" class="td_selectColor" id="td_darkkhaki" style="background-color: rgb(189, 183, 107);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_lightyellow')" onmouseover="selectColorMouseOverTDNamed('td_lightyellow')" onclick="selectColorFromTDNamed('td_lightyellow', 'CBox')" class="td_selectColor" id="td_lightyellow" style="background-color: rgb(255, 255, 224);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_azure')" onmouseover="selectColorMouseOverTDNamed('td_azure')" onclick="selectColorFromTDNamed('td_azure', 'CBox')" class="td_selectColor" id="td_azure" style="background-color: rgb(240, 255, 255);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_lightgrey')" onmouseover="selectColorMouseOverTDNamed('td_lightgrey')" onclick="selectColorFromTDNamed('td_lightgrey', 'CBox')" class="td_selectColor" id="td_lightgrey" style="background-color: rgb(211, 211, 211);">&nbsp;</td>
-			</tr>
-			<tr>
-				<td onmouseout="selectColorMouseOutTDNamed('td_lawngreen')" onmouseover="selectColorMouseOverTDNamed('td_lawngreen')" onclick="selectColorFromTDNamed('td_lawngreen', 'CBox')" class="td_selectColor" id="td_lawngreen" style="background-color: rgb(124, 252, 0);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_mediumseagreen')" onmouseover="selectColorMouseOverTDNamed('td_mediumseagreen')" onclick="selectColorFromTDNamed('td_mediumseagreen', 'CBox')" class="td_selectColor" id="td_mediumseagreen" style="background-color: rgb(60, 179, 113);">
-				&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_lightseagreen')" onmouseover="selectColorMouseOverTDNamed('td_lightseagreen')" onclick="selectColorFromTDNamed('td_lightseagreen', 'CBox')" class="td_selectColor" id="td_lightseagreen" style="background-color: rgb(32, 178, 170);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_deepskyblue')" onmouseover="selectColorMouseOverTDNamed('td_deepskyblue')" onclick="selectColorFromTDNamed('td_deepskyblue', 'CBox')" class="td_selectColor" id="td_deepskyblue" style="background-color: rgb(0, 191, 255);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_dodgerblue')" onmouseover="selectColorMouseOverTDNamed('td_dodgerblue')" onclick="selectColorFromTDNamed('td_dodgerblue', 'CBox')" class="td_selectColor" id="td_dodgerblue" style="background-color: rgb(30, 144, 255);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_slateblue')" onmouseover="selectColorMouseOverTDNamed('td_slateblue')" onclick="selectColorFromTDNamed('td_slateblue', 'CBox')" class="td_selectColor" id="td_slateblue" style="background-color: rgb(106, 90, 205);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_mediumorchid')" onmouseover="selectColorMouseOverTDNamed('td_mediumorchid')" onclick="selectColorFromTDNamed('td_mediumorchid', 'CBox')" class="td_selectColor" id="td_mediumorchid" style="background-color: rgb(186, 85, 211);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_palevioletred')" onmouseover="selectColorMouseOverTDNamed('td_palevioletred')" onclick="selectColorFromTDNamed('td_palevioletred', 'CBox')" class="td_selectColor" id="td_palevioletred" style="background-color: rgb(216, 112, 147);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_salmon')" onmouseover="selectColorMouseOverTDNamed('td_salmon')" onclick="selectColorFromTDNamed('td_salmon', 'CBox')" class="td_selectColor" id="td_salmon" style="background-color: rgb(250, 128, 114);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_orangered')" onmouseover="selectColorMouseOverTDNamed('td_orangered')" onclick="selectColorFromTDNamed('td_orangered', 'CBox')" class="td_selectColor" id="td_orangered" style="background-color: rgb(255, 69, 0);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_sandybrown')" onmouseover="selectColorMouseOverTDNamed('td_sandybrown')" onclick="selectColorFromTDNamed('td_sandybrown', 'CBox')" class="td_selectColor" id="td_sandybrown" style="background-color: rgb(244, 164, 96);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_tan')" onmouseover="selectColorMouseOverTDNamed('td_tan')" onclick="selectColorFromTDNamed('td_tan', 'CBox')" class="td_selectColor" id="td_tan" style="background-color: rgb(210, 180, 140);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_gold')" onmouseover="selectColorMouseOverTDNamed('td_gold')" onclick="selectColorFromTDNamed('td_gold', 'CBox')" class="td_selectColor" id="td_gold" style="background-color: rgb(255, 215, 0);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_ivory')" onmouseover="selectColorMouseOverTDNamed('td_ivory')" onclick="selectColorFromTDNamed('td_ivory', 'CBox')" class="td_selectColor" id="td_ivory" style="background-color: rgb(255, 255, 240);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_ghostwhite')" onmouseover="selectColorMouseOverTDNamed('td_ghostwhite')" onclick="selectColorFromTDNamed('td_ghostwhite', 'CBox')" class="td_selectColor" id="td_ghostwhite" style="background-color: rgb(248, 248, 255);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_gainsboro')" onmouseover="selectColorMouseOverTDNamed('td_gainsboro')" onclick="selectColorFromTDNamed('td_gainsboro', 'CBox')" class="td_selectColor" id="td_gainsboro" style="background-color: rgb(220, 220, 220);">&nbsp;</td>
-			</tr>
-			<tr>
-				<td onmouseout="selectColorMouseOutTDNamed('td_chartreuse')" onmouseover="selectColorMouseOverTDNamed('td_chartreuse')" onclick="selectColorFromTDNamed('td_chartreuse', 'CBox')" class="td_selectColor" id="td_chartreuse" style="background-color: rgb(127, 255, 0);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_limegreen')" onmouseover="selectColorMouseOverTDNamed('td_limegreen')" onclick="selectColorFromTDNamed('td_limegreen', 'CBox')" class="td_selectColor" id="td_limegreen" style="background-color: rgb(50, 205, 50);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_mediumaquamarine')" onmouseover="selectColorMouseOverTDNamed('td_mediumaquamarine')" onclick="selectColorFromTDNamed('td_mediumaquamarine', 'CBox')" class="td_selectColor" id="td_mediumaquamarine" style="background-color: rgb(102, 205, 170);">
-				&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_darkturquoise')" onmouseover="selectColorMouseOverTDNamed('td_darkturquoise')" onclick="selectColorFromTDNamed('td_darkturquoise', 'CBox')" class="td_selectColor" id="td_darkturquoise" style="background-color: rgb(0, 206, 209);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_cornflowerblue')" onmouseover="selectColorMouseOverTDNamed('td_cornflowerblue')" onclick="selectColorFromTDNamed('td_cornflowerblue', 'CBox')" class="td_selectColor" id="td_cornflowerblue" style="background-color: rgb(100, 149, 237);">
-				&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_mediumslateblue')" onmouseover="selectColorMouseOverTDNamed('td_mediumslateblue')" onclick="selectColorFromTDNamed('td_mediumslateblue', 'CBox')" class="td_selectColor" id="td_mediumslateblue" style="background-color: rgb(123, 104, 238);">
-				&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_orchid')" onmouseover="selectColorMouseOverTDNamed('td_orchid')" onclick="selectColorFromTDNamed('td_orchid', 'CBox')" class="td_selectColor" id="td_orchid" style="background-color: rgb(218, 112, 214);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_hotpink')" onmouseover="selectColorMouseOverTDNamed('td_hotpink')" onclick="selectColorFromTDNamed('td_hotpink', 'CBox')" class="td_selectColor" id="td_hotpink" style="background-color: rgb(255, 105, 180);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_lightcoral')" onmouseover="selectColorMouseOverTDNamed('td_lightcoral')" onclick="selectColorFromTDNamed('td_lightcoral', 'CBox')" class="td_selectColor" id="td_lightcoral" style="background-color: rgb(240, 128, 128);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_tomato')" onmouseover="selectColorMouseOverTDNamed('td_tomato')" onclick="selectColorFromTDNamed('td_tomato', 'CBox')" class="td_selectColor" id="td_tomato" style="background-color: rgb(255, 99, 71);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_orange')" onmouseover="selectColorMouseOverTDNamed('td_orange')" onclick="selectColorFromTDNamed('td_orange', 'CBox')" class="td_selectColor" id="td_orange" style="background-color: rgb(255, 165, 0);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_bisque')" onmouseover="selectColorMouseOverTDNamed('td_bisque')" onclick="selectColorFromTDNamed('td_bisque', 'CBox')" class="td_selectColor" id="td_bisque" style="background-color: rgb(255, 228, 196);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_khaki')" onmouseover="selectColorMouseOverTDNamed('td_khaki')" onclick="selectColorFromTDNamed('td_khaki', 'CBox')" class="td_selectColor" id="td_khaki" style="background-color: rgb(240, 230, 140);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_cornsilk')" onmouseover="selectColorMouseOverTDNamed('td_cornsilk')" onclick="selectColorFromTDNamed('td_cornsilk', 'CBox')" class="td_selectColor" id="td_cornsilk" style="background-color: rgb(255, 248, 220);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_linen')" onmouseover="selectColorMouseOverTDNamed('td_linen')" onclick="selectColorFromTDNamed('td_linen', 'CBox')" class="td_selectColor" id="td_linen" style="background-color: rgb(250, 240, 230);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_whitesmoke')" onmouseover="selectColorMouseOverTDNamed('td_whitesmoke')" onclick="selectColorFromTDNamed('td_whitesmoke', 'CBox')" class="td_selectColor" id="td_whitesmoke" style="background-color: rgb(245, 245, 245);">&nbsp;</td>
-			</tr>
-			<tr>
-				<td onmouseout="selectColorMouseOutTDNamed('td_greenyellow')" onmouseover="selectColorMouseOverTDNamed('td_greenyellow')" onclick="selectColorFromTDNamed('td_greenyellow', 'CBox')" class="td_selectColor" id="td_greenyellow" style="background-color: rgb(173, 255, 47);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_darkseagreen')" onmouseover="selectColorMouseOverTDNamed('td_darkseagreen')" onclick="selectColorFromTDNamed('td_darkseagreen', 'CBox')" class="td_selectColor" id="td_darkseagreen" style="background-color: rgb(143, 188, 143);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_turquoise')" onmouseover="selectColorMouseOverTDNamed('td_turquoise')" onclick="selectColorFromTDNamed('td_turquoise', 'CBox')" class="td_selectColor" id="td_turquoise" style="background-color: rgb(64, 224, 208);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_mediumturquoise')" onmouseover="selectColorMouseOverTDNamed('td_mediumturquoise')" onclick="selectColorFromTDNamed('td_mediumturquoise', 'CBox')" class="td_selectColor" id="td_mediumturquoise" style="background-color: rgb(72, 209, 204);">
-				&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_skyblue')" onmouseover="selectColorMouseOverTDNamed('td_skyblue')" onclick="selectColorFromTDNamed('td_skyblue', 'CBox')" class="td_selectColor" id="td_skyblue" style="background-color: rgb(135, 206, 235);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_mediumpurple')" onmouseover="selectColorMouseOverTDNamed('td_mediumpurple')" onclick="selectColorFromTDNamed('td_mediumpurple', 'CBox')" class="td_selectColor" id="td_mediumpurple" style="background-color: rgb(147, 112, 216);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_violet')" onmouseover="selectColorMouseOverTDNamed('td_violet')" onclick="selectColorFromTDNamed('td_violet', 'CBox')" class="td_selectColor" id="td_violet" style="background-color: rgb(238, 130, 238);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_lightpink')" onmouseover="selectColorMouseOverTDNamed('td_lightpink')" onclick="selectColorFromTDNamed('td_lightpink', 'CBox')" class="td_selectColor" id="td_lightpink" style="background-color: rgb(255, 182, 193);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_darksalmon')" onmouseover="selectColorMouseOverTDNamed('td_darksalmon')" onclick="selectColorFromTDNamed('td_darksalmon', 'CBox')" class="td_selectColor" id="td_darksalmon" style="background-color: rgb(233, 150, 122);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_coral')" onmouseover="selectColorMouseOverTDNamed('td_coral')" onclick="selectColorFromTDNamed('td_coral', 'CBox')" class="td_selectColor" id="td_coral" style="background-color: rgb(255, 127, 80);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_navajowhite')" onmouseover="selectColorMouseOverTDNamed('td_navajowhite')" onclick="selectColorFromTDNamed('td_navajowhite', 'CBox')" class="td_selectColor" id="td_navajowhite" style="background-color: rgb(255, 222, 173);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_blanchedalmond')" onmouseover="selectColorMouseOverTDNamed('td_blanchedalmond')" onclick="selectColorFromTDNamed('td_blanchedalmond', 'CBox')" class="td_selectColor" id="td_blanchedalmond" style="background-color: rgb(255, 235, 205);">
-				&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_palegoldenrod')" onmouseover="selectColorMouseOverTDNamed('td_palegoldenrod')" onclick="selectColorFromTDNamed('td_palegoldenrod', 'CBox')" class="td_selectColor" id="td_palegoldenrod" style="background-color: rgb(238, 232, 170);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_oldlace')" onmouseover="selectColorMouseOverTDNamed('td_oldlace')" onclick="selectColorFromTDNamed('td_oldlace', 'CBox')" class="td_selectColor" id="td_oldlace" style="background-color: rgb(253, 245, 230);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_seashell')" onmouseover="selectColorMouseOverTDNamed('td_seashell')" onclick="selectColorFromTDNamed('td_seashell', 'CBox')" class="td_selectColor" id="td_seashell" style="background-color: rgb(255, 245, 238);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_ghostwhite')" onmouseover="selectColorMouseOverTDNamed('td_ghostwhite')" onclick="selectColorFromTDNamed('td_ghostwhite', 'CBox')" class="td_selectColor" id="td_ghostwhite2" style="background-color: rgb(248, 248, 255);">&nbsp;</td>
-			</tr>
-			<tr>
-				<td onmouseout="selectColorMouseOutTDNamed('td_palegreen')" onmouseover="selectColorMouseOverTDNamed('td_palegreen')" onclick="selectColorFromTDNamed('td_palegreen', 'CBox')" class="td_selectColor" id="td_palegreen" style="background-color: rgb(152, 251, 152);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_springgreen')" onmouseover="selectColorMouseOverTDNamed('td_springgreen')" onclick="selectColorFromTDNamed('td_springgreen', 'CBox')" class="td_selectColor" id="td_springgreen" style="background-color: rgb(0, 255, 127);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_aquamarine')" onmouseover="selectColorMouseOverTDNamed('td_aquamarine')" onclick="selectColorFromTDNamed('td_aquamarine', 'CBox')" class="td_selectColor" id="td_aquamarine" style="background-color: rgb(127, 255, 212);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_powderblue')" onmouseover="selectColorMouseOverTDNamed('td_powderblue')" onclick="selectColorFromTDNamed('td_powderblue', 'CBox')" class="td_selectColor" id="td_powderblue" style="background-color: rgb(176, 224, 230);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_lightskyblue')" onmouseover="selectColorMouseOverTDNamed('td_lightskyblue')" onclick="selectColorFromTDNamed('td_lightskyblue', 'CBox')" class="td_selectColor" id="td_lightskyblue" style="background-color: rgb(135, 206, 250);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_lightsteelblue')" onmouseover="selectColorMouseOverTDNamed('td_lightsteelblue')" onclick="selectColorFromTDNamed('td_lightsteelblue', 'CBox')" class="td_selectColor" id="td_lightsteelblue" style="background-color: rgb(176, 196, 222);">
-				&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_plum')" onmouseover="selectColorMouseOverTDNamed('td_plum')" onclick="selectColorFromTDNamed('td_plum', 'CBox')" class="td_selectColor" id="td_plum" style="background-color: rgb(221, 160, 221);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_pink')" onmouseover="selectColorMouseOverTDNamed('td_pink')" onclick="selectColorFromTDNamed('td_pink', 'CBox')" class="td_selectColor" id="td_pink" style="background-color: rgb(255, 192, 203);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_lightsalmon')" onmouseover="selectColorMouseOverTDNamed('td_lightsalmon')" onclick="selectColorFromTDNamed('td_lightsalmon', 'CBox')" class="td_selectColor" id="td_lightsalmon" style="background-color: rgb(255, 160, 122);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_wheat')" onmouseover="selectColorMouseOverTDNamed('td_wheat')" onclick="selectColorFromTDNamed('td_wheat', 'CBox')" class="td_selectColor" id="td_wheat" style="background-color: rgb(245, 222, 179);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_moccasin')" onmouseover="selectColorMouseOverTDNamed('td_moccasin')" onclick="selectColorFromTDNamed('td_moccasin', 'CBox')" class="td_selectColor" id="td_moccasin" style="background-color: rgb(255, 228, 181);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_antiquewhite')" onmouseover="selectColorMouseOverTDNamed('td_antiquewhite')" onclick="selectColorFromTDNamed('td_antiquewhite', 'CBox')" class="td_selectColor" id="td_antiquewhite" style="background-color: rgb(250, 235, 215);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_lemonchiffon')" onmouseover="selectColorMouseOverTDNamed('td_lemonchiffon')" onclick="selectColorFromTDNamed('td_lemonchiffon', 'CBox')" class="td_selectColor" id="td_lemonchiffon" style="background-color: rgb(255, 250, 205);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_floralwhite')" onmouseover="selectColorMouseOverTDNamed('td_floralwhite')" onclick="selectColorFromTDNamed('td_floralwhite', 'CBox')" class="td_selectColor" id="td_floralwhite" style="background-color: rgb(255, 250, 240);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_snow')" onmouseover="selectColorMouseOverTDNamed('td_snow')" onclick="selectColorFromTDNamed('td_snow', 'CBox')" class="td_selectColor" id="td_snow" style="background-color: rgb(255, 250, 250);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_aliceblue')" onmouseover="selectColorMouseOverTDNamed('td_aliceblue')" onclick="selectColorFromTDNamed('td_aliceblue', 'CBox')" class="td_selectColor" id="td_aliceblue" style="background-color: rgb(240, 248, 255);">&nbsp;</td>
-			</tr>
-			<tr>
-				<td onmouseout="selectColorMouseOutTDNamed('td_lightgreen')" onmouseover="selectColorMouseOverTDNamed('td_lightgreen')" onclick="selectColorFromTDNamed('td_lightgreen', 'CBox')" class="td_selectColor" id="td_lightgreen" style="background-color: rgb(144, 238, 144);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_mediumspringgreen')" onmouseover="selectColorMouseOverTDNamed('td_mediumspringgreen')" onclick="selectColorFromTDNamed('td_mediumspringgreen', 'CBox')" class="td_selectColor" id="td_mediumspringgreen" style="background-color: rgb(0, 250, 154);">
-				&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_paleturquoise')" onmouseover="selectColorMouseOverTDNamed('td_paleturquoise')" onclick="selectColorFromTDNamed('td_paleturquoise', 'CBox')" class="td_selectColor" id="td_paleturquoise" style="background-color: rgb(175, 238, 238);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_lightcyan')" onmouseover="selectColorMouseOverTDNamed('td_lightcyan')" onclick="selectColorFromTDNamed('td_lightcyan', 'CBox')" class="td_selectColor" id="td_lightcyan" style="background-color: rgb(224, 255, 255);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_lightblue')" onmouseover="selectColorMouseOverTDNamed('td_lightblue')" onclick="selectColorFromTDNamed('td_lightblue', 'CBox')" class="td_selectColor" id="td_lightblue" style="background-color: rgb(173, 216, 230);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_lavender')" onmouseover="selectColorMouseOverTDNamed('td_lavender')" onclick="selectColorFromTDNamed('td_lavender', 'CBox')" class="td_selectColor" id="td_lavender" style="background-color: rgb(230, 230, 250);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_thistle')" onmouseover="selectColorMouseOverTDNamed('td_thistle')" onclick="selectColorFromTDNamed('td_thistle', 'CBox')" class="td_selectColor" id="td_thistle" style="background-color: rgb(216, 191, 216);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_mistyrose')" onmouseover="selectColorMouseOverTDNamed('td_mistyrose')" onclick="selectColorFromTDNamed('td_mistyrose', 'CBox')" class="td_selectColor" id="td_mistyrose" style="background-color: rgb(255, 228, 225);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_peachpuff')" onmouseover="selectColorMouseOverTDNamed('td_peachpuff')" onclick="selectColorFromTDNamed('td_peachpuff', 'CBox')" class="td_selectColor" id="td_peachpuff" style="background-color: rgb(255, 218, 185);">&nbsp;</td>
-				<td onmouseout="selectColorMouseOutTDNamed('td_papayawhip')" onmouseover="selectColorMouseOverTDNamed('td_papayawhip')" onclick="selectColorFromTDNamed('td_papayawhip', 'CBox')" class="td_selectColor" id="td_papayawhip" style="background-color: rgb(255, 239, 213);">&nbsp;</td>
-			</tr>
-		</tbody></table>
-                                <div id="showNamedColors">&nbsp;</div>
-                </div>
-	</div>
+<div id="disableDiv"></div>
 
-        <div id="tabBackground">T2</div>
-        <div id="tabText">T3</div>
-        <div id="tabPosition">T4</div>
-        <div id="tabLayout">T5</div>
-        <div id="tabBorders">T6</div>
-        <div id="tabLists">T7</div>
-        <div style="clear:both"></div>
-                  <p><center><input type="button" onclick="saveCSSChanges(); closeDialog();" value="Save &amp; Close"/>&nbsp;<input type="button" value="Cancel" onclick="closeDialog();"/></center></p>
-        <div id="dialogMessages"/></div>
-      </div>
-  </div>
+<div id="modalDialogDiv">
+<table summary="This table is a caption of the modal dialog." cellspacing="0" cellpadding="0" border="0">
+<tbody>
+<tr>
+<td id="dialogtitle">Cascading style sheed editor</td>
+<td id="dialogClose">
+<img alt="Close modal dialog" onclick="closeDialog();" src="http://img0.gmodules.com/ig/modules/close_box.gif"/>
+</td>
+</tr>
+</tbody>
+</table>
+<div id="dialogContents">
+<div id="tabFont">
+<h1 class="header1">Edit CSS for Font </h1>
+<table summary="This table is for font selection." id="FontTable" style="float:left; display: inherit; width: 370px;" class="thinDarkblueBorders">
+<tbody>
+<tr>
+<td class="colTitle" style="width: 147px;">Font Family:</td>
+<td <input class="bigInput" type="text" size="35" id="usedFonts" name="usedFonts" onfocus="showFontSelector();"/></td>
+</tr>
+<tr>
+<td class="colTitle"> Text color:</td>
+<td><input class="bigInput" type="text" size="35" name="CBox" onfocus="showColorSelector();" id="CBox"/></td>
+</tr>
+<tr>
+<td>Size:</td>
+<td><input type="text" class="smallInput" size="20" id="FontSizeTextBox" name="FontSizeTextBox" onfocus="showFontSizeSelector();"/>
+<select id="dropDownListFontSize" size="1" class="smallSelect">
+<option value=""/>
+<option value="px">px</option>
+<option value="%">%</option>
+<option value="pt">pt</option>
+<option value="pc">pc</option>
+<option value="mm">mm</option>
+<option value="cm">cm</option>
+<option value="in">in</option>
+<option value="em">em</option>
+<option value="ex">ex</option>
+</select></td>
+</tr>
+<tr>
+<td>Bold:</td>
+<td><input type="text" size="20" id="BoldTextBox" name="BoldTextBox" onfocus="showFontBoldSelector();"/></td>
+</tr>
+<tr>
+<td>Italic:</td>
+<td>Yes<input name="radioFontTypeItalic" type="radio" id="radioButtonItalic" value="V1"/>&nbsp;
+No<input name="radioFontTypeItalic" type="radio" id="radioButtonItalicNormal" value="V1"/>
+Inherit<input type="radio" name="radioFontTypeItalic" id="radioButtonItalicClear" checked="checked" value="V1"/></td>
+</tr>
+<tr>
+<td>Small caps:</td>
+<td>Yes<input type="radio" name="radioFontTypeSmall" id="radioButtonSmallCaps" value="V1"/>&nbsp;
+No<input type="radio" name="radioFontTypeSmall" id="radioButtonSmallCapsNormal" value="V1"/>
+Inherit<input type="radio" name="radioFontTypeSmall" id="radioButtonSmallCapsClear" checked="checked" value="V1"/></td>
+</tr>
+<tr>
+<td class="colTitle">Capitalization:</td>
+<td><select id="dropDownListCapitalization" size="1" class="bigInput">
+<option value=""/>
+<option value="none">None</option>
+<option value="capitalize">Initial Cap</option>
+<option value="lowercase">lowercase</option>
+<option value="uppercase">UPPERCASE</option>
+</select></td>
+</tr>
+<tr>
+<td class="colTitle" colspan="2">Effects<br/>
+<input type="checkbox" onclick="uncheckCheckboxesIfNone()" value="ON" id="CheckBoxNone" />None<br/>
+<input type="checkbox" value="ON" id="CheckBoxUnderline" />Underline<br/>
+<input type="checkbox" value="ON" id="CheckBoxStrikethrough" />Strikethrough<br/>
+<input type="checkbox" value="ON" id="CheckBoxOverline" />Overline</td>
+</tr>
+</tbody>
+</table>
+<div id="fontsDiv" style="display:none;float:left; width:320px;">
+<table summary="This table is for font selection.">
+<tbody><tr>
+<td style="width: 50%;">Special Fonts:<br/>
+<select onchange="showFontSampleSpe()" ondblclick="chooseSpeFonts()" id="specialFontsMultipleBox" size="10">
+<option value="Arial, ">Arial</option>
+<option value="Arial Black, ">Arial Black</option>
+<option value="Comic Sans MS, ">Comic Sans MS</option>
+<option value="Courier New, ">Courier New</option>
+<option value="Estrangelo Edessa, ">Estrangelo Edessa</option>
+<option value="Franklin Gothic Medium, ">Franklin Gothic Medium</option>
+<option value="Gautami, ">Gautami</option>
+<option value="Georgia, ">Georgia</option>
+<option value="Georgia Italic Impact, ">Georgia Italic Impact</option>
+<option value="Latha, ">Latha</option>
+<option value="Lucida Console, ">Lucida Console</option>
+<option value="Lucida Sans Unicode, ">Lucida Sans Unicode</option>
+<option value="Microsoft Sans Serif, ">Microsoft Sans Serif</option>
+<option value="Modern MS Sans Serif, ">Modern MS Sans Serif</option>
+<option value="MS Serif, ">MS Serif</option>
+<option value="Mv Boli, ">Mv Boli</option>
+<option value="Palatino Linotype, ">Palatino Linotype</option>
+<option value="Roman, ">Roman</option>
+<option value="Script, ">Script</option>
+<option value="Small Fonts, ">Small Fonts</option>
+<option value="Symbol, ">Symbol</option>
+<option value="Tahoma, ">Tahoma</option>
+<option value="Times New Roman, ">Times New Roman</option>
+<option value="Trebuchet MS, ">Trebuchet MS</option>
+<option value="Tunga, ">Tunga</option>
+<option value="Verdana, ">Verdana</option>
+<option value="Webdings, ">Webdings</option>
+<option value="WingDings, ">WingDings</option>
+</select>
+<div style="height: 24px;" id="specialSampleTextBox">AaBbCc</div>
+</td>
+<td style="width: 50%;">Generic<br/>
+<select onchange="showFontSampleGen()" ondblclick="chooseGenFonts()" id="genericFontsMultipleBox" size="5">
+<option va lue="Serif, ">Serif</option>
+<option value="Sans-Serif, ">Sans-Serif</option>
+<option value="Cursive, ">Cursive</option>
+<option value="Fantasy, ">Fantasy</option>
+<option value="Monospace, ">Monospace</option>
+</select>
+<div style="height: 24px;" id="genericSampleTextBox">AaBbCc</div>
+</td></tr>
+</tbody></table>
+</div>
+<div id="fontBoldDiv" style="display:none;float:left; width:320px;">
+<table summary="This table is for font weight." id="BoldTable" style="width: 100%;">
+<tbody>
+<tr> <th class="header2">Click to select</th> </tr>
+<tr>
+<td onclick="selectBoldOnClickTD('normal')">normal</td>
+</tr>
+<tr>
+<td onclick="selectBoldOnClickTD('bold')">bold</td>
+</tr>
+<tr>
+<td onclick="selectBoldOnClickTD('bolder')">bolder</td>
+</tr>
+<tr>
+<td onclick="selectBoldOnClickTD('lighter')">lighter</td>
+</tr>
+<tr>
+<td onclick="selectBoldOnClickTD('100')">100</td>
+</tr>
+<tr>
+<td onclick="selectBoldOnClickTD('200')">200</td>
+</tr>
+<tr>
+<td onclick="selectBoldOnClickTD('300')">300</td>
+</tr>
+<tr>
+<td onclick="selectBoldOnClickTD('400')">400-normal</td>
+</tr>
+<tr>
+<td onclick="selectBoldOnClickTD('500')">500</td>
+</tr>
+<tr>
+<td onclick="selectBoldOnClickTD('600')">600</td>
+</tr>
+<tr>
+<td onclick="selectBoldOnClickTD('700')">700-bold</td>
+</tr>
+<tr>
+<td onclick="selectBoldOnClickTD('800')">800</td>
+</tr>
+<tr>
+<td onclick="selectBoldOnClickTD('900')">900</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="fontSizesDiv" style="display:none;float:left; width:320px;">
 
+<table summary="This table is font weight" id="FontSizeTable" style="width: 100%;">
+<tbody>
+<tr> <th class="header2">Click to select</th> </tr>
+<tr>
+<td onclick="selectFontSizeOnClickTD('smaller')">Smaller</td>
+</tr>
+<tr>
+<td onclick="selectFontSizeOnClickTD('larger')">Larger</td>
+</tr>
+<tr>
+<td onclick="selectFontSizeOnClickTD('xx-small')">XX-Small</td>
+</tr>
+<tr>
+<td onclick="selectFontSizeOnClickTD('x-small')">X-Small</td>
+</tr>
+<tr>
+<td onclick="selectFontSizeOnClickTD('small')">Small</td>
+</tr>
+<tr>
+<td onclick="selectFontSizeOnClickTD('medium')">Medium</td>
+</tr>
+<tr>
+<td onclick="selectFontSizeOnClickTD('large')">Large</td>
+</tr>
+<tr>
+<td onclick="selectFontSizeOnClickTD('x-large')">X-Large</td>
+</tr>
+<tr>
+<td onclick="selectFontSizeOnClickTD('xx-large')">XX-Large</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+<div id="colorsDiv" style="display:none;float:right; width:320px;">
+<div style="" id="namedColorsDiv">
+
+<div style="width: 100%; clear: both;">Basic:</div>
+
+<table summary="This table is color selection." id="namedColorsTable1">
+<tbody><tr>
+<td onmouseout="selCol('td_green')" onmouseover="choseColor('td_green')" onclick="selectColor('td_green')" class="td_s" id="td_green" style="background-color: green;">&nbsp;</td>
+<td onmouseout="selCol('td_lime')" onmouseover="choseColor('td_lime')" onclick="selectColor('td_lime')" class="td_s" id="td_lime" style="background-color: lime;">&nbsp;</td>
+<td onmouseout="selCol('td_teal')" onmouseover="choseColor('td_teal')" onclick="selectColor('td_teal')" class="td_s" id="td_teal" style="background-color: teal;">&nbsp;</td>
+<td onmouseout="selCol('td_aqua')" onmouseover="choseColor('td_aqua')" onclick="selectColor('td_aqua')" class="td_s" id="td_aqua" style="background-color: aqua;">&nbsp;</td>
+<td onmouseout="selCol('td_navy')" onmouseover="choseColor('td_navy')" onclick="selectColor('td_navy')" class="td_s" id="td_navy" style="background-color: navy;">&nbsp;</td>
+<td onmouseout="selCol('td_blue')" onmouseover="choseColor('td_blue')" onclick="selectColor('td_blue')" class="td_s" id="td_blue" style="background-color: blue;">&nbsp;</td>
+<td onmouseout="selCol('td_purple')" onmouseover="choseColor('td_purple')" onclick="selectColor('td_purple')" class="td_s" id="td_purple" style="background-color: purple;">&nbsp;</td>
+<td onmouseout="selCol('td_fuchsia')" onmouseover="choseColor('td_fuchsia')" onclick="selectColor('td_fuchsia')" class="td_s" id="td_fuchsia" style="background-color: fuchsia;">&nbsp;</td>
+<td onmouseout="selCol('td_maroon')" onmouseover="choseColor('td_maroon')" onclick="selectColor('td_maroon')" class="td_s" id="td_maroon" style="background-color: maroon;">&nbsp;</td>
+<td onmouseout="selCol('td_red')" onmouseover="choseColor('td_red')" onclick="selectColor('td_red')" class="td_s" id="td_red" style="background-color: red;">&nbsp;</td>
+<td onmouseout="selCol('td_olive')" onmouseover="choseColor('td_olive')" onclick="selectColor('td_olive')" class="td_s" id="td_olive" style="background-color: olive;">&nbsp;</td>
+<td onmouseout="selCol('td_yellow')" onmouseover="choseColor('td_yellow')" onclick="selectColor('td_yellow')" class="td_s" id="td_yellow" style="background-color: yellow;">&nbsp;</td>
+<td onmouseout="selCol('td_white')" onmouseover="choseColor('td_white')" onclick="selectColor('td_white')" class="td_s" id="td_white" style="background-color: white;">&nbsp;</td>
+<td onmouseout="selCol('td_silver')" onmouseover="choseColor('td_silver')" onclick="selectColor('td_silver')" class="td_s" id="td_silver" style="background-color: silver;">&nbsp;</td>
+<td onmouseout="selCol('td_gray')" onmouseover="choseColor('td_gray')" onclick="selectColor('td_gray')" class="td_s" id="td_gray" style="background-color: gray;">&nbsp;</td>
+<td onmouseout="selCol('td_black')" onmouseover="choseColor('td_black')" onclick="selectColor('td_black')" class="td_s" id="td_black" style="background-color: black;">&nbsp;</td>
+</tr>
+</tbody></table>
+<div style="width: 100%; clear: both; margin-top: 8px;">Additional:</div>
+<table summary="This table is named colros." id="namedColorsTable" class="thinDarkblueBorders">
+<tbody><tr>
+<td onmouseout="selCol('td_darkolivegreen')" onmouseover="choseColor('td_darkolivegreen')" onclick="selectColor('td_darkolivegreen')" class="td_s" id="td_darkolivegreen" style="background-color: rgb(85, 107, 47);">
+&nbsp;</td>
+<td onmouseout="selCol('td_darkgreen')" onmouseover="choseColor('td_darkgreen')" onclick="selectColor('td_darkgreen')" class="td_s" id="td_darkgreen" style="background-color: rgb(0, 100, 0);">&nbsp;</td>
+<td onmouseout="selCol('td_darkslategray')" onmouseover="choseColor('td_darkslategray')" onclick="selectColor('td_darkslategray')" class="td_s" id="td_darkslategray" style="background-color: rgb(47, 79, 79);">&nbsp;</td>
+<td onmouseout="selCol('td_slategray')" onmouseover="choseColor('td_slategray')" onclick="selectColor('td_slategray')" class="td_s" id="td_slategray" style="background-color: rgb(112, 128, 144);">&nbsp;</td>
+<td onmouseout="selCol('td_darkblue')" onmouseover="choseColor('td_darkblue')" onclick="selectColor('td_darkblue')" class="td_s" id="td_darkblue" style="background-color: rgb(0, 0, 139);">&nbsp;</td>
+<td onmouseout="selCol('td_midnightblue')" onmouseover="choseColor('td_midnightblue')" onclick="selectColor('td_midnightblue')" class="td_s" id="td_midnightblue" style="background-color: rgb(25, 25, 112);">&nbsp;</td>
+<td onmouseout="selCol('td_indigo')" onmouseover="choseColor('td_indigo')" onclick="selectColor('td_indigo')" class="td_s" id="td_indigo" style="background-color: rgb(75, 0, 130);">&nbsp;</td>
+<td onmouseout="selCol('td_darkmagenta')" onmouseover="choseColor('td_darkmagenta')" onclick="selectColor('td_darkmagenta')" class="td_s" id="td_darkmagenta" style="background-color: rgb(139, 0, 139);">&nbsp;</td>
+<td onmouseout="selCol('td_brown')" onmouseover="choseColor('td_brown')" onclick="selectColor('td_brown')" class="td_s" id="td_brown" style="background-color: rgb(165, 42, 42);">&nbsp;</td>
+<td onmouseout="selCol('td_darkred')" onmouseover="choseColor('td_darkred')" onclick="selectColor('td_darkred')" class="td_s" id="td_darkred" style="background-color: rgb(139, 0, 0);">&nbsp;</td>
+<td onmouseout="selCol('td_sienna')" onmouseover="choseColor('td_sienna')" onclick="selectColor('td_sienna')" class="td_s" id="td_sienna" style="background-color: rgb(160, 82, 45);">&nbsp;</td>
+<td onmouseout="selCol('td_saddlebrown')" onmouseover="choseColor('td_saddlebrown')" onclick="selectColor('td_saddlebrown')" class="td_s" id="td_saddlebrown" style="background-color: rgb(139, 69, 19);">&nbsp;</td>
+<td onmouseout="selCol('td_darkgoldenrod')" onmouseover="choseColor('td_darkgoldenrod')" onclick="selectColor('td_darkgoldenrod')" class="td_s" id="td_darkgoldenrod" style="background-color: rgb(184, 134, 11);">&nbsp;</td>
+<td onmouseout="selCol('td_beige')" onmouseover="choseColor('td_beige')" onclick="selectColor('td_beige')" class="td_s" id="td_beige" style="background-color: rgb(245, 245, 220);">&nbsp;</td>
+<td onmouseout="selCol('td_honeydew')" onmouseover="choseColor('td_honeydew')" onclick="selectColor('td_honeydew')" class="td_s" id="td_honeydew" style="background-color: rgb(240, 255, 240);">&nbsp;</td>
+<td onmouseout="selCol('td_dimgray')" onmouseover="choseColor('td_dimgray')" onclick="selectColor('td_dimgray')" class="td_s" id="td_dimgray" style="background-color: rgb(105, 105, 105);">&nbsp;</td>
+</tr>
+<tr>
+<td onmouseout="selCol('td_olivedrab')" onmouseover="choseColor('td_olivedrab')" onclick="selectColor('td_olivedrab')" class="td_s" id="td_olivedrab" style="background-color: rgb(107, 142, 35);">&nbsp;</td>
+<td onmouseout="selCol('td_forestgreen')" onmouseover="choseColor('td_forestgreen')" onclick="selectColor('td_forestgreen')" class="td_s" id="td_forestgreen" style="background-color: rgb(34, 139, 34);">&nbsp;</td>
+<td onmouseout="selCol('td_darkcyan')" onmouseover="choseColor('td_darkcyan')" onclick="selectColor('td_darkcyan')" class="td_s" id="td_darkcyan" style="background-color: rgb(0, 139, 139);">&nbsp;</td>
+<td onmouseout="selCol('td_lightslategray')" onmouseover="choseColor('td_lightslategray')" onclick="selectColor('td_lightslategray')" class="td_s" id="td_lightslategray" style="background-color: rgb(119, 136, 153);">
+&nbsp;</td>
+<td onmouseout="selCol('td_mediumblue')" onmouseover="choseColor('td_mediumblue')" onclick="selectColor('td_mediumblue')" class="td_s" id="td_mediumblue" style="background-color: rgb(0, 0, 205);">&nbsp;</td>
+<td onmouseout="selCol('td_darkslateblue')" onmouseover="choseColor('td_darkslateblue')" onclick="selectColor('td_darkslateblue')" class="td_s" id="td_darkslateblue" style="background-color: rgb(72, 61, 139);">&nbsp;</td>
+<td onmouseout="selCol('td_darkviolet')" onmouseover="choseColor('td_darkviolet')" onclick="selectColor('td_darkviolet')" class="td_s" id="td_darkviolet" style="background-color: rgb(148, 0, 211);">&nbsp;</td>
+<td onmouseout="selCol('td_mediumvioletred')" onmouseover="choseColor('td_mediumvioletred')" onclick="selectColor('td_mediumvioletred')" class="td_s" id="td_mediumvioletred" style="background-color: rgb(199, 21, 133);">
+&nbsp;</td>
+<td onmouseout="selCol('td_indianred')" onmouseover="choseColor('td_indianred')" onclick="selectColor('td_indianred')" class="td_s" id="td_indianred" style="background-color: rgb(205, 92, 92);">&nbsp;</td>
+<td onmouseout="selCol('td_firebrick')" onmouseover="choseColor('td_firebrick')" onclick="selectColor('td_firebrick')" class="td_s" id="td_firebrick" style="background-color: rgb(178, 34, 34);">&nbsp;</td>
+<td onmouseout="selCol('td_chocolate')" onmouseover="choseColor('td_chocolate')" onclick="selectColor('td_chocolate')" class="td_s" id="td_chocolate" style="background-color: rgb(210, 105, 30);">&nbsp;</td>
+<td onmouseout="selCol('td_peru')" onmouseover="choseColor('td_peru')" onclick="selectColor('td_peru')" class="td_s" id="td_peru" style="background-color: rgb(205, 133, 63);">&nbsp;</td>
+<td onmouseout="selCol('td_goldenrod')" onmouseover="choseColor('td_goldenrod')" onclick="selectColor('td_goldenrod')" class="td_s" id="td_goldenrod" style="background-color: rgb(218, 165, 32);">&nbsp;</td>
+<td onmouseout="selCol('td_lightgoldenrodyellow')" onmouseover="choseColor('td_lightgoldenrodyellow')" onclick="selectColor('td_lightgoldenrodyellow')" class="td_s" id="td_lightgoldenrodyellow" style="background-color: rgb(250, 250, 210);">
+&nbsp;</td>
+<td onmouseout="selCol('td_mintcream')" onmouseover="choseColor('td_mintcream')" onclick="selectColor('td_mintcream')" class="td_s" id="td_mintcream" style="background-color: rgb(245, 255, 250);">&nbsp;</td>
+<td onmouseout="selCol('td_darkgray')" onmouseover="choseColor('td_darkgray')" onclick="selectColor('td_darkgray')" class="td_s" id="td_darkgray" style="background-color: rgb(169, 169, 169);">&nbsp;</td>
+</tr>
+<tr>
+<td onmouseout="selCol('td_yellowgreen')" onmouseover="choseColor('td_yellowgreen')" onclick="selectColor('td_yellowgreen')" class="td_s" id="td_yellowgreen" style="background-color: rgb(154, 205, 50);">&nbsp;</td>
+<td onmouseout="selCol('td_seagreen')" onmouseover="choseColor('td_seagreen')" onclick="selectColor('td_seagreen')" class="td_s" id="td_seagreen" style="background-color: rgb(46, 139, 87);">&nbsp;</td>
+<td onmouseout="selCol('td_cadetblue')" onmouseover="choseColor('td_cadetblue')" onclick="selectColor('td_cadetblue')" class="td_s" id="td_cadetblue" style="background-color: rgb(95, 158, 160);">&nbsp;</td>
+<td onmouseout="selCol('td_steelblue')" onmouseover="choseColor('td_steelblue')" onclick="selectColor('td_steelblue')" class="td_s" id="td_steelblue" style="background-color: rgb(70, 130, 180);">&nbsp;</td>
+<td onmouseout="selCol('td_royalblue')" onmouseover="choseColor('td_royalblue')" onclick="selectColor('td_royalblue')" class="td_s" id="td_royalblue" style="background-color: rgb(65, 105, 225);">&nbsp;</td>
+<td onmouseout="selCol('td_blueviolet')" onmouseover="choseColor('td_blueviolet')" onclick="selectColor('td_blueviolet')" class="td_s" id="td_blueviolet" style="background-color: rgb(138, 43, 226);">&nbsp;</td>
+<td onmouseout="selCol('td_darkorchid')" onmouseover="choseColor('td_darkorchid')" onclick="selectColor('td_darkorchid')" class="td_s" id="td_darkorchid" style="background-color: rgb(153, 50, 204);">&nbsp;</td>
+<td onmouseout="selCol('td_deeppink')" onmouseover="choseColor('td_deeppink')" onclick="selectColor('td_deeppink')" class="td_s" id="td_deeppink" style="background-color: rgb(255, 20, 147);">&nbsp;</td>
+<td onmouseout="selCol('td_rosybrown')" onmouseover="choseColor('td_rosybrown')" onclick="selectColor('td_rosybrown')" class="td_s" id="td_rosybrown" style="background-color: rgb(188, 143, 143);">&nbsp;</td>
+<td onmouseout="selCol('td_crimson')" onmouseover="choseColor('td_crimson')" onclick="selectColor('td_crimson')" class="td_s" id="td_crimson" style="background-color: rgb(220, 20, 60);">&nbsp;</td>
+<td onmouseout="selCol('td_darkorange')" onmouseover="choseColor('td_darkorange')" onclick="selectColor('td_darkorange')" class="td_s" id="td_darkorange" style="background-color: rgb(255, 140, 0);">&nbsp;</td>
+<td onmouseout="selCol('td_burlywood')" onmouseover="choseColor('td_burlywood')" onclick="selectColor('td_burlywood')" class="td_s" id="td_burlywood" style="background-color: rgb(222, 184, 135);">&nbsp;</td>
+<td onmouseout="selCol('td_darkkhaki')" onmouseover="choseColor('td_darkkhaki')" onclick="selectColor('td_darkkhaki')" class="td_s" id="td_darkkhaki" style="background-color: rgb(189, 183, 107);">&nbsp;</td>
+<td onmouseout="selCol('td_lightyellow')" onmouseover="choseColor('td_lightyellow')" onclick="selectColor('td_lightyellow')" class="td_s" id="td_lightyellow" style="background-color: rgb(255, 255, 224);">&nbsp;</td>
+<td onmouseout="selCol('td_azure')" onmouseover="choseColor('td_azure')" onclick="selectColor('td_azure')" class="td_s" id="td_azure" style="background-color: rgb(240, 255, 255);">&nbsp;</td>
+<td onmouseout="selCol('td_lightgrey')" onmouseover="choseColor('td_lightgrey')" onclick="selectColor('td_lightgrey')" class="td_s" id="td_lightgrey" style="background-color: rgb(211, 211, 211);">&nbsp;</td>
+</tr>
+<tr>
+<td onmouseout="selCol('td_lawngreen')" onmouseover="choseColor('td_lawngreen')" onclick="selectColor('td_lawngreen')" class="td_s" id="td_lawngreen" style="background-color: rgb(124, 252, 0);">&nbsp;</td>
+<td onmouseout="selCol('td_mediumseagreen')" onmouseover="choseColor('td_mediumseagreen')" onclick="selectColor('td_mediumseagreen')" class="td_s" id="td_mediumseagreen" style="background-color: rgb(60, 179, 113);">
+&nbsp;</td>
+<td onmouseout="selCol('td_lightseagreen')" onmouseover="choseColor('td_lightseagreen')" onclick="selectColor('td_lightseagreen')" class="td_s" id="td_lightseagreen" style="background-color: rgb(32, 178, 170);">&nbsp;</td>
+<td onmouseout="selCol('td_deepskyblue')" onmouseover="choseColor('td_deepskyblue')" onclick="selectColor('td_deepskyblue')" class="td_s" id="td_deepskyblue" style="background-color: rgb(0, 191, 255);">&nbsp;</td>
+<td onmouseout="selCol('td_dodgerblue')" onmouseover="choseColor('td_dodgerblue')" onclick="selectColor('td_dodgerblue')" class="td_s" id="td_dodgerblue" style="background-color: rgb(30, 144, 255);">&nbsp;</td>
+<td onmouseout="selCol('td_slateblue')" onmouseover="choseColor('td_slateblue')" onclick="selectColor('td_slateblue')" class="td_s" id="td_slateblue" style="background-color: rgb(106, 90, 205);">&nbsp;</td>
+<td onmouseout="selCol('td_mediumorchid')" onmouseover="choseColor('td_mediumorchid')" onclick="selectColor('td_mediumorchid')" class="td_s" id="td_mediumorchid" style="background-color: rgb(186, 85, 211);">&nbsp;</td>
+<td onmouseout="selCol('td_palevioletred')" onmouseover="choseColor('td_palevioletred')" onclick="selectColor('td_palevioletred')" class="td_s" id="td_palevioletred" style="background-color: rgb(216, 112, 147);">&nbsp;</td>
+<td onmouseout="selCol('td_salmon')" onmouseover="choseColor('td_salmon')" onclick="selectColor('td_salmon')" class="td_s" id="td_salmon" style="background-color: rgb(250, 128, 114);">&nbsp;</td>
+<td onmouseout="selCol('td_orangered')" onmouseover="choseColor('td_orangered')" onclick="selectColor('td_orangered')" class="td_s" id="td_orangered" style="background-color: rgb(255, 69, 0);">&nbsp;</td>
+<td onmouseout="selCol('td_sandybrown')" onmouseover="choseColor('td_sandybrown')" onclick="selectColor('td_sandybrown')" class="td_s" id="td_sandybrown" style="background-color: rgb(244, 164, 96);">&nbsp;</td>
+<td onmouseout="selCol('td_tan')" onmouseover="choseColor('td_tan')" onclick="selectColor('td_tan')" class="td_s" id="td_tan" style="background-color: rgb(210, 180, 140);">&nbsp;</td>
+<td onmouseout="selCol('td_gold')" onmouseover="choseColor('td_gold')" onclick="selectColor('td_gold')" class="td_s" id="td_gold" style="background-color: rgb(255, 215, 0);">&nbsp;</td>
+<td onmouseout="selCol('td_ivory')" onmouseover="choseColor('td_ivory')" onclick="selectColor('td_ivory')" class="td_s" id="td_ivory" style="background-color: rgb(255, 255, 240);">&nbsp;</td>
+<td onmouseout="selCol('td_ghostwhite')" onmouseover="choseColor('td_ghostwhite')" onclick="selectColor('td_ghostwhite')" class="td_s" id="td_ghostwhite" style="background-color: rgb(248, 248, 255);">&nbsp;</td>
+<td onmouseout="selCol('td_gainsboro')" onmouseover="choseColor('td_gainsboro')" onclick="selectColor('td_gainsboro')" class="td_s" id="td_gainsboro" style="background-color: rgb(220, 220, 220);">&nbsp;</td>
+</tr>
+<tr>
+<td onmouseout="selCol('td_chartreuse')" onmouseover="choseColor('td_chartreuse')" onclick="selectColor('td_chartreuse')" class="td_s" id="td_chartreuse" style="background-color: rgb(127, 255, 0);">&nbsp;</td>
+<td onmouseout="selCol('td_limegreen')" onmouseover="choseColor('td_limegreen')" onclick="selectColor('td_limegreen')" class="td_s" id="td_limegreen" style="background-color: rgb(50, 205, 50);">&nbsp;</td>
+<td onmouseout="selCol('td_mediumaquamarine')" onmouseover="choseColor('td_mediumaquamarine')" onclick="selectColor('td_mediumaquamarine')" class="td_s" id="td_mediumaquamarine" style="background-color: rgb(102, 205, 170);">
+&nbsp;</td>
+<td onmouseout="selCol('td_darkturquoise')" onmouseover="choseColor('td_darkturquoise')" onclick="selectColor('td_darkturquoise')" class="td_s" id="td_darkturquoise" style="background-color: rgb(0, 206, 209);">&nbsp;</td>
+<td onmouseout="selCol('td_cornflowerblue')" onmouseover="choseColor('td_cornflowerblue')" onclick="selectColor('td_cornflowerblue')" class="td_s" id="td_cornflowerblue" style="background-color: rgb(100, 149, 237);">
+&nbsp;</td>
+<td onmouseout="selCol('td_mediumslateblue')" onmouseover="choseColor('td_mediumslateblue')" onclick="selectColor('td_mediumslateblue')" class="td_s" id="td_mediumslateblue" style="background-color: rgb(123, 104, 238);">
+&nbsp;</td>
+<td onmouseout="selCol('td_orchid')" onmouseover="choseColor('td_orchid')" onclick="selectColor('td_orchid')" class="td_s" id="td_orchid" style="background-color: rgb(218, 112, 214);">&nbsp;</td>
+<td onmouseout="selCol('td_hotpink')" onmouseover="choseColor('td_hotpink')" onclick="selectColor('td_hotpink')" class="td_s" id="td_hotpink" style="background-color: rgb(255, 105, 180);">&nbsp;</td>
+<td onmouseout="selCol('td_lightcoral')" onmouseover="choseColor('td_lightcoral')" onclick="selectColor('td_lightcoral')" class="td_s" id="td_lightcoral" style="background-color: rgb(240, 128, 128);">&nbsp;</td>
+<td onmouseout="selCol('td_tomato')" onmouseover="choseColor('td_tomato')" onclick="selectColor('td_tomato')" class="td_s" id="td_tomato" style="background-color: rgb(255, 99, 71);">&nbsp;</td>
+<td onmouseout="selCol('td_orange')" onmouseover="choseColor('td_orange')" onclick="selectColor('td_orange')" class="td_s" id="td_orange" style="background-color: rgb(255, 165, 0);">&nbsp;</td>
+<td onmouseout="selCol('td_bisque')" onmouseover="choseColor('td_bisque')" onclick="selectColor('td_bisque')" class="td_s" id="td_bisque" style="background-color: rgb(255, 228, 196);">&nbsp;</td>
+<td onmouseout="selCol('td_khaki')" onmouseover="choseColor('td_khaki')" onclick="selectColor('td_khaki')" class="td_s" id="td_khaki" style="background-color: rgb(240, 230, 140);">&nbsp;</td>
+<td onmouseout="selCol('td_cornsilk')" onmouseover="choseColor('td_cornsilk')" onclick="selectColor('td_cornsilk')" class="td_s" id="td_cornsilk" style="background-color: rgb(255, 248, 220);">&nbsp;</td>
+<td onmouseout="selCol('td_linen')" onmouseover="choseColor('td_linen')" onclick="selectColor('td_linen')" class="td_s" id="td_linen" style="background-color: rgb(250, 240, 230);">&nbsp;</td>
+<td onmouseout="selCol('td_whitesmoke')" onmouseover="choseColor('td_whitesmoke')" onclick="selectColor('td_whitesmoke')" class="td_s" id="td_whitesmoke" style="background-color: rgb(245, 245, 245);">&nbsp;</td>
+</tr>
+<tr>
+<td onmouseout="selCol('td_greenyellow')" onmouseover="choseColor('td_greenyellow')" onclick="selectColor('td_greenyellow')" class="td_s" id="td_greenyellow" style="background-color: rgb(173, 255, 47);">&nbsp;</td>
+<td onmouseout="selCol('td_darkseagreen')" onmouseover="choseColor('td_darkseagreen')" onclick="selectColor('td_darkseagreen')" class="td_s" id="td_darkseagreen" style="background-color: rgb(143, 188, 143);">&nbsp;</td>
+<td onmouseout="selCol('td_turquoise')" onmouseover="choseColor('td_turquoise')" onclick="selectColor('td_turquoise')" class="td_s" id="td_turquoise" style="background-color: rgb(64, 224, 208);">&nbsp;</td>
+<td onmouseout="selCol('td_mediumturquoise')" onmouseover="choseColor('td_mediumturquoise')" onclick="selectColor('td_mediumturquoise')" class="td_s" id="td_mediumturquoise" style="background-color: rgb(72, 209, 204);">
+&nbsp;</td>
+<td onmouseout="selCol('td_skyblue')" onmouseover="choseColor('td_skyblue')" onclick="selectColor('td_skyblue')" class="td_s" id="td_skyblue" style="background-color: rgb(135, 206, 235);">&nbsp;</td>
+<td onmouseout="selCol('td_mediumpurple')" onmouseover="choseColor('td_mediumpurple')" onclick="selectColor('td_mediumpurple')" class="td_s" id="td_mediumpurple" style="background-color: rgb(147, 112, 216);">&nbsp;</td>
+<td onmouseout="selCol('td_violet')" onmouseover="choseColor('td_violet')" onclick="selectColor('td_violet')" class="td_s" id="td_violet" style="background-color: rgb(238, 130, 238);">&nbsp;</td>
+<td onmouseout="selCol('td_lightpink')" onmouseover="choseColor('td_lightpink')" onclick="selectColor('td_lightpink')" class="td_s" id="td_lightpink" style="background-color: rgb(255, 182, 193);">&nbsp;</td>
+<td onmouseout="selCol('td_darksalmon')" onmouseover="choseColor('td_darksalmon')" onclick="selectColor('td_darksalmon')" class="td_s" id="td_darksalmon" style="background-color: rgb(233, 150, 122);">&nbsp;</td>
+<td onmouseout="selCol('td_coral')" onmouseover="choseColor('td_coral')" onclick="selectColor('td_coral')" class="td_s" id="td_coral" style="background-color: rgb(255, 127, 80);">&nbsp;</td>
+<td onmouseout="selCol('td_navajowhite')" onmouseover="choseColor('td_navajowhite')" onclick="selectColor('td_navajowhite')" class="td_s" id="td_navajowhite" style="background-color: rgb(255, 222, 173);">&nbsp;</td>
+<td onmouseout="selCol('td_blanchedalmond')" onmouseover="choseColor('td_blanchedalmond')" onclick="selectColor('td_blanchedalmond')" class="td_s" id="td_blanchedalmond" style="background-color: rgb(255, 235, 205);">
+&nbsp;</td>
+<td onmouseout="selCol('td_palegoldenrod')" onmouseover="choseColor('td_palegoldenrod')" onclick="selectColor('td_palegoldenrod')" class="td_s" id="td_palegoldenrod" style="background-color: rgb(238, 232, 170);">&nbsp;</td>
+<td onmouseout="selCol('td_oldlace')" onmouseover="choseColor('td_oldlace')" onclick="selectColor('td_oldlace')" class="td_s" id="td_oldlace" style="background-color: rgb(253, 245, 230);">&nbsp;</td>
+<td onmouseout="selCol('td_seashell')" onmouseover="choseColor('td_seashell')" onclick="selectColor('td_seashell')" class="td_s" id="td_seashell" style="background-color: rgb(255, 245, 238);">&nbsp;</td>
+<td onmouseout="selCol('td_ghostwhite')" onmouseover="choseColor('td_ghostwhite')" onclick="selectColor('td_ghostwhite')" class="td_s" id="td_ghostwhite2" style="background-color: rgb(248, 248, 255);">&nbsp;</td>
+</tr>
+<tr>
+<td onmouseout="selCol('td_palegreen')" onmouseover="choseColor('td_palegreen')" onclick="selectColor('td_palegreen')" class="td_s" id="td_palegreen" style="background-color: rgb(152, 251, 152);">&nbsp;</td>
+<td onmouseout="selCol('td_springgreen')" onmouseover="choseColor('td_springgreen')" onclick="selectColor('td_springgreen')" class="td_s" id="td_springgreen" style="background-color: rgb(0, 255, 127);">&nbsp;</td>
+<td onmouseout="selCol('td_aquamarine')" onmouseover="choseColor('td_aquamarine')" onclick="selectColor('td_aquamarine')" class="td_s" id="td_aquamarine" style="background-color: rgb(127, 255, 212);">&nbsp;</td>
+<td onmouseout="selCol('td_powderblue')" onmouseover="choseColor('td_powderblue')" onclick="selectColor('td_powderblue')" class="td_s" id="td_powderblue" style="background-color: rgb(176, 224, 230);">&nbsp;</td>
+<td onmouseout="selCol('td_lightskyblue')" onmouseover="choseColor('td_lightskyblue')" onclick="selectColor('td_lightskyblue')" class="td_s" id="td_lightskyblue" style="background-color: rgb(135, 206, 250);">&nbsp;</td>
+<td onmouseout="selCol('td_lightsteelblue')" onmouseover="choseColor('td_lightsteelblue')" onclick="selectColor('td_lightsteelblue')" class="td_s" id="td_lightsteelblue" style="background-color: rgb(176, 196, 222);">
+&nbsp;</td>
+<td onmouseout="selCol('td_plum')" onmouseover="choseColor('td_plum')" onclick="selectColor('td_plum')" class="td_s" id="td_plum" style="background-color: rgb(221, 160, 221);">&nbsp;</td>
+<td onmouseout="selCol('td_pink')" onmouseover="choseColor('td_pink')" onclick="selectColor('td_pink')" class="td_s" id="td_pink" style="background-color: rgb(255, 192, 203);">&nbsp;</td>
+<td onmouseout="selCol('td_lightsalmon')" onmouseover="choseColor('td_lightsalmon')" onclick="selectColor('td_lightsalmon')" class="td_s" id="td_lightsalmon" style="background-color: rgb(255, 160, 122);">&nbsp;</td>
+<td onmouseout="selCol('td_wheat')" onmouseover="choseColor('td_wheat')" onclick="selectColor('td_wheat')" class="td_s" id="td_wheat" style="background-color: rgb(245, 222, 179);">&nbsp;</td>
+<td onmouseout="selCol('td_moccasin')" onmouseover="choseColor('td_moccasin')" onclick="selectColor('td_moccasin')" class="td_s" id="td_moccasin" style="background-color: rgb(255, 228, 181);">&nbsp;</td>
+<td onmouseout="selCol('td_antiquewhite')" onmouseover="choseColor('td_antiquewhite')" onclick="selectColor('td_antiquewhite')" class="td_s" id="td_antiquewhite" style="background-color: rgb(250, 235, 215);">&nbsp;</td>
+<td onmouseout="selCol('td_lemonchiffon')" onmouseover="choseColor('td_lemonchiffon')" onclick="selectColor('td_lemonchiffon')" class="td_s" id="td_lemonchiffon" style="background-color: rgb(255, 250, 205);">&nbsp;</td>
+<td onmouseout="selCol('td_floralwhite')" onmouseover="choseColor('td_floralwhite')" onclick="selectColor('td_floralwhite')" class="td_s" id="td_floralwhite" style="background-color: rgb(255, 250, 240);">&nbsp;</td>
+<td onmouseout="selCol('td_snow')" onmouseover="choseColor('td_snow')" onclick="selectColor('td_snow')" class="td_s" id="td_snow" style="background-color: rgb(255, 250, 250);">&nbsp;</td>
+<td onmouseout="selCol('td_aliceblue')" onmouseover="choseColor('td_aliceblue')" onclick="selectColor('td_aliceblue')" class="td_s" id="td_aliceblue" style="background-color: rgb(240, 248, 255);">&nbsp;</td>
+</tr>
+<tr>
+<td onmouseout="selCol('td_lightgreen')" onmouseover="choseColor('td_lightgreen')" onclick="selectColor('td_lightgreen')" class="td_s" id="td_lightgreen" style="background-color: rgb(144, 238, 144);">&nbsp;</td>
+<td onmouseout="selCol('td_mediumspringgreen')" onmouseover="choseColor('td_mediumspringgreen')" onclick="selectColor('td_mediumspringgreen')" class="td_s" id="td_mediumspringgreen" style="background-color: rgb(0, 250, 154);">
+&nbsp;</td>
+<td onmouseout="selCol('td_paleturquoise')" onmouseover="choseColor('td_paleturquoise')" onclick="selectColor('td_paleturquoise')" class="td_s" id="td_paleturquoise" style="background-color: rgb(175, 238, 238);">&nbsp;</td>
+<td onmouseout="selCol('td_lightcyan')" onmouseover="choseColor('td_lightcyan')" onclick="selectColor('td_lightcyan')" class="td_s" id="td_lightcyan" style="background-color: rgb(224, 255, 255);">&nbsp;</td>
+<td onmouseout="selCol('td_lightblue')" onmouseover="choseColor('td_lightblue')" onclick="selectColor('td_lightblue')" class="td_s" id="td_lightblue" style="background-color: rgb(173, 216, 230);">&nbsp;</td>
+<td onmouseout="selCol('td_lavender')" onmouseover="choseColor('td_lavender')" onclick="selectColor('td_lavender')" class="td_s" id="td_lavender" style="background-color: rgb(230, 230, 250);">&nbsp;</td>
+<td onmouseout="selCol('td_thistle')" onmouseover="choseColor('td_thistle')" onclick="selectColor('td_thistle')" class="td_s" id="td_thistle" style="background-color: rgb(216, 191, 216);">&nbsp;</td>
+<td onmouseout="selCol('td_mistyrose')" onmouseover="choseColor('td_mistyrose')" onclick="selectColor('td_mistyrose')" class="td_s" id="td_mistyrose" style="background-color: rgb(255, 228, 225);">&nbsp;</td>
+<td onmouseout="selCol('td_peachpuff')" onmouseover="choseColor('td_peachpuff')" onclick="selectColor('td_peachpuff')" class="td_s" id="td_peachpuff" style="background-color: rgb(255, 218, 185);">&nbsp;</td>
+<td onmouseout="selCol('td_papayawhip')" onmouseover="choseColor('td_papayawhip')" onclick="selectColor('td_papayawhip')" class="td_s" id="td_papayawhip" style="background-color: rgb(255, 239, 213);">&nbsp;</td>
+</tr>
+</tbody></table>
+<div id="showNamedColors">&nbsp;</div>
+</div>
+</div>
+<div id="tabBackground">
+<h1 class="header1">Edit CSS for Background </h1>
+<table id="BGTable" summary="This table is for editig Background CSS properties." style="float:left; display: inherit; width: 370px;">
+<tbody><tr>
+<td style="width: 147px;">Color:</td>
+<td><input type="text" size="20" name="bgColorTextBox" id="bgColorTextBox" class="smallInput" onfocus="showBGColorSelector();"/><input type="checkbox" onclick="aColorOrTransparent('trans')" value="ON" id="transparentCheckBox"/>Trans</td>
+</tr>
+<tr>
+<td>Image:</td>
+<td><input type="text" onchange="setBGStyle()" class="bigInput" size="35" name="imageInputTextBox" id="imageInputTextBox"/></td>
+</tr>
+<tr>
+<td>Tiling:</td>
+<td><select class="bigInput" onchange="setBGStyle()" name="bgTilingDropDownList" id="bgTilingDropDownList" size="1">
+<option value=""/>
+<option value="repeat-x">Tile in horizontal direction</option>
+<option value="repeat-y">Tile in vertical direction</option>
+<option value="repeat">Tile in both direction</option>
+<option value="no-repeat">Do not tile</option>
+</select></td>
+</tr>
+<tr>
+<td>Scrolling:</td>
+<td><select class="bigInput" onchange="setBGStyle()" name="bgScrollingDropDownList" id="bgScrollingDropDownList" size="1">
+<option value=""/>
+<option value="scroll">Scrolling background</option>
+<option value="fixed">Fixed background</option>
+</select></td>
+</tr>
+<tr>
+<td>H Position:</td>
+<td><input class="smallInput" type="text" onfocus="showHPozSelector()" ize="20" id="HorizontaleBGPositionTextBox" name="HorizontaleBGPositionTextBox"/><select id="HorizontalBGPositionUnitDropDownList" name="HorizontalBGPositionUnitDropDownList" class="smallSelect" size="1">
+<option value=""/>
+<option value="px">px</option>
+<option value="%">%</option>
+<option value="pt">pt</option>
+<option value="pc">pc</option>
+<option value="mm">mm</option>
+<option value="cm">cm</option>
+<option value="in">in</option>
+<option value="em">em</option>
+<option value="ex">ex</option>
+</select></td>
+</tr>
+<tr>
+<td>V Position:</td>
+<td><input class="smallInput" type="text" onfocus="showVPozSelector()" size="20" id="VerticalBGPositionTextBox" name="VerticalBGPositionTextBox"/><select name="VerticalBGPositionUnitDropDownList" id="VerticalBGPositionUnitDropDownList" class="smallSelect" size="1">
+<option value=""/>
+<option value="px">px</option>
+<option value="%">%</option>
+<option value="pt">pt</option>
+<option value="pc">pc</option>
+<option value="mm">mm</option>
+<option value="cm">cm</option>
+<option value="in">in</option>
+<option value="em">em</option>
+<option value="ex">ex</option>
+</select></td>
+</tr>
+<tr>
+<td>Cursor:</td>
+<td><select class="bigInput" name="cursorDropDownList" id="cursorDropDownList" size="1">
+<option value=""/>
+<option value="auto">Auto</option>
+<option value="default">Default</option>
+<option value="crosshair">Crosshair</option>
+<option value="pointer">Hand</option>
+<option value="move">Move</option>
+<option value="n-resize">Top Resize</option>
+<option value="s-resize">Bottom Resize</option>
+<option value="w-resize">Left Resize</option>
+<option value="e-resize">Right Resize</option>
+<option value="nw-resize">Top Left Resize</option>
+<option value="sw-resize">Bottom Left Resize</option>
+<option value="ne-resize">Top Right Resize</option>
+<option value="se-resize">Bottom Right Resize</option>
+<option value="text">Text</option>
+<option value="wait">Hourglass</option>
+<option value="help">Help</option>
+</select></td>
+</tr>
+</tbody></table>
+<div id="hPozDiv" style="display:none;float:left;width:320px;">
+<table id="BGImagePositionHorTable" style="width: 100%;" summary="This table is for horizontal positioning.">
+<tbody>
+<tr> <th class="header2">Click to select</th> </tr>
+<td onclick="selectBGImagePositionHorOnClickTD('left')">Left</td>
+</tr>
+<tr>
+<td onclick="selectBGImagePositionHorOnClickTD('center')">Center</td>
+</tr>
+<tr>
+<td onclick="selectBGImagePositionHorOnClickTD('right')">Right</td>
+</tr>
+</tbody></table>
+</div>
+<div id="vPozDiv" style="display:none;float:left; width:320px;">
+<table id="BGImagePositionVerTable" style="width: 100%;" summary="This table is vertical positioning.">
+<tbody>
+<tr> <th class="header2">Click to select</th> </tr>
+<td onclick="selectBGImagePositionVerOnClickTD('top')">Top</td>
+</tr>
+<tr>
+<td onclick="selectBGImagePositionVerOnClickTD('center')">Center</td>
+</tr>
+<tr>
+<td onclick="selectBGImagePositionVerOnClickTD('bottom')">Bottom</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+<div id="tabText">
+<h1 class="header1">Edit CSS for Text </h1>
+<table id="TextTable" summary="This table is for editig Text CSS properties." style="float:left; display: inherit; width: 370px;">
+<tbody
+<tr>
+<td>Horizontal:</td>
+<td><select class="bigInput" id="horizontalAlignmentDropDownList" name="horizontalAlignmentDropDownList" size="1">
+<option value=""/>
+<option value="left">Left</option>
+<option value="center">Centered</option>
+<option value="right">Right</option>
+<option value="justify">Justified</option>
+</select></td>
+</tr>
+<tr>
+<td>Letters spacing:</td>
+<td><input type="text" class="smallInput" onfocus="showLetterSpacingSelector();" size="20" id="spacingBetweenLettersTextBox" name="spacingBetweenLettersTextBox"/><select id="spacingBetweenLettersUnitsDropDownList" name="spacingBetweenLettersUnitsDropDownList" class="smallSelect" size="1">
+<option value=""/>
+<option value="px">px</option>
+<option value="pt">pt</option>
+<option value="pc">pc</option>
+<option value="mm">mm</option>
+<option value="cm">cm</option>
+<option value="in">in</option>
+<option value="em">em</option>
+<option value="ex">ex</option>
+</select></td>
+</tr>
+<tr>
+<td>Vertical:</td>
+<td><select class="bigInput" id="verticalAlignmentDropDownList" name="verticalAlignmentDropDownList" size="1">
+<option value=""/>
+<option value="baseline">baseline</option>
+<option value="sub">sub</option>
+<option value="super">super</option>
+<option value="top">top</option>
+<option value="text-top">text top</option>
+<option value="middle">middle</option>
+<option value="bottom">bottom</option>
+<option value="text-bottom">text bottom</option>
+</select></td>
+</tr>
+<tr>
+<td>Lines spacing:</td>
+<td><input type="text" class="smallInput" onfocus="showLineSpacingSelector();" size="20" id="spacingBetweenLinesTextBox" name="spacingBetweenLinesTextBox"/><select id="spacingBetweenLinesUnitsDropDownList" name="spacingBetweenLinesUnitsDropDownList" class="smallSelect" size="1">
+<option value=""/>
+<option value="px">px</option>
+<option value="%">%</option>
+<option value="pt">pt</option>
+<option value="pc">pc</option>
+<option value="mm">mm</option>
+<option value="cm">cm</option>
+<option value="in">in</option>
+<option value="em">em</option>
+<option value="ex">ex</option>
+</select></td>
+</tr>
+<tr>
+<td>Indentation:</td>
+<td><input type="text" class="smallInput" id="textFlowIdentationTextBox" size="20" name="textFlowIdentationTextBox"/><select id="textFlowIdentationDropDownList" name="textFlowIdentationDropDownList" class="smallSelect" size="1">
+<option value=""/>
+<option value="px">px</option>
+<option value="%">%</option>
+<option value="pt">pt</option>
+<option value="pc">pc</option>
+<option value="mm">mm</option>
+<option value="cm">cm</option>
+<option value="in">in</option>
+<option value="em">em</option>
+<option value="ex">ex</option>
+</select></td>
+</tr>
+<tr>
+<td>Text direction:</td>
+<td><select class="bigInput" id="textFlowTextDirectionDropDownList" name="textFlowTextDirectionDropDownList" size="1">
+<option value=""/>
+<option value="ltr">Left to right</option>
+<option value="rtl">Right to left</option>
+</select></td>
+</tr>
+</tbody></table>
+<div id="linesSpacingDiv" style="display:none;float:left; width:320px;">
+<table id="LinesTable" summary="This table is for line spacing." style="width: 100%;">
+<tbody>
+<tr> <th class="header2">Click to select</th> </tr>
+<tr>
+<td onclick="selectLinesOnClick('normal')">normal</td>
+</tr>
+</tbody></table>
+</div>
+<div id="lettersSpacingDiv" style="display:none;float:left; width:320px;">
+<table id="LettersTable" summary="This table s for letter spacing." style="width: 100%;">
+<tbody>
+<tr> <th class="header2">Click to select</th> </tr>
+<tr>
+<td onclick="selectLettersOnClick('normal')">normal</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+
+<div id="tabPosition">
+<h1 class="header1">Edit CSS for Position </h1>
+<table id="PositionTable" summary="This table is for editig Position CSS properties." style="float:left; display: inherit; width: 370px;">
+<tbody><tr>
+<td style="width: 147px;">Position mode:</td>
+<td><select class="bigInput" onchange="setPositionStyle(),changePositionSample()" id="positionModeDropDownList" name="positionModeDropDownList" size="1">
+<option value=""/>
+<option value="static">Position is normal flow</option>
+<option value="relative">Offset from normal flow</option>
+<option value="absolute">Absoulutely position</option>
+</select></td>
+</tr>
+<tr>
+<td>Top:</td>
+<td><input class="smallInput" type="text" onchange="setPositionStyle()" id="positionTopTextBox" size="10" name="positionTopTextBox"/><select onchange="setPositionStyle()" id="positionTopDropDownList" name="positionTopDropDownList" class="smallSelect" size="1">
+<option value=""/>
+<option value="px">px</option>
+<option value="%">%</option>
+<option value="pt">pt</option>
+<option value="pc">pc</option>
+<option value="mm">mm</option>
+<option value="cm">cm</option>
+<option value="in">in</option>
+<option value="em">em</option>
+<option value="ex">ex</option>
+</select></td>
+</tr>
+<tr>
+<td>Height:</td>
+<td><input class="smallInput" type="text" onchange="setPositionStyle()" id="positionHeightTextBox" size="10" name="positionHeightTextBox"/><select onchange="setPositionStyle()" id="positionHeightDropDownList" name="positionHeightDropDownList" class="smallSelect" size="1">
+<option value=""/>
+<option value="px">px</option>
+<option value="%">%</option>
+<option value="pt">pt</option>
+<option value="pc">pc</option>
+<option value="mm">mm</option>
+<option value="cm">cm</option>
+<option value="in">in</option>
+<option value="em">em</option>
+<option value="ex">ex</option>
+</select></td>
+</tr>
+<tr>
+<td>Left:</td>
+<td><input class="smallInput" type="text" onchange="setPositionStyle()" id="positionLeftTextBox" size="10" name="positionLeftTextBox"/><select onchange="setPositionStyle()" id="positionLeftDropDownList" name="positionLeftDropDownList" class="smallSelect" size="1">
+<option value=""/>
+<option value="px">px</option>
+<option value="%">%</option>
+<option value="pt">pt</option>
+<option value="pc">pc</option>
+<option value="mm">mm</option>
+<option value="cm">cm</option>
+<option value="in">in</option>
+<option value="em">em</option>
+<option value="ex">ex</option>
+</select></td>
+</tr>
+<tr>
+<td>Width:</td>
+<td><input class="smallInput" type="text" onchange="setPositionStyle()" id="positionWitdthTextBox" size="10" name="positionWitdthTextBox"/><select onchange="setPositionStyle()" id="positionWidthDropDownList" name="positionWidthDropDownList" class="smallSelect" size="1">
+<option value=""/>
+<option value="px">px</option>
+<option value="%">%</option>
+<option value="pt">pt</option>
+<option value="pc">pc</option>
+<option value="mm">mm</option>
+<option value="cm">cm</option>
+<option value="in">in</option>
+<option value="em">em</option>
+<option value="ex">ex</option>
+</select></td>
+</tr>
+<tr>
+<td>Z-Index:</td>
+<td><input type="text" onchange="setPositionStyle()" id="positionZIndexTextBox" size="20" name="positionZIndexTextBox"/></td>
+</tr>
+<tr>
+<td>Visibility:</td>
+<td><select class="bigInput" onchange="setPositionStyle()" name="flowControlVisibilityDropDownList" id="flowControlVisibilityDropDownList" size="1">
+<option value=""/>
+<option value="hidden">Hidden</option>
+<option value="visible">Visible</option>
+</select></td>
+</tr>
+<tr>
+<td>Display:</td>
+<td><select class="bigInput" onchange="setPositionStyle()" name="flowControlDisplayDropDownList" id="flowControlDisplayDropDownList" size="1">
+<option value=""/>
+<option value="none">Do not display</option>
+<option value="block">As a block element</option>
+<option value="inline">As an inflow element</option>
+</select></td>
+</tr>
+<tr>
+<td>Floating position:</td>
+<td><select class="bigInput" onchange="setPositionStyle()" name="flowControlAllowTextToFlowDropDownList" id="flowControlAllowTextToFlowDropDownList" size="1">
+<option value=""/>
+<option value="none">No floating</option>
+<option value="right">Right</option>
+<option value="left">Left</option>
+</select></td>
+</tr>
+<tr>
+<td>Allow floating:</td>
+<td><select class="bigInput" onchange="setPositionStyle()" name="flowControlAllowFloatingObjectsDropDownList" id="flowControlAllowFloatingObjectsDropDownList" size="1">
+<option value=""/>
+<option value="none">Do not allow</option>
+<option value="left">Left</option>
+<option value="right">Right</option>
+<option value="both">On both sides</option>
+</select></td>
+</tr>
+</tbody></table>
+</div>
+
+<div id="tabLayout">
+<h1 class="header1">Edit CSS for Layout </h1>
+<table id="LayoutTable" summary="This table is for editig Layout CSS properties." style="float:left; display: inherit; width: 370px;">
+<tbody><tr>
+<td style="width: 147px;">Overflow:</td>
+<td><select class="bigInput" name="contentOverflowDropDownList" id="contentOverflowDropDownList" size="1">
+<option value=""/>
+<option value="auto">Use scrollbars if need</option>
+<option value="scroll">Always use scrollbars</option>
+<option value="visible">Content is not clipped</option>
+<option value="hidden">Content is clipped</option>
+</select></td>
+</tr>
+<tr>
+<td >Top:</td>
+<td><input class="smallInput" class="bigInput" type="text" size="5" name="clippinTopTextBox" id="clippinTopTextBox"/><select onchange="setLayoutStyle()" name="clippinTopUnitsDropDownList" id="clippinTopUnitsDropDownList" class="smallSelect" size="1">
+<option value=""/>
+<option value="px">px</option>
+<option value="%">%</option>
+<option value="pt">pt</option>
+<option value="pc">pc</option>
+<option value="mm">mm</option>
+<option value="cm">cm</option>
+<option value="in">in</option>
+<option value="em">em</option>
+<option value="ex">ex</option>
+</select></td>
+</tr>
+<tr>
+<td >Bottom:</td>
+<td><input class="smallInput" type="text" onchange="setLayoutStyle()" size="5" name="clippinBottomTextBox" id="clippinBottomTextBox"/><select onchange="setLayoutStyle()" name="clippinBottomUnitsDropDownList" id="clippinBottomUnitsDropDownList" class="smallSelect" size="1">
+<option value=""/>
+<option value="px">px</option>
+<option value="%">%</option>
+<option value="pt">pt</option>
+<option value="pc">pc</option>
+<option value="mm">mm</option>
+<option value="cm">cm</option>
+<option value="in">in</option>
+<option value="em">em</option>
+<option value="ex">ex</option>
+</select></td>
+</tr>
+<tr>
+<td >Left:</td>
+<td><input class="smallInput" type="text" onchange="setLayoutStyle()" size="5" name="clippinLeftTextBox" id="clippinLeftTextBox"/><select onchange="setLayoutStyle()" name="clippinLeftUnitsDropDownList" id="clippinLeftUnitsDropDownList" class="smallSelect" size="1">
+<option value=""/>
+<option value="px">px</option>
+<option value="%">%</option>
+<option value="pt">pt</option>
+<option value="pc">pc</option>
+<option value="mm">mm</option>
+<option value="cm">cm</option>
+<option value="in">in</option>
+<option value="em">em</option>
+<option value="ex">ex</option>
+</select></td>
+</tr>
+<tr>
+<td >Right:</td>
+<td><input class="smallInput" ype="text" onchange="setLayoutStyle()" size="5" name="clippinRightTextBox" id="clippinRightTextBox"/><select onchange="setLayoutStyle()" name="clippinRightUnitsDropDownList" id="clippinRightUnitsDropDownList" class="smallSelect" size="1">
+<option value=""/>
+<option value="px">px</option>
+<option value="%">%</option>
+<option value="pt">pt</option>
+<option value="pc">pc</option>
+<option value="mm">mm</option>
+<option value="cm">cm</option>
+<option value="in">in</option>
+<option value="em">em</option>
+<option value="ex">ex</option>
+</select></td>
+</tr>
+<tr>
+<td >Breap before</td>
+<td><select class="bigInput" onchange="setLayoutStyle()" name="pageBreakBefore" id="pageBreakBefore" size="1">
+<option value=""/>
+<option value="auto">Auto</option>
+<option value="always">Force a page break</option>
+<option value="">No page break</option>
+</select></td>
+</tr>
+<tr>
+<td >Break after</td>
+<td><select class="bigInput" onchange="setLayoutStyle()" name="pageBreakAfter" id="pageBreakAfter" size="1">
+<option value=""/>
+<option value="auto">Auto</option>
+<option value="always">Force a page break</option>
+<option value="">No page break</option>
+</select></td>
+</tr>
+<tr>
+<td >Table layout</td>
+<td><select class="bigInput "onchange="setLayoutStyle()" name="tablesLayoutDropDownList" id="tablesLayoutDropDownList" size="1">
+<option value=""/>
+<option value="auto">Auto</option>
+<option value="fixed">Fixed layout</option>
+</select></td>
+</tr>
+</tbody></table>
+</div>
+
+<div id="tabBorders">
+<h1 class="header1">Edit CSS for Borders </h1>
+<table id="EdgesTable" summary="This table is for editig Border CSS properties." style="float:left; display: inherit; width: 370px;">
+<tbody>
+<tr>
+<td style="width:147px;">Margins</td><td><input type="text" id="bordersMargins" class="bigInput" alt="Margins" title="Margins" value=""></input></td>
+</tr>
+<tr><td>&nbsp;</td><td>e.g. 0px 10px 10px 0px [top bottom left right]</td></tr>
+<tr>
+<td>Padding</td><td><input type="text" id="bordersPadding" class="bigInput" alt="Padding" title="Padding" value=""></input></td>
+</tr>
+<tr><td>&nbsp;</td><td>e.g. 0px 10px 10px 0px [top bottom left right]</td></tr>
+<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr>
+<td>Table borders:</td><td> <select class="bigInput" name="tablesBordersDropDownList" id="tablesBordersDropDownList" size="1">
+<option value=""/>
+<option value="separate">Seperate cell borders</option>
+<option value="collapse">Collapse cell borders</option>
+</select></td>
+</tr>
+<tr>
+<td> Border color:</td>
+<td><input type="text" size="12" id="borderColorAllTextBox" name="borderColorAllTextBox" class="bigInput" onfocus="showBorderColorSelector()"/></td>
+</tr>
+<td> Border style:</td>
+<td><select id="borderStyleAllDropDownList" name="borderStyleAllDropDownList" class="bigInput" size="1">
+<option value=""/>
+<option value="none">None</option>
+<option value="dotted">Dotted</option>
+<option value="dashed">Dashed</option>
+<option value="solid">Solid line</option>
+<option value="double">Duble line</option>
+<option value="groove">Groove</option>
+<option value="ridge">Ridge</option>
+<option value="inset">Inset</option>
+<option value="outset">Outset</option>
+ </select></td>
+</tr>
+<td> Border width:</td>
+
+<td><input type="text" size="4" id="borderWidthAllTextBox" name="borderWidthAllTextBox" class="smallInput" /><select id="borderWidthAllDropDownList" name="borderWidthAllDropDownList" class="smallSelect" size="1">
+<option value=""/>
+<option value="thin">Thin</option>
+<option value="medium">Medium</option>
+<option value="thick">Thick</option>
+<option value="px">px</option>
+<option value="pt">pt</option>
+<option value="pc">pc</option>
+<option value="mm">mm</option>
+<option value="cm">cm</option>
+<option value="in">in</option>
+<option value="em">em</option>
+<option value="ex">ex</option>
+</select></td>
+</tr>
+
+</tbody></table>
+</div>
+
+<div id="tabLists">
+<h1 class="header1">Edit CSS for Layout </h1>
+<table id="ListsTable" summary="This table is for editig List CSS properties." style="float:left; display: inherit; width: 370px;">
+<tbody>
+<tr>
+<td style="width: 147px;">List style:</td>
+<td><select class="bigInput" id="bulletStyleDropDownList" size="1">
+<option value=""/>
+<option value="none">Unbulleted</option>
+<option value="circle">Circle</option>
+<option value="disc">Disc</option>
+<option value="square">Square</option>
+<option value="decimal">1 2 3 4...</option>
+<option value="lower-roman">Lowercase i ii iii...</option>
+<option value="upper-roman">Uppercase I II III...</option>
+<option value="lower-alpha">Lowercase a b c...</option>
+<option value="upper-alpha">Uppercase A B C...</option>
+</select></td>
+</tr>
+<tr>
+<td>Position:</td>
+<td><select class="bigInput" id="bulletPositionDropDownList" size="1">
+<option value=""/>
+<option value="outside">Outside (Text is indented in)</option>
+<option value="inside">Inside (Text is not indented)</option>
+</select></td>
+</tr>
+<tr>
+<td>Image:</td>
+<td><input type="text" size="20" id="customBulletImageTextBox"/></td>
+</tr>
+</tbody></table>
+</div>
+
+<div style="clear:both"></div>
+<p><center><input type="button" onclick="saveCSSChanges(); closeDialog();" value="Save &amp; Close"/>&nbsp;<input type="button" value="Cancel" onclick="closeDialog();"/></center></p>
+<div id="dialogMessages"/></div>
+</div>
+</div>
 <div id="debug_div"></div>
+
 <script type="text/javascript">
-    var gpHC = function () {
-        var _STYLE_INDEX=0;
-	var msg = new _IG_MiniMessage(__MODULE_ID__, $("debug_div"));
-        var tabs = new _IG_Tabs(__MODULE_ID__, "Font", _gel("dialogContents"));
-  
-        var controller, viewPanel, viewList, viewStatus, viewProperties;
-        
-        Object.prototype.clone = function() {
-              var newObj = (this instanceof Array) ? [] : {};
-              for (i in this) {
-                  if (i == 'clone') continue;
-                  if (this[i] && typeof this[i] == "object") {
-                      newObj[i] = this[i].clone();
-                  }
-                  else newObj[i] = this[i]
-              }
-              return newObj;
-        };        
-                
-        function makeCSS(font_family, color, font_size, font_unit, font_weight, font_style, font_variant, font_transform, text_decoration) {
-                var style="";
-                
-                if(font_family!="")
-                    style +="font-family:"+font_family.toLowerCase()+";";
-                    
-                if(color!="")
-                    style +="color:"+color+";";
-                    
-                    
-                if(font_size!="") {
-                    if(isNaN(font_size)){
-                        style +="font-size:"+font_size+";";
-                    }
-                    else {
-                        style +="font-size:"+font_size+font_unit+";";
-                    }
-                }
-                    
-                    
-                if(font_weight!="")
-                    style +="font-weight:"+font_weight+";";
-  
-  
-                if(font_style!="")
-                    style +="font-style:"+font_style+";";
-  
-                if(font_variant!="")
-                    style +="font-variant:"+font_variant+";";
-                    
-                if(font_transform!="")
-                    style +="font-transform:"+font_transform+";";
-                    
-                    
-                if(text_decoration!="")
-                    style +="text-decoration:"+text_decoration+";";
-  
-                return style;
-        }
-        
-        function HTML_Property(name, value) {
-                this.name = name;
-                this.value = value;
-        }
-  
-        HTML_Property.prototype.getProperty = function (name) {
-                return this.value[name];
-        }
-        
-        function gridParameters() {
-            this.data = new Array();
-        }
-        
-        propertyUpdated = function(index, value) {
-                if(controller.model.selected == -1)
-                    return;
+var gpHC = function () {
+var _STYLE_INDEX=0, currentColorHost = "CBox";
+var msg = new _IG_MiniMessage(__MODULE_ID__, $("debug_div"));
+var tabs = new _IG_Tabs(__MODULE_ID__, "Font", _gel("dialogContents"));
+var controller, viewPanel, viewList, viewStatus, viewProperties;
 
-                controller.updateProperty(index, value);
-                msg.createTimerMessage("Control edited, saving changes...", 2);
-        };
-        
-        gridParameters.prototype._IGG_getNormalView = function(index) { 
-                if (index % 2 == 0)
-                    return "<p title='"+this.data[index+1].desc+"'>" + this.data[index] +"</p>";
-                else {
-                    if (this.data[index-1] === "style") _STYLE_INDEX=parseInt(index/2);
-                    return "<input class='propertyText' onchange='propertyUpdated("+parseInt(index/2)+",this.value);' type='text' id='toolbox_"+this.data[index-1]+"' value ='"+this.data[index].default+"' />";
-                }
-        }  
-      
-        gridParameters.prototype._IGG_isDragSource = function(index) {
-                return false;
-        }
+Object.prototype.clone = function() {
+var newObj = (this instanceof Array) ? [] : {};
+for (i in this) {
+if (i == 'clone') continue;
+if (this[i] && typeof this[i] == "object") {
+newObj[i] = this[i].clone();
+}
+else newObj[i] = this[i]
+}
+return newObj;
+};
 
-        gridParameters.prototype._IGG_isDragTarget = function(index, sourceIndex) {
-                return false;
-        }
-  
-        function HTML_Element (name, description, properties, tag) {
-		this.name = name;
-		this.description = description;
-		this.properties = properties || arguments.slice(2);
-                this.tag = tag;
-	}
-	
-	function createXMLParser () {
-		try {		//Internet Explorer
-  			xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
-  		}
-		catch(e) {
-  			try { //Firefox, Mozilla, Opera, etc.
-    				xmlDoc=document.implementation.createDocument("","",null);
-    			}
-  			catch(e)  {
-    				alert("Your browser does not implement XML parser!");
-    				return;
-    			}
-  		}
-		
-		xmlDoc.async = false;
-		return xmlDoc;
-	}
-		
-	function createToolBox (xmlDoc) {
-                for(var i=0, elements = xmlDoc.getElementsByTagName("element");i<elements.length;++i) {
-                        
-			var current_element = new HTML_Element(elements[i].attributes["id"].firstChild.nodeValue, elements[i].attributes["desc"].firstChild.nodeValue, {}, elements[i].attributes["tag"].firstChild.nodeValue);
-                        current_element.properties = new Array();
-			for(var j=0, properties = elements[i].childNodes; j<properties.length;++j) {
-				if(properties[j].nodeName == "property") {
-  					current_element.properties[current_element.properties.length] = new HTML_Property(properties[j].firstChild.nodeValue, {"default":((properties[j].attributes && properties[j].attributes["default"])?properties[j].attributes["default"].nodeValue:""), "desc":((properties[j].attributes && properties[j].attributes["desc"])?properties[j].attributes["desc"].nodeValue:""),"regex":((properties[j].attributes && properties[j].attributes["regex"])?properties[j].attributes["regex"].nodeValue:"")});
-                                }
-			}
-			DataElements.push(current_element);
-		}
-		var parentDiv = $("navcontainer");
-		var parentUl = document.createElement("ul");
-		parentUl.setAttribute("id", "navlist");
+function makeCSS(font_family, color, font_size, font_unit, font_weight, font_style, font_variant, font_transform, text_decoration, background_color, background_image, background_repeat, background_attachment, background_position, cursor, text_align, letter_spacing, vertical_align, line_height, text_indent, direction, position, top, height, left, width, z_index, visibility, display, float, clear, overflow, clip, page_break_before, page_break_after, table_layout, list_style_type, list_style_position, list_style_image, margin, padding, border_collapse, border) {
+var style="";
 
-		
-		for(var i=0; i<DataElements.length;++i) {
-			var listItem = document.createElement("li");
-			var innerA = document.createElement("a");
-                
-			innerA.setAttribute("href", "#");
-                        innerA.setAttribute("tag", i);
-                        innerA.setAttribute("id", "toolbox_a_"+DataElements[i].name);
-			innerA.innerHTML  = DataElements[i].toToolboxItem();
-                  	listItem.appendChild(innerA);
-			parentUl.appendChild(listItem);
-		}
-		
-		parentDiv.appendChild(parentUl);
-                
-         	for(var i=0; i<DataElements.length;++i) {
-                  drag_obj.addSource("toolbox_a_"+DataElements[i].name);
-                }
-                
-                // MVC init
-                controller = new gpHC.MVCLibrary.Controller(new gpHC.MVCLibrary.Model([]));
+if(font_family!="")
+style +="font-family:"+font_family.toLowerCase()+";";
+if(color!="")
+style +="color:"+color+";";
+if(font_size!="") {
+if(isNaN(font_size)){
+style +="font-size:"+font_size+";";
+}
+else {
+style +="font-size:"+font_size+font_unit+";";
+}
+}
+if(font_weight!="")
+style +="font-weight:"+font_weight+";";
+if(font_style!="")
+style +="font-style:"+font_style+";";
+if(font_variant!="")
+style +="font-variant:"+font_variant+";";
+if(font_transform!="")
+style +="font-transform:"+font_transform+";";
+if(text_decoration!="")
+style +="text-decoration:"+text_decoration+";";
 
-                viewPanel = new gpHC.MVCLibrary.View(controller.model, _gel("workBoxContainer"), function(targetControl) {
-                       while(targetControl.firstChild) targetControl.removeChild(targetControl.firstChild);
+// BACKGROUND CSS
 
-                       var italic_text = document.createElement("em");
-                       var p_italic_text = document.createElement("p");
-                            
-                       italic_text.innerHTML = "Drop controls here: ";
-                       p_italic_text.appendChild(italic_text);
-                       targetControl.appendChild(p_italic_text);
+if(background_color!="")
+style +="background-color:"+background_color+";";
+if(background_image!="")
+style +="background-image: url("+background_image+");";
+if(background_repeat!="")
+style +="background-repeat:"+background_repeat+";";
+if(background_attachment!="")
+style +="background-attachment:"+background_attachment+";";
+if(background_position!="")
+style +="background-position:"+background_position+";";
+if(cursor!="")
+style +="cursor:"+cursor+";";
 
-                                                                        
-                      for(var i = 0; i<controller.model.data.length; ++i) {
-                            var newDiv = document.createElement("div");
-                            var newDOMElement = document.createElement(this.model.data[i].tag);
-                            var propertiesDiv = document.createElement("div");
-                            var propertiesContainerDiv = document.createElement("div");
-                            var deleteImage = document.createElement("img");
-                            var cssImage = document.createElement("img");
-                            
-                            var classValue =  "panelItem" + ((i%2==0)?"":" alt") + ((this.model.selected==i)?" selected":"");
-                            
-                            newDiv.setAttribute("class", classValue)
-                            propertiesDiv.setAttribute("class", "panelProperties")
-                            propertiesContainerDiv.setAttribute("class", "panelPropertiesContainer")
-                            
-                            deleteImage.setAttribute("src", "http://toolbox-gadget.googlecode.com/svn/trunk/images/delete.gif");
-                            deleteImage.setAttribute("title", "Delete this control.");
-                            deleteImage.setAttribute("onclick", "javascript:removeElement("+i+")");
-                            
-                            cssImage.setAttribute("src", "http://toolbox-gadget.googlecode.com/svn/trunk/images/editstyle.gif");
-                            cssImage.setAttribute("title", "Edit style for this contorl.");
-                            cssImage.setAttribute("onclick", "javascript:editCSS("+i+")");
+// TEXT CSS
+if(text_align!="")
+style +="text-align:"+text_align+";";
+if(letter_spacing!="")
+style +="letter-spacing:"+letter_spacing+";";
+if(vertical_align!="")
+style +="vertical-align:"+vertical_align+";";
+if(line_height!="")
+style +="line-height:"+line_height+";";
+if(text_indent!="")
+style +="text-indent:"+text_indent+";";
+if(direction!="")
+style +="direction:"+direction+";";
 
-                            for(var j=0, attributes = this.model.data[i].properties; j < attributes.length; ++j) {
-                                  if(attributes[j] && attributes[j].value.default != "") {
-                                      newDOMElement.setAttribute(attributes[j].name, attributes[j].value.default); 
-                                  }
-                       
-                                newDiv.appendChild(newDOMElement);
-                            }
+// POSITION CSS
+if(position!="")
+style +="position:"+position+";";
+if(top!="")
+style +="top:"+top+";";
+if(height!="")
+style +="height:"+height+";";
+if(left!="")
+style +="left:"+left+";";
+if(width!="")
+style +="width:"+width+";";
+if(z_index!="")
+style +="z-index:"+z_index+";";
+if(visibility!="")
+style +="visibility:"+visibility+";";
+if(display!="")
+style +="display:"+display+";";
+if(float!="")
+style +="float:"+float+";";
+if(clear!="")
+style +="clear:"+clear+";";
 
-                          newDiv.setAttribute("onclick","showProperties("+i+")");
+if(overflow!="")
+style +="overflow:"+overflow+";";
+if(clip!="")
+style +="clip:"+clip+";";
+if(page_break_before!="")
+style +="page-break-before:"+page_break_before+";";
+if(page_break_after!="")
+style +="page-break-after:"+page_break_after+";";
+if(table_layout!="")
+style +="table-layout:"+table_layout+";";
 
-                          propertiesDiv.appendChild(deleteImage);
-                          propertiesDiv.appendChild(cssImage);
-                          
-                          propertiesContainerDiv.appendChild(newDiv);
-                          propertiesContainerDiv.appendChild(propertiesDiv);
-                                                   
-                          targetControl.appendChild(propertiesContainerDiv);
-                      }
-                });
-  
-                viewList = new gpHC.MVCLibrary.View(controller.model, _gel("p_current_control"), function(targetControl) {
-                      while(targetControl.firstChild) targetControl.removeChild(targetControl.firstChild);
-  
-                      var newSelect = document.createElement("select");
-  
-                      for(var i = 0; i<this.model.data.length; ++i) {
-                                var newOption = document.createElement("option");
-                                newOption.setAttribute("value", i);
-                      
-                                if(this.model.selected == i)
-                                    newOption.setAttribute("selected", "selected");
-                      
-                                newOption.innerHTML = controller.model.data[i].name + " (id = " + i + ")";
-                       
-                                newSelect.appendChild(newOption);
-                            }
-                      
-                      newSelect.setAttribute("id","selectList");
-                      newSelect.setAttribute("onchange","showProperties(this.selectedIndex)");
-                      var bold_text = document.createElement("b");
-                      bold_text.innerHTML = "Current: ";
-  
-                      targetControl.appendChild(bold_text);
-                      targetControl.appendChild(newSelect);
-                });
-                      
-                viewProperties = new gpHC.MVCLibrary.View(controller.model, _gel("properties_grid_span"), function(targetControl) {
-                      if (!this.model || this.model.selected==-1) {
-                              return;
-                      }
-                      
-                      while(targetControl.firstChild) targetControl.removeChild(targetControl.firstChild);
-  
-                      var properties = this.model.getDataByIndex(this.model.selected).properties;
-                      var pGridValues = new gridParameters();
-                 
-                      for(var j=0;j<properties.length;++j) {
-                           pGridValues.data[pGridValues.data.length] = properties[j].name;
-                           pGridValues.data[pGridValues.data.length] = properties[j].value;
-                      }
-        
-                      var properties_grid = new _IG_Grid(pGridValues, "toolbox_properties_grid", properties.length, 2);
-                      properties_grid.getTable().border = 2;
-                      var given_table = properties_grid.getTable();                 
-                 
-                      properties_grid.table.setAttribute("class", "column");
-                 
-                      targetControl.appendChild(given_table);
-                });
-  
-                viewStatus = new gpHC.MVCLibrary.View(controller.model, _gel("p_control_count"), function(targetControl) {
-                      while(targetControl.firstChild) targetControl.removeChild(targetControl.firstChild);
-                      
-                      targetControl.innerHTML = "<b> Control grid: </b> <em>("+this.model.data.length+")</em>";
-                });
-                
-                controller.addListener(viewPanel);
-                controller.addListener(viewStatus);
-                controller.addListener(viewList);
-                controller.addListener(viewProperties);
-	}
-	
-	function $ (id) {
-		return document.getElementById(id);
-	}
-	
-	HTML_Element.prototype.getProperty = function (property) {
-		return this.properties[property];
-	}
-	
-	HTML_Element.prototype.toString = function () {
-		return "["+this.name +"]";
-	}
-	
-	HTML_Element.prototype.toToolboxItem = function () {
-		return this.toImageTag() + " - " + this.name;
-	}
-	
-	HTML_Element.prototype.toImageTag = function () {
-		return "<img class='toolImg' title='"+this.name + " - " + this.description+"'  alt='"+this.description+"' src='http://toolbox-gadget.googlecode.com/svn/trunk/images/"+this.name.toLowerCase() +".gif'/>";
-	}
+if(list_style_type!="")
+style +="list-style-type:"+list_style_type+";";
+if(list_style_position!="")
+style +="list-style-position:"+list_style_position+";";
+if(list_style_image!="")
+style +="list-style-image:url("+list_style_image+");";
 
-        makeDOMRequest = function (url) {
-                _IG_FetchXmlContent(url, response);
-        }
-  
-        response = function (obj) { 
-                createToolBox(obj);
-        }
-  
-        var drag_obj = new _IG_Drag();
-        drag_obj.addTarget("workBox_div", _gel("workBoxContainer"));
-  
-        drag_obj.onDragEnd = function(source, target) {
-                if (target == null) return;
-    
-                var i = parseInt(source.getAttribute("tag")); 
-                var addedElement = DataElements[i].clone();
-  
-                controller.addItem(addedElement);
-  
-                msg.createTimerMessage("New control added: " + addedElement.name, 2);        
-        }
-  
-        removeElement = function (i) {
-                 msg.createTimerMessage("Removing control " + controller.model.data[i].name+"...", 2); 
-                 controller.removeItem(i);
+if(margin!="")
+style +="margin:"+margin+";";
+if(padding!="")
+style +="padding:"+padding+";";
+if(border_collapse!="")
+style +="border-collapse:"+border_collapse+";";
+if(border!="")
+style +="border:"+border+";";
+return style;
+}
 
-        }
-  
-        editCSS = function (i) {
-                 controller.select(i);
-                 msg.createTimerMessage("Editing style of control " + controller.model.data[i].name+"...", 2); 
-                 
-                 _gel("disableDiv").style.display = "block";
-                 _gel("modalDialogDiv").style.display = "block";
-                 _gel("modalDialogDiv").style.top =5;
-                 _gel("modalDialogDiv").style.left =   100 - _gel("modalDialogDiv").style.width/2;
-        }
-  
-        setUpTabs = function() {
-                 tabs.addTab("Font", "tabFont");
-                 tabs.addTab("Background", "tabBackground");
-                 tabs.addTab("Text", "tabText");
-                 tabs.addTab("Position", "tabPosition");
-                 tabs.addTab("Layout", "tabLayout");
-                 tabs.addTab("Borders", "tabBorders");
-                 tabs.addTab("Lists", "tabLists");
-        }
-  
-        selectBoldOnClickTD = function (InputString) {
-		_gel('BoldTextBox').value = InputString;
-	}
+function HTML_Property(name, value) {
+this.name = name;
+this.value = value;
+}
+HTML_Property.prototype.getProperty = function (name) {
+return this.value[name];
+}
+function gridParameters() {
+this.data = new Array();
+}
+propertyUpdated = function(index, value) {
+if(controller.model.selected == -1)
+return;
+controller.updateProperty(index, value);
+msg.createTimerMessage("Control edited, saving changes...", 2);
+};
+
+gridParameters.prototype._IGG_getNormalView = function(index) {
+if (index % 2 == 0)
+return "<p title='"+this.data[index+1].desc+"'>" + this.data[index] +"</p>";
+else {
+if (this.data[index-1] === "style") _STYLE_INDEX=parseInt(index/2);
+return "<input class='propertyText' onchange='propertyUpdated("+parseInt(index/2)+",this.value);' type='text' id='toolbox_"+this.data[index-1]+"' value ='"+this.data[index].default+"' />";
+}
+}
+
+gridParameters.prototype._IGG_isDragSource = function(index) {
+return false;
+}
+
+gridParameters.prototype._IGG_isDragTarget = function(index, sourceIndex) {
+return false;
+}
+
+function HTML_Element (name, description, properties, tag) {
+this.name = name;
+this.description = description;
+this.properties = properties || arguments.slice(2);
+this.tag = tag;
+}
+
+function createToolBox (xmlDoc) {
+for(var i=0, elements = xmlDoc.getElementsByTagName("element");i<elements.length;++i) {
+
+var current_element = new HTML_Element(elements[i].attributes["id"].firstChild.nodeValue, elements[i].attributes["desc"].firstChild.nodeValue, {}, elements[i].attributes["tag"].firstChild.nodeValue);
+current_element.properties = new Array();
+for(var j=0, properties = elements[i].childNodes; j<properties.length;++j) {
+if(properties[j].nodeName == "property") {
+current_element.properties[current_element.properties.length] = new HTML_Property(properties[j].firstChild.nodeValue, {"default":((properties[j].attributes && properties[j].attributes["default"])?properties[j].attributes["default"].nodeValue:""), "desc":((properties[j].attributes && properties[j].attributes["desc"])?properties[j].attributes["desc"].nodeValue:""),"regex":((properties[j].attributes && properties[j].attributes["regex"])?properties[j].attributes["regex"].nodeValue:"")});
+}
+}
+DataElements.push(current_element);
+}
+var parentDiv = $("navcontainer");
+var parentUl = document.createElement("ul");
+parentUl.setAttribute("id", "navlist");
 
 
-	selectFontSizeOnClickTD = function (InputString) {
-		_gel('FontSizeTextBox').value = InputString;
-	}
-  
-  	selectColorMouseOverTDNamed  = function (InputString) {
-		var colorName = InputString.substring(3,InputString.length);
-		_gel('showNamedColors').innerHTML = colorName;
-	}
+for(var i=0; i<DataElements.length;++i) {
+var listItem = document.createElement("li");
+var innerA = document.createElement("a");
 
-	selectColorMouseOutTDNamed = function (InputString) {
-		_gel('showNamedColors').innerHTML = "&nbsp;";
-	}
-        
-        showProperties = function (i) {                
-                 controller.select(i);
-        }
-  
-        closeDialog = function () {
-              _gel("disableDiv").style.display = "none";
-              _gel("modalDialogDiv").style.display = "none";
-        }
-  
-        saveCSSChanges = function () {
-            var font_style="", font_variant="", text_decoration="";
-            
-            if (_gel('radioButtonItalic').checked)
-                font_style="italic";
-            else if (_gel('radioButtonItalicNormal').checked)
-                font_style="normal";
-            else if (_gel('radioButtonItalicClear').checked)
-                font_style="";
-  
-            if (_gel('radioButtonSmallCaps').checked)
-                font_variant="small-caps";
-            else if (_gel('radioButtonSmallCapsNormal').checked)
-                font_variant="normal";
-            else if (_gel('radioButtonSmallCapsClear').checked)
-                font_variant="";
-                
-            if (_gel('CheckBoxNone').checked)
-                text_decoration="";
-            if (_gel('CheckBoxUnderline').checked)
-                text_decoration+=" underline";
-            if (_gel('CheckBoxStrikethrough').checked)
-                text_decoration+=" line-through";
-            if (_gel('CheckBoxOverline').checked)
-                text_decoration+=" overline";
+innerA.setAttribute("href", "#");
+innerA.setAttribute("tag", i);
+innerA.setAttribute("id", "toolbox_a_"+DataElements[i].name);
+innerA.innerHTML = DataElements[i].toToolboxItem();
+listItem.appendChild(innerA);
+parentUl.appendChild(listItem);
+}
 
-            controller.updateProperty(_STYLE_INDEX, makeCSS(_gel('usedFonts').value, _gel('CBox').value, _gel('FontSizeTextBox').value, _gel('dropDownListFontSize').value, _gel('BoldTextBox').value, font_style, font_variant, _gel('dropDownListCapitalization').value, text_decoration));
-        }
-  
-  	function showWebPalette() {
-		document.getElementById('colorsDivWeb').style.display = "";
-		document.getElementById('colorsDiv').style.display = "none";
-	}
+parentDiv.appendChild(parentUl);
 
-	function showNamedColors(){
-		document.getElementById('colorsDiv').style.display = "";
-		document.getElementById('colorsDivWeb').style.display = "none";
-	}
-  
-  	showFontSampleGen = function(){
-		var Sammler = "";
-		var i;
-		var vBox = document.getElementById('genericFontsMultipleBox');
+for(var i=0; i<DataElements.length;++i) {
+drag_obj.addSource("toolbox_a_"+DataElements[i].name);
+}
 
-		for (i = 0; i < 5; i++) {
-			if (vBox.options[i].selected) {
-				Sammler += vBox.options[i].value;
-			}
-		}
+// MVC init
+controller = new gpHC.MVCLibrary.Controller(new gpHC.MVCLibrary.Model([]));
 
-		document.getElementById('genericSampleTextBox').style.fontFamily = Sammler;
-	}
-  
-        showFontSizeSelector = function() {
-                _gel('fontsDiv').style.display = "none";
-                _gel('colorsDiv').style.display = "none";
-                _gel('fontBoldDiv').style.display = "none";
-  
-                _gel('fontSizesDiv').style.display = "block";   
-        }
-        
-        
-        showFontBoldSelector = function() {
-                _gel('fontsDiv').style.display = "none";
-                _gel('colorsDiv').style.display = "none"; 
-                _gel('fontSizesDiv').style.display = "none";
-                
-                _gel('fontBoldDiv').style.display = "block";
-        }
-  
-        showFontSelector = function() {
-                _gel('fontSizesDiv').style.display = "none";
-                _gel('colorsDiv').style.display = "none";
-                _gel('fontBoldDiv').style.display = "none";
-                
-                _gel('fontsDiv').style.display = "block"
-        }
-  
-        showColorSelector = function() {
-                _gel('fontsDiv').style.display = "none"
-                _gel('fontSizesDiv').style.display = "none";
-                _gel('fontBoldDiv').style.display = "none"; 
-                                
-                _gel('colorsDiv').style.display = "block";
-        }
-  
-	chooseSpeFonts = function() {
-		var Sammler = "";
-		var i;
-		var vBox = document.getElementById('specialFontsMultipleBox');
+viewPanel = new gpHC.MVCLibrary.View(controller.model, _gel("workBoxContainer"), function(targetControl) {
+while(targetControl.firstChild) targetControl.removeChild(targetControl.firstChild);
 
-		for (i = 0; i < 28; i++) {
-			if (vBox.options[i].selected) {
-				Sammler += vBox.options[i].value;
-			}
-		}
-		
-		document.getElementById('usedFonts').value = document.getElementById('usedFonts').value + Sammler;
-	}
-  
-        chooseGenFonts = function() {
-		var Sammler = "";
-		var i;
-		var vBox = document.getElementById('genericFontsMultipleBox');
+var italic_text = document.createElement("em");
+var p_italic_text = document.createElement("p");
 
-		for (i = 0; i < 5; i++) {
-			if (vBox.options[i].selected) {
-				Sammler += vBox.options[i].value;
-			}
-		}
-		
-		document.getElementById('usedFonts').value = document.getElementById('usedFonts').value + Sammler;
-	}
-  
-  	selectColorMouseOverTDWeb=function(InputString) {
-		var colorName = InputString.substring(3,InputString.length);
-		document.getElementById('showWebPalette').innerHTML = colorName;
-	}
-
-	selectColorMouseOutTDWeb=function(InputString) {
-		document.getElementById('showWebPalette').innerHTML = "";
-	}
+italic_text.innerHTML = "Drop controls here: ";
+p_italic_text.appendChild(italic_text);
+targetControl.appendChild(p_italic_text);
 
 
-	selectColorMouseOverTDNamed = function(InputString) {
-		var colorName = InputString.substring(3,InputString.length);
-		document.getElementById('showNamedColors').innerHTML = colorName;
-	}
-  
-        selectColorFromTDNamed = function(InputString, controlName) {
-                msg.createTimerMessage("Changing font color to: "+ InputString.substring(3,InputString.length), 2);
-		_gel(controlName).value= InputString.substring(3,InputString.length);
-	}
+for(var i = 0; i<controller.model.data.length; ++i) {
+var newDiv = document.createElement("div");
+var newDOMElement = document.createElement(this.model.data[i].tag);
+var propertiesDiv = document.createElement("div");
+var propertiesContainerDiv = document.createElement("div");
+var deleteImage = document.createElement("img");
+var cssImage = document.createElement("img");
 
-	showFontSampleSpe = function () {
-		var Sammler = "";
-		var i;
-		var vBox = document.getElementById('specialFontsMultipleBox');
+var classValue = "panelItem" + ((i%2==0)?"":" alt") + ((this.model.selected==i)?" selected":"");
 
-		for (i = 0; i < 28; i++) {
-			if (vBox.options[i].selected) {
-				Sammler += vBox.options[i].value;
-			}
-		}
-		
-		document.getElementById('specialSampleTextBox').style.fontFamily = Sammler;
-	}
+newDiv.setAttribute("class", classValue)
+propertiesDiv.setAttribute("class", "panelProperties")
+propertiesContainerDiv.setAttribute("class", "panelPropertiesContainer")
+
+deleteImage.setAttribute("src", "http://toolbox-gadget.googlecode.com/svn/trunk/images/delete.gif");
+deleteImage.setAttribute("title", "Delete this control.");
+deleteImage.setAttribute("onclick", "javascript:removeElement("+i+")");
+
+cssImage.setAttribute("src", "http://toolbox-gadget.googlecode.com/svn/trunk/images/editstyle.gif");
+cssImage.setAttribute("title", "Edit style for this contorl.");
+cssImage.setAttribute("onclick", "javascript:editCSS("+i+")");
+
+for(var j=0, attributes = this.model.data[i].properties; j < attributes.length; ++j) {
+if(attributes[j] && attributes[j].value.default != "") {
+newDOMElement.setAttribute(attributes[j].name, attributes[j].value.default);
+}
+
+newDiv.appendChild(newDOMElement);
+}
+
+newDiv.setAttribute("onclick","showProperties("+i+")");
+
+propertiesDiv.appendChild(deleteImage);
+propertiesDiv.appendChild(cssImage);
+
+propertiesContainerDiv.appendChild(newDiv);
+propertiesContainerDiv.appendChild(propertiesDiv);
+
+targetControl.appendChild(propertiesContainerDiv);
+}
+});
+
+viewList = new gpHC.MVCLibrary.View(controller.model, _gel("p_current_control"), function(targetControl) {
+while(targetControl.firstChild) targetControl.removeChild(targetControl.firstChild);
+
+var newSelect = document.createElement("select");
+
+for(var i = 0; i<this.model.data.length; ++i) {
+var newOption = document.createElement("option");
+newOption.setAttribute("value", i);
+
+if(this.model.selected == i)
+newOption.setAttribute("selected", "selected");
+
+newOption.innerHTML = controller.model.data[i].name + " (id = " + i + ")";
+newSelect.appendChild(newOption);
+}
+
+newSelect.setAttribute("id","selectList");
+newSelect.setAttribute("onchange","showProperties(this.selectedIndex)");
+var bold_text = document.createElement("b");
+bold_text.innerHTML = "Current: ";
+
+targetControl.appendChild(bold_text);
+targetControl.appendChild(newSelect);
+});
+
+viewProperties = new gpHC.MVCLibrary.View(controller.model, _gel("properties_grid_span"), function(targetControl) {
+if (!this.model || this.model.selected==-1) {
+return;
+}
+
+while(targetControl.firstChild) targetControl.removeChild(targetControl.firstChild);
+
+var properties = this.model.getDataByIndex(this.model.selected).properties;
+var pGridValues = new gridParameters();
+
+for(var j=0;j<properties.length;++j) {
+pGridValues.data[pGridValues.data.length] = properties[j].name;
+pGridValues.data[pGridValues.data.length] = properties[j].value;
+}
+
+var properties_grid = new _IG_Grid(pGridValues, "toolbox_properties_grid", properties.length, 2);
+properties_grid.getTable().border = 2;
+var given_table = properties_grid.getTable();
+
+properties_grid.table.setAttribute("class", "column");
+
+targetControl.appendChild(given_table);
+});
+
+viewStatus = new gpHC.MVCLibrary.View(controller.model, _gel("p_control_count"), function(targetControl) {
+while(targetControl.firstChild) targetControl.removeChild(targetControl.firstChild);
+
+targetControl.innerHTML = "<b> Control grid: </b> <em>("+this.model.data.length+")</em>";
+});
+
+controller.addListener(viewPanel);
+controller.addListener(viewStatus);
+controller.addListener(viewList);
+controller.addListener(viewProperties);
+}
+
+function $ (id) {
+return document.getElementById(id);
+}
+
+HTML_Element.prototype.getProperty = function (property) {
+return this.properties[property];
+}
+
+HTML_Element.prototype.toString = function () {
+return "["+this.name +"]";
+}
+
+HTML_Element.prototype.toToolboxItem = function () {
+return this.toImageTag() + " - " + this.name;
+}
+
+HTML_Element.prototype.toImageTag = function () {
+return "<img class='toolImg' title='"+this.name + " - " + this.description+"' alt='"+this.description+"' src='http://toolbox-gadget.googlecode.com/svn/trunk/images/"+this.name.toLowerCase() +".gif'/>";
+}
+
+makeDOMRequest = function (url) {
+_IG_FetchXmlContent(url, response);
+}
+
+response = function (obj) {
+createToolBox(obj);
+}
+
+var drag_obj = new _IG_Drag();
+drag_obj.addTarget("workBox_div", _gel("workBoxContainer"));
+
+drag_obj.onDragEnd = function(source, target) {
+if (target == null) return;
+
+var i = parseInt(source.getAttribute("tag"));
+var addedElement = DataElements[i].clone();
+
+controller.addItem(addedElement);
+
+msg.createTimerMessage("New control added: " + addedElement.name, 2);
+}
+
+removeElement = function (i) {
+msg.createTimerMessage("Removing control " + controller.model.data[i].name+"...", 2);
+controller.removeItem(i);
+
+}
+
+editCSS = function (i) {
+controller.select(i);
+msg.createTimerMessage("Editing style of control " + controller.model.data[i].name+"...", 2);
+
+_gel("disableDiv").style.display = "block";
+_gel("modalDialogDiv").style.display = "block";
+_gel("modalDialogDiv").style.top =5;
+_gel("modalDialogDiv").style.left = 100 - _gel("modalDialogDiv").style.width/2;
+}
+
+setUpTabs = function() {
+tabs.addTab("Font", "tabFont", tabChanged);
+tabs.addTab("Background", "tabBackground", tabChanged);
+tabs.addTab("Text", "tabText", tabChanged);
+tabs.addTab("Position", "tabPosition", tabChanged);
+tabs.addTab("Layout", "tabLayout", tabChanged);
+tabs.addTab("Borders", "tabBorders", tabChanged);
+tabs.addTab("Lists", "tabLists", tabChanged);
+}
+
+tabChanged = function() {
+_gel('colorsDiv').style.display="none";
+}
+
+selectBoldOnClickTD = function (InputString) {
+_gel('BoldTextBox').value = InputString;
+}
+
+
+selectFontSizeOnClickTD = function (InputString) {
+_gel('FontSizeTextBox').value = InputString;
+}
+
+choseColor = function (InputString) {
+var colorName = InputString.substring(3,InputString.length);
+_gel('showNamedColors').innerHTML = colorName;
+}
+
+selCol = function (InputString) {
+_gel('showNamedColors').innerHTML = "&nbsp;";
+}
+
+showProperties = function (i) {
+controller.select(i);
+}
+
+closeDialog = function () {
+_gel("disableDiv").style.display = "none";
+_gel("modalDialogDiv").style.display = "none";
+}
+
+saveCSSChanges = function () {
+var font_style="", font_variant="", text_decoration="", background_color="", background_position="", letter_spacing="", line_height="", text_indent="", top="", height="", left="", width="", clip="", border="";
+
+if (_gel('radioButtonItalic').checked)
+font_style="italic";
+else if (_gel('radioButtonItalicNormal').checked)
+font_style="normal";
+else if (_gel('radioButtonItalicClear').checked)
+font_style="";
+
+if (_gel('radioButtonSmallCaps').checked)
+font_variant="small-caps";
+else if (_gel('radioButtonSmallCapsNormal').checked)
+font_variant="normal";
+else if (_gel('radioButtonSmallCapsClear').checked)
+font_variant="";
+
+if (_gel('CheckBoxNone').checked)
+text_decoration="";
+if (_gel('CheckBoxUnderline').checked)
+text_decoration+=" underline";
+if (_gel('CheckBoxStrikethrough').checked)
+text_decoration+=" line-through";
+if (_gel('CheckBoxOverline').checked)
+text_decoration+=" overline";
+
+if(_gel('transparentCheckBox').checked)
+background_color="transparent";
+else
+background_color=_gel('bgColorTextBox').value;
+
+if (isNaN(_gel('HorizontaleBGPositionTextBox').value)) {
+background_position += _gel('HorizontaleBGPositionTextBox').value + ' ';
+}
+else if(_gel('HorizontaleBGPositionTextBox').value!="") {
+background_position += _gel('HorizontaleBGPositionTextBox').value +_gel('HorizontalBGPositionUnitDropDownList').value +" ";
+}
+if (isNaN(_gel('VerticalBGPositionTextBox').value)) {
+background_position += _gel('VerticalBGPositionTextBox').value + " ";
+}
+else if(_gel('VerticalBGPositionTextBox').value!="" ) {
+background_position += _gel('VerticalBGPositionTextBox').value +_gel('VerticalBGPositionUnitDropDownList').value +" ";
+}
+if (isNaN(_gel('spacingBetweenLettersTextBox').value)) {
+letter_spacing += _gel('spacingBetweenLettersTextBox').value + " ";
+}
+else if(_gel('spacingBetweenLettersTextBox').value !="") {
+letter_spacing += _gel('spacingBetweenLettersTextBox').value +_gel('spacingBetweenLettersUnitsDropDownList').value +" ";
+}
+if (isNaN(_gel('spacingBetweenLinesTextBox').value)) {
+line_height += _gel('spacingBetweenLinesTextBox').value + " ";
+}
+else if(_gel('spacingBetweenLinesTextBox').value !="") {
+line_height += _gel('spacingBetweenLinesTextBox').value +_gel('spacingBetweenLinesUnitsDropDownList').value +" ";
+}
+if(_gel('textFlowIdentationTextBox').value !="" && !isNaN(_gel('textFlowIdentationTextBox').value)) {
+text_indent = _gel('textFlowIdentationTextBox').value + _gel('textFlowIdentationDropDownList').value
+}
+if(_gel('positionTopTextBox').value !="") {
+top = _gel('positionTopTextBox').value + _gel('positionTopDropDownList').value
+}
+if(_gel('positionHeightTextBox').value !="") {
+height = _gel('positionHeightTextBox').value + _gel('positionZIndexTextBox').value
+}
+if(_gel('positionLeftTextBox').value !="") {
+left = _gel('positionLeftTextBox').value + _gel('positionLeftDropDownList').value
+}
+if(_gel('positionWitdthTextBox').value !="") {
+width = _gel('positionWitdthTextBox').value + _gel('positionWidthDropDownList').value
+}
+
+if(_gel('clippinTopTextBox').value !="") {
+clip ="rect (" + _gel('clippinTopTextBox').value + _gel('clippinTopUnitsDropDownList').value + " " + _gel('clippinBottomTextBox').value + _gel('clippinBottomUnitsDropDownList').value +" " + _gel('clippinLeftTextBox').value + _gel('clippinLeftUnitsDropDownList').value+" "+ _gel('clippinRightTextBox').value + _gel('clippinRightUnitsDropDownList').value+")";
+}
   
-	DataElements = new Array();
+if(_gel('borderWidthAllTextBox').value!="")
+border+=_gel('borderWidthAllTextBox').value+_gel('borderWidthAllDropDownList').value+" ";
+else
+border +="none ";
+
+if(_gel('borderStyleAllDropDownList').value!="")
+border+=_gel('borderStyleAllDropDownList').value +" ";
   
-	return {
-		
-		init: function () {
-                    makeDOMRequest("http://toolbox-gadget.googlecode.com/svn/trunk/specification.xml");
-                    setUpTabs();
-		}
-	
-	};
+if(_gel('borderColorAllTextBox').value!="")
+border+=_gel('borderColorAllTextBox').value;
+else
+border +="black";
+
+controller.updateProperty(_STYLE_INDEX, makeCSS(_gel('usedFonts').value, _gel('CBox').value, _gel('FontSizeTextBox').value, _gel('dropDownListFontSize').value, _gel('BoldTextBox').value, font_style, font_variant, _gel('dropDownListCapitalization').value, text_decoration, background_color, _gel('imageInputTextBox').value, _gel('bgTilingDropDownList').value, _gel('bgScrollingDropDownList').value, background_position, _gel('cursorDropDownList').value, _gel('horizontalAlignmentDropDownList').value, letter_spacing, _gel('verticalAlignmentDropDownList').value, line_height, text_indent, _gel('textFlowTextDirectionDropDownList').value, _gel('positionTopTextBox').value,top, height, left, width, _gel('positionZIndexTextBox').value, _gel('flowControlVisibilityDropDownList').value, _gel('flowControlDisplayDropDownList').value, _gel('flowControlAllowTextToFlowDropDownList').value, _gel('flowControlAllowFloatingObjectsDropDownList').value, _gel('contentOverflowDropDownList').value, clip, _gel('pageBreakBefore').value, _gel('pageBreakAfter').value, _gel('tablesLayoutDropDownList').value, _gel('bulletStyleDropDownList').value, _gel('bulletPositionDropDownList').value, _gel('customBulletImageTextBox').value, _gel('bordersMargins').value, _gel('bordersPadding').value, _gel('tablesBordersDropDownList').value, border));
+}
+
+showFontSampleGen = function(){
+var Sammler = "";
+var i;
+var vBox = document.getElementById('genericFontsMultipleBox');
+
+for (i = 0; i < 5; i++) {
+if (vBox.options[i].selected) {
+Sammler += vBox.options[i].value;
+}
+}
+
+document.getElementById('genericSampleTextBox').style.fontFamily = Sammler;
+}
+
+showLineSpacingSelector = function () {
+_gel('lettersSpacingDiv').style.display = "none";
+
+_gel('linesSpacingDiv').style.display = "block";
+}
+
+
+showLetterSpacingSelector = function () {
+_gel('lettersSpacingDiv').style.display = "block";
+
+_gel('linesSpacingDiv').style.display = "none";
+}
+
+showHPozSelector = function () {
+_gel('colorsDiv').style.display = "none";
+_gel('vPozDiv').style.display = "none";
+
+_gel('hPozDiv').style.display = "block";
+}
+
+showVPozSelector = function () {
+_gel('colorsDiv').style.display = "none";
+_gel('hPozDiv').style.display = "none";
+
+_gel('vPozDiv').style.display = "block";
+}
+
+showFontSizeSelector = function() {
+_gel('fontsDiv').style.display = "none";
+_gel('colorsDiv').style.display = "none";
+_gel('fontBoldDiv').style.display = "none";
+
+_gel('fontSizesDiv').style.display = "block";
+}
+
+
+showFontBoldSelector = function() {
+_gel('fontsDiv').style.display = "none";
+_gel('colorsDiv').style.display = "none";
+_gel('fontSizesDiv').style.display = "none";
+
+_gel('fontBoldDiv').style.display = "block";
+}
+
+showFontSelector = function() {
+_gel('fontSizesDiv').style.display = "none";
+_gel('colorsDiv').style.display = "none";
+_gel('fontBoldDiv').style.display = "none";
+
+_gel('fontsDiv').style.display = "block"
+}
+
+showBorderColorSelector = function() {
+_gel('colorsDiv').style.display = "block";
+currentColorHost="borderColorAllTextBox";
+
+}
+
+showColorSelector = function() {
+_gel('fontsDiv').style.display = "none"
+_gel('fontSizesDiv').style.display = "none";
+_gel('fontBoldDiv').style.display = "none";
+
+_gel('colorsDiv').style.display = "block";
+currentColorHost="CBox";
+
+}
+
+hideColorsDiv = function () {
+_gel('colorsDiv').style.display = "none";
+}
+
+showBGColorSelector = function() {
+_gel('hPozDiv').style.display = "none";
+_gel('vPozDiv').style.display = "none";
+_gel('colorsDiv').style.display = "block";
+currentColorHost = "bgColorTextBox";
+}
+
+chooseSpeFonts = function() {
+var Sammler = "";
+var i;
+var vBox = document.getElementById('specialFontsMultipleBox');
+
+for (i = 0; i < 28; i++) {
+if (vBox.options[i].selected) {
+Sammler += vBox.options[i].value;
+}
+}
+
+document.getElementById('usedFonts').value = document.getElementById('usedFonts').value + Sammler;
+}
+
+chooseGenFonts = function() {
+var Sammler = "";
+var i;
+var vBox = document.getElementById('genericFontsMultipleBox');
+
+for (i = 0; i < 5; i++) {
+if (vBox.options[i].selected) {
+Sammler += vBox.options[i].value;
+}
+}
+
+document.getElementById('usedFonts').value = document.getElementById('usedFonts').value + Sammler;
+}
+
+choseColor = function(InputString) {
+var colorName = InputString.substring(3,InputString.length);
+document.getElementById('showNamedColors').innerHTML = colorName;
+}
+
+selectColor = function(InputString) {
+msg.createTimerMessage("Changing font color to: "+ InputString.substring(3,InputString.length), 2);
+_gel(currentColorHost).value= InputString.substring(3,InputString.length);
+}
+
+showFontSampleSpe = function () {
+var Sammler = "";
+var i;
+var vBox = document.getElementById('specialFontsMultipleBox');
+
+for (i = 0; i < 28; i++) {
+if (vBox.options[i].selected) {
+Sammler += vBox.options[i].value;
+}
+}
+
+document.getElementById('specialSampleTextBox').style.fontFamily = Sammler;
+}
+
+selectBGImagePositionVerOnClickTD = function (InputString) {
+document.getElementById('VerticalBGPositionTextBox').value = InputString;
+}
+
+selectBGImagePositionHorOnClickTD = function (InputString) {
+document.getElementById('HorizontaleBGPositionTextBox').value = InputString;
+}
+
+selectLettersOnClick = function (InputString) {
+document.getElementById('spacingBetweenLettersTextBox').value = InputString
+}
+
+selectLinesOnClick = function(InputString) {
+document.getElementById('spacingBetweenLinesTextBox').value = InputString;
+}
+
+DataElements = new Array();
+
+return {
+
+init: function () {
+makeDOMRequest("http://toolbox-gadget.googlecode.com/svn/trunk/specification.xml");
+setUpTabs();
+}
+
+};
 }( );
 
 gpHC.MVCLibrary = function() {
-        var msg = new _IG_MiniMessage(__MODULE_ID__, _gel("debug_div"));        
-        
-        var listContains = function(list, value) {
-            if(list && list.length){
-                   for(var i = 0; i < list.length; ++i) {
-                       if (list[i] == value)
-                           return i;
-                   }
-                 return -1;
-            }
-            return -1;
-        };
-  
-        var listRemove = function(list, index) {
-            if(list && list.length){
-                   var newList = [];
-                   
-                   for(var i = 0; i < list.length; ++i) {
-                       if (i != index)
-                           newList[newList.length] = list[i];
-                   }
-                   
-                   return newList;
-            }
-            return null;
-        };
-  
-        var Model = function(data) {
-                   this.data = data;
-                   this.selected = -1;
-        };
-        
-        Model.prototype.getDataByIndex = function (i) {
-                return this.data[i];
-        };
-                   
-        Model.prototype.addItem = function(item) {
-                if (listContains(this.data, item)==-1) {
-                           this.data[this.data.length]=item;
-                }
-        };
+var msg = new _IG_MiniMessage(__MODULE_ID__, _gel("debug_div"));
 
-        Model.prototype.removeItem = function(index) {
-                  if (this.data.length - 1 >= index) {
-                           this.data = listRemove(this.data, index);  
-                  }
-        };
-  
-        var Controller = function (model) {
-                   this.listeners = [];
-                   this.model = model;
-        };
-        
-        Controller.prototype.select = function(index) {
-                if (this.model.selected == index) {
-                      return;
-                }
-                
-                this.model.selected = index;
-                this.triggerUpdate();
-        };
-        
-        Controller.prototype.updateProperty = function(index, new_value) {
-                var re=null;
+var listContains = function(list, value) {
+if(list && list.length){
+for(var i = 0; i < list.length; ++i) {
+if (list[i] == value)
+return i;
+}
+return -1;
+}
+return -1;
+};
 
-                if(this.model.data[this.model.selected].properties[index].value.regex!="") {
-                        //msg.createTimerMessage(this.model.data[this.model.selected].properties[index].value.regex,2);
-                        re = new RegExp(this.model.data[this.model.selected].properties[index].value.regex.substring(1, this.model.data[this.model.selected].properties[index].value.regex.length-1));
+var listRemove = function(list, index) {
+if(list && list.length){
+var newList = [];
 
-                }
-                
-                if(re!=null) {
-                    if(new_value !=="" && new_value.match(re)==new_value) {
-                          this.model.data[this.model.selected].properties[index].value.default = new_value;
-                          this.triggerUpdate();
-                          return;
-                    }
-                    else {
-                          msg.createTimerMessage("Update unsuccessfull: wrong attribute value! value = "+ new_value + "; Regular expression: "+ re, 3)
-                    } 
-                }
-                else
-                {
-                          this.model.data[this.model.selected].properties[index].value.default = new_value;
-                          this.triggerUpdate();
-                }
-        };
-        
-        Controller.prototype.addItem = function(item) {
-                 this.model.addItem(item);
-                 this.triggerUpdate();
-        };
-                     
-        Controller.prototype.removeItem = function(item) {
-                 this.model.removeItem(item);
-                 this.triggerUpdate();
-        };
-  
-        Controller.prototype.updateModel = function(data) {
-              this.model.data = data;
-              this.triggerUpdate();
-        };
+for(var i = 0; i < list.length; ++i) {
+if (i != index)
+newList[newList.length] = list[i];
+}
 
-        Controller.prototype.addListener = function(view) {
-              if (listContains(this.listeners, view)==-1) {
-                  this.listeners[this.listeners.length]=view;
-              }
-        };
+return newList;
+}
+return null;
+};
 
-        Controller.prototype.removeListener = function(view) {
-              if (listContains(this.listeners, view) !=-1) {
-                  listRemove(this.listeners, view);
-              }
-        };
+var Model = function(data) {
+this.data = data;
+this.selected = -1;
+};
 
-        Controller.prototype.triggerUpdate = function() {
-              for(var i = 0; i < this.listeners.length; ++i) {
-                    this.listeners[i].modelUpdated();
-              }
-        };
-        
-        var View = function(model, targetControl, drawMethod) {
-                     this.targetControl = targetControl;
-                     this.model = model;
-                     this.drawMethod = drawMethod;
-        };
-        
-        View.prototype.modelUpdated = function() {
-                     this.redraw();
-        };
-                     
-        View.prototype.redraw = function (){
-                    this.drawMethod(this.targetControl);
-        };
-                     
-        return { "Model":Model, "Controller":Controller, "View":View };
+Model.prototype.getDataByIndex = function (i) {
+return this.data[i];
+};
+
+Model.prototype.addItem = function(item) {
+if (listContains(this.data, item)==-1) {
+this.data[this.data.length]=item;
+}
+};
+
+Model.prototype.removeItem = function(index) {
+if (this.data.length - 1 >= index) {
+this.data = listRemove(this.data, index);
+}
+};
+
+var Controller = function (model) {
+this.listeners = [];
+this.model = model;
+};
+
+Controller.prototype.select = function(index) {
+if (this.model.selected == index) {
+return;
+}
+
+this.model.selected = index;
+this.triggerUpdate();
+};
+
+Controller.prototype.updateProperty = function(index, new_value) {
+var re=null;
+
+if(this.model.data[this.model.selected].properties[index].value.regex!="") {
+re = new RegExp(this.model.data[this.model.selected].properties[index].value.regex.substring(1, this.model.data[this.model.selected].properties[index].value.regex.length-1));
+
+}
+
+if(re!=null) {
+if(new_value !=="" && new_value.match(re)==new_value) {
+this.model.data[this.model.selected].properties[index].value.default = new_value;
+this.triggerUpdate();
+return;
+}
+else {
+msg.createTimerMessage("Update unsuccessfull: wrong attribute value! value = "+ new_value + "; Regular expression: "+ re, 3)
+}
+}
+else
+{
+this.model.data[this.model.selected].properties[index].value.default = new_value;
+this.triggerUpdate();
+}
+};
+
+Controller.prototype.addItem = function(item) {
+this.model.addItem(item);
+this.triggerUpdate();
+};
+
+Controller.prototype.removeItem = function(item) {
+this.model.removeItem(item);
+this.triggerUpdate();
+};
+
+Controller.prototype.updateModel = function(data) {
+this.model.data = data;
+this.triggerUpdate();
+};
+
+Controller.prototype.addListener = function(view) {
+if (listContains(this.listeners, view)==-1) {
+this.listeners[this.listeners.length]=view;
+}
+};
+
+Controller.prototype.removeListener = function(view) {
+if (listContains(this.listeners, view) !=-1) {
+listRemove(this.listeners, view);
+}
+};
+
+Controller.prototype.triggerUpdate = function() {
+for(var i = 0; i < this.listeners.length; ++i) {
+this.listeners[i].modelUpdated();
+}
+};
+
+var View = function(model, targetControl, drawMethod) {
+this.targetControl = targetControl;
+this.model = model;
+this.drawMethod = drawMethod;
+};
+
+View.prototype.modelUpdated = function() {
+this.redraw();
+};
+
+View.prototype.redraw = function (){
+this.drawMethod(this.targetControl);
+};
+
+return { "Model":Model, "Controller":Controller, "View":View };
 }( );
 
 gpHC.init();
