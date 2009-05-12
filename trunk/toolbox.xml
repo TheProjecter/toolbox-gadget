@@ -1,17 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Module>
-<ModulePrefs title="toolbox gadget" height="500" width="1000" author="Goran Petrovic">
-    <Require feature="minimessage"/>
-    <Require feature="drag" />
-    <Require feature="grid" />
-    <Require feature="tabs" /> 
+<ModulePrefs title="Toolbox Gadget" thumbnail="" screenshot="" description="Toolbox gadget is a simple gadget used to create and style HTML controls using an intuitive GUI and for later reuse in other gadgets via drag-and-drop technique." title_url="http://code.google.com/p/toolbox-gadget/" height="500" width="1000" author="Goran Petrovic" author_email="stgpetrovic@gmail.com">
+<Require feature="minimessage"/>
+<Require feature="drag" />
+<Require feature="grid" />
+<Require feature="tabs" />
+<Require feature="setprefs" />
+<Require feature="opensocial-0.8" />
 </ModulePrefs>
-<Content type="html"><![CDATA[
-
+<UserPref name="userID" default_value="_1" datatype="hidden"/>
+<Content type="html">
+<![CDATA[
 <style type="text/css">
+#menuContainer { border-bottom:1px solid #676767; padding:3px; width:100%; }
+.menuTabContainer { width:33%; float:right; padding-right:10px;}
+.menuDropDown{
+position:absolute;
+display:none;
+background-color:#FFF;
+border-collapse:collapse;
+border-color:#CCCCCC rgb(103,103,103) rgb(103,103,103)
+rgb(204,204,204);
+border-style:solid;
+border-width:1px;
+width:120px;
+}
+.menuDropDown td{
+cursor:pointer;
+color:#112ABB;
+}
+.menuTab { background:transparent url(http://img0.gmodules.com/ig/modules/icon-dropdn.gif) no-repeat scroll 100% 50%; border:0.5pt solid #AAAAAA; cursor:pointer; padding:1px 0 1px 3px; width:50px; }
+.highlight{
+background-color:#E8EEF7;
+}
+.unhighlight{
+background-color:White;
+}
 .td_s {border:1px solid Black;cursor:pointer;font-size:4pt;height:22px;margin:0;padding:0;width:17px;}
-.header1 { background:#E5ECF9 none repeat scroll 0 0; font-size:1.2em; margin:0 0 0px; padding:4px 6px; font-size-adjust:none; font-style:normal; font-variant:normal; font-weight:normal; line-height:normal; }
-.header2 {font-size:1.0em; margin:0 0 0px; padding:4px 6px; font-size-adjust:none; font-style:normal; font-variant:normal; font-weight:normal; line-height:normal;}
+.header1
+{ background:#E5ECF9 none repeat scroll 0 0; font-size:1.2em; margin:0
+0 0px; padding:4px 6px; font-size-adjust:none; font-style:normal;
+font-variant:normal; font-weight:normal; line-height:normal; }
+.header2
+{font-size:1.0em; margin:0 0 0px; padding:4px 6px;
+font-size-adjust:none; font-style:normal; font-variant:normal;
+font-weight:normal; line-height:normal;}
 .panelItem { float:left; border: 1px dotted black; padding: 10px 0px 10px 10px; width: 275px; background-color: #e9e6f9;}
 .panelProperties {float:right; padding: 5px 0px 10px 0px; }
 .panelPropertiesContainer {width:350px;}
@@ -22,15 +55,28 @@
 .bigInput {width:200px;}
 .smallInput {width:120px;}
 
-#modalDialogDiv td#dialogClose {padding-right: 2px; background-color:#DBE6DE;border-bottom:1px solid #aaaaaa;width:15px;}
-#modalDialogDiv td#dialogTitle {padding: 2px; font-size:13px; background-color:#DBE6DE;border-bottom:1px solid #aaaaaa;font-weight:bold;}
-#disableDiv {background-color:gray;left:0;opacity:0.5;position:absolute;top:0;z-index:5;height: 100%; display: none; width: 100%;}
-#modalDialogDiv table {border:medium none;width:100%;}
-#modalDialogDiv { background-color:#ffffff;border:1px solid #676767;display:none;position:absolute;z-index:100; height:400px; width:700px}
+#modalDialogDiv
+td#dialogClose, #modalOpenFile td#dialogClose, #modalSaveAsDialog td#dialogClose{padding-right: 2px;
+background-color:#DBE6DE;border-bottom:1px solid #aaaaaa;width:15px;}
+#modalDialogDiv
+td#dialogTitle, #modalOpenFile td#dialogTitle, #modalSaveAsDialog td#dialogTitle{padding: 2px; font-size:13px;
+background-color:#DBE6DE;border-bottom:1px solid
+#aaaaaa;font-weight:bold;}
+#modalDialogDiv table, #modalOpenFile table, #modalSaveAsDialog table {border:medium none;width:100%;}
+#modalDialogDiv,#modalOpenFile, #modalSaveAsDialog{ background-color:#ffffff;border:1px solid
+#676767;display:none;position:absolute;z-index:100; height:400px;
+width:700px}
+
+#modalSaveAsDialog {height:200px;}
+
+#disableDiv {background-color:gray;left:0;opacity:0.5;position:absolute;top:0;z-index:5;height:
+100%; display: none; width: 100%;}
 #dialogClose img { width:15 height:15; cursor: pointer; }
 #tabFont, #tabBackground, #tabText { font-size: 0.9 em; }
 #tabFont td, #tabBackground td, #tabText td {vertical-align:top;}
-#fontBoldDiv td, #fontSizesDiv, #vPozDiv td, #hPozDiv td, #lettersSpacingDiv td, #linesSpacingDiv td {font-size: 0.8em; cursor:pointer;}
+#fontBoldDiv
+td, #fontSizesDiv, #vPozDiv td, #hPozDiv td, #lettersSpacingDiv td,
+#linesSpacingDiv td {font-size: 0.8em; cursor:pointer;}
 
 #debug_div{ clear:both;width:100%; }
 #workBox { width: 400px;margin-left: 15px;height: 425px;float: left;}
@@ -42,19 +88,66 @@
 #navcontainer {float: left; width:200px;}
 #navcontainer ul{margin: 0;padding: 0;list-style-type: none;font-family: verdana, arial, sans-serif; }
 #navcontainer li img {vertical-align:middle;margin: 0; }
-#navcontainer a {display: block;color: #333;background-color: transparent;width: 180px;padding: 2px 10px;text-decoration: none;font-size: 12px; }
+#navcontainer
+a {display: block;color: #333;background-color: transparent;width:
+180px;padding: 2px 10px;text-decoration: none;font-size: 12px; }
 #navcontainer img {border: none; }
 #navcontainer a:hover {background-color: #ddd;color: #333;border-right: 10px solid #aaa;padding: 2px 1px 2px 10px; }
 #navcontainer ul ul {margin-left: 30px;padding: 0;list-style-type: none; }
-#navcontainer li li a {display: block;color: #333;background-color: transparent;width: 110px;padding: 2px 10px;margin: 0;border-top: none;border-bottom: none;border-left: 1px solid #aaa;text-decoration: none;font-size: 12px; }
-
-body {scrollbar-face-color: #f0f0f0;scrollbar-highlight-color: #cccccc;scrollbar-shadow-color: #cccccc;scrollbar-3dlight-color: #f0f0f0;scrollbar-arrow-color: #330066;scrollbar-darkshadow-color: #cccccc;scrollbar-base-color: #cccccc;}
-table.column {text-align: center;font-family: Verdana;font-weight: normal;font-size: 11px;color: #404040;background-color: #fafafa;border: 1px #6699CC solid;border-collapse: collapse;border-spacing: 0px;}
-</style>
+#navcontainer
+li li a {display: block;color: #333;background-color:
+transparent;width: 110px;padding: 2px 10px;margin: 0;border-top:
+none;border-bottom: none;border-left: 1px solid #aaa;text-decoration:
+none;font-size: 12px; }
+body {scrollbar-face-color: #f0f0f0;scrollbar-highlight-color: #cccccc;scrollbar-shadow-color: #cccccc;scrollbar-3dlight-color: #f0f0f0;scrollbar-arrow-color: #330066;scrollbar-darkshadow-color: #cccccc;scrollbar-base-color: #cccccc;} table.column {text-align: center;font-family: Verdana;font-weight: normal;font-size: 11px;color: #404040;background-color: #fafafa;border: 1px #6699CC solid;border-collapse: collapse;border-spacing: 0px;} </style>
 
 <div id="toolbox_container">
-<h1 class="header1"> Toolbox Gadget v0.9 <em> alpha </em> </h1>
-
+<table cellspacing="0" cellpadding="0" border="0" id="menuContainer">
+<tbody><tr>
+<td><h1 class="header1"> Toolbox Gadget v0.9 <em> alpha </em> </h1></td>
+<td class="menuTabContainer">
+<div onclick="toggle(event, 'fileMenu');" class="menuTab" id="file">File</div>
+<table border="0" bgcolor="white" onmouseover="show('fileMenu');" onmouseout="hide('fileMenu');" class="menuDropDown" id="fileMenu" style="display: none;">
+<tbody><tr onmouseout="unHighlight(this);" onmouseover="highlight(this);" id="filenewrow" class="">
+<td>&nbsp;</td>
+<td>
+<div onclick="hide('fileMenu');doOpen();" id="fileOpen">
+Open...
+</div>
+</td>
+<td>&nbsp;</td>
+</tr>
+<tr onmouseout="unHighlight(this);" onmouseover="highlight(this);" id="fileopenurlrow" class="unhighlight">
+<td>&nbsp;</td>
+<td>
+<div onclick="hide('fileMenu');doSave();" id="fileSave" class="">
+Save
+</div>
+</td>
+<td>&nbsp;</td>
+</tr>
+<tr onmouseout="unHighlight(this);" onmouseover="highlight(this);" id="filesaveasrow" class="">
+<td>&nbsp;</td>
+<td>
+<div onclick="hide('fileMenu');doSaveAs();" id="fileSaveAs" class="">
+Save As
+</div>
+</td>
+<td>&nbsp;</td>
+</tr>
+<tr onmouseout="unHighlight(this);" onmouseover="highlight(this);" id="filerenamerow" class="">
+<td>&nbsp;</td>
+<td>
+<div onclick="hide('fileMenu');doDelete();" id="fileDelete">
+Delete...
+</div>
+</td>
+<td class="seperator">&nbsp;</td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+</tbody></table>
 <div id="navBox">
 <p id="p_toolbox_label">
 <b> Toolbox </b>
@@ -83,8 +176,47 @@ table.column {text-align: center;font-family: Verdana;font-weight: normal;font-s
 <span id="properties_grid_span"></span>
 </div>
 </div>
-
 <div id="disableDiv"></div>
+<div id="modalSaveAsDialog">
+<table cellspacing="0" cellpadding="0" border="0">
+<tbody><tr>
+<td id="dialogTitle">Save File</td>
+<td id="dialogClose">
+<img width="15" height="15" onclick="closeDialog();" style="cursor: pointer;" src="http://img0.gmodules.com/ig/modules/close_box.gif"/>
+</td>
+</tr>
+</tbody></table>
+Enter a filename: <br/>
+<input type="text" id="saveAsfileName" name="fileName" style="width: 80%;"/>
+<br/>
+<p>* Only alphanumeric characters, hyphens (-), and underscores (_) are allowed.</p>
+<p>For example: <code>my-daily-gadget.xml</code></p>
+<div style="text-align: right;">
+<input type="button" value="OK" onclick="doSaveFileAs()" />
+<input type="button" value="Cancel" onclick="closeDialog();"/>
+</div>
+</form>
+</div>
+
+<div id="modalOpenFile">
+<table summary="This table is a caption of the modal dialog." cellspacing="0" cellpadding="0" border="0">
+<tbody>
+<tr>
+<td id="dialogtitle">Choose a file</td>
+<td id="dialogClose">
+<img alt="Close modal dialog" onclick="closeDialog();" src="http://img0.gmodules.com/ig/modules/close_box.gif"/>
+</td>
+</tr>
+</tbody>
+</table>
+<br />
+<center>
+<select ondblclick="openFromSelect(this);" style="width: 90%;" size="15" id="fileopenselect">
+</select>
+<div style="clear:both"></div>
+<p><input type="button" onclick="openFromSelect(); closeDialog();" value="Open file"/>&nbsp;<input type="button" value="Cancel" onclick="closeDialog();"/></p>
+</center>
+</div>
 
 <div id="modalDialogDiv">
 <table summary="This table is a caption of the modal dialog." cellspacing="0" cellpadding="0" border="0">
@@ -199,7 +331,7 @@ Inherit<input type="radio" name="radioFontTypeSmall" id="radioButtonSmallCapsCle
 </td>
 <td style="width: 50%;">Generic<br/>
 <select onchange="showFontSampleGen()" ondblclick="chooseGenFonts()" id="genericFontsMultipleBox" size="5">
-<option va lue="Serif, ">Serif</option>
+<option value="Serif, ">Serif</option>
 <option value="Sans-Serif, ">Sans-Serif</option>
 <option value="Cursive, ">Cursive</option>
 <option value="Fantasy, ">Fantasy</option>
@@ -214,43 +346,43 @@ Inherit<input type="radio" name="radioFontTypeSmall" id="radioButtonSmallCapsCle
 <tbody>
 <tr> <th class="header2">Click to select</th> </tr>
 <tr>
-<td onclick="selectBoldOnClickTD('normal')">normal</td>
+<td onclick="sBOCTD('normal')">normal</td>
 </tr>
 <tr>
-<td onclick="selectBoldOnClickTD('bold')">bold</td>
+<td onclick="sBOCTD('bold')">bold</td>
 </tr>
 <tr>
-<td onclick="selectBoldOnClickTD('bolder')">bolder</td>
+<td onclick="sBOCTD('bolder')">bolder</td>
 </tr>
 <tr>
-<td onclick="selectBoldOnClickTD('lighter')">lighter</td>
+<td onclick="sBOCTD('lighter')">lighter</td>
 </tr>
 <tr>
-<td onclick="selectBoldOnClickTD('100')">100</td>
+<td onclick="sBOCTD('100')">100</td>
 </tr>
 <tr>
-<td onclick="selectBoldOnClickTD('200')">200</td>
+<td onclick="sBOCTD('200')">200</td>
 </tr>
 <tr>
-<td onclick="selectBoldOnClickTD('300')">300</td>
+<td onclick="sBOCTD('300')">300</td>
 </tr>
 <tr>
-<td onclick="selectBoldOnClickTD('400')">400-normal</td>
+<td onclick="sBOCTD('400')">400-normal</td>
 </tr>
 <tr>
-<td onclick="selectBoldOnClickTD('500')">500</td>
+<td onclick="sBOCTD('500')">500</td>
 </tr>
 <tr>
-<td onclick="selectBoldOnClickTD('600')">600</td>
+<td onclick="sBOCTD('600')">600</td>
 </tr>
 <tr>
-<td onclick="selectBoldOnClickTD('700')">700-bold</td>
+<td onclick="sBOCTD('700')">700-bold</td>
 </tr>
 <tr>
-<td onclick="selectBoldOnClickTD('800')">800</td>
+<td onclick="sBOCTD('800')">800</td>
 </tr>
 <tr>
-<td onclick="selectBoldOnClickTD('900')">900</td>
+<td onclick="sBOCTD('900')">900</td>
 </tr>
 </tbody>
 </table>
@@ -261,31 +393,31 @@ Inherit<input type="radio" name="radioFontTypeSmall" id="radioButtonSmallCapsCle
 <tbody>
 <tr> <th class="header2">Click to select</th> </tr>
 <tr>
-<td onclick="selectFontSizeOnClickTD('smaller')">Smaller</td>
+<td onclick="sFZONTD('smaller')">Smaller</td>
 </tr>
 <tr>
-<td onclick="selectFontSizeOnClickTD('larger')">Larger</td>
+<td onclick="sFZONTD('larger')">Larger</td>
 </tr>
 <tr>
-<td onclick="selectFontSizeOnClickTD('xx-small')">XX-Small</td>
+<td onclick="sFZONTD('xx-small')">XX-Small</td>
 </tr>
 <tr>
-<td onclick="selectFontSizeOnClickTD('x-small')">X-Small</td>
+<td onclick="sFZONTD('x-small')">X-Small</td>
 </tr>
 <tr>
-<td onclick="selectFontSizeOnClickTD('small')">Small</td>
+<td onclick="sFZONTD('small')">Small</td>
 </tr>
 <tr>
-<td onclick="selectFontSizeOnClickTD('medium')">Medium</td>
+<td onclick="sFZONTD('medium')">Medium</td>
 </tr>
 <tr>
-<td onclick="selectFontSizeOnClickTD('large')">Large</td>
+<td onclick="sFZONTD('large')">Large</td>
 </tr>
 <tr>
-<td onclick="selectFontSizeOnClickTD('x-large')">X-Large</td>
+<td onclick="sFZONTD('x-large')">X-Large</td>
 </tr>
 <tr>
-<td onclick="selectFontSizeOnClickTD('xx-large')">XX-Large</td>
+<td onclick="sFZONTD('xx-large')">XX-Large</td>
 </tr>
 </tbody></table>
 </div>
@@ -297,175 +429,175 @@ Inherit<input type="radio" name="radioFontTypeSmall" id="radioButtonSmallCapsCle
 
 <table summary="This table is color selection." id="namedColorsTable1">
 <tbody><tr>
-<td onmouseout="selCol('td_green')" onmouseover="choseColor('td_green')" onclick="selectColor('td_green')" class="td_s" id="td_green" style="background-color: green;">&nbsp;</td>
-<td onmouseout="selCol('td_lime')" onmouseover="choseColor('td_lime')" onclick="selectColor('td_lime')" class="td_s" id="td_lime" style="background-color: lime;">&nbsp;</td>
-<td onmouseout="selCol('td_teal')" onmouseover="choseColor('td_teal')" onclick="selectColor('td_teal')" class="td_s" id="td_teal" style="background-color: teal;">&nbsp;</td>
-<td onmouseout="selCol('td_aqua')" onmouseover="choseColor('td_aqua')" onclick="selectColor('td_aqua')" class="td_s" id="td_aqua" style="background-color: aqua;">&nbsp;</td>
-<td onmouseout="selCol('td_navy')" onmouseover="choseColor('td_navy')" onclick="selectColor('td_navy')" class="td_s" id="td_navy" style="background-color: navy;">&nbsp;</td>
-<td onmouseout="selCol('td_blue')" onmouseover="choseColor('td_blue')" onclick="selectColor('td_blue')" class="td_s" id="td_blue" style="background-color: blue;">&nbsp;</td>
-<td onmouseout="selCol('td_purple')" onmouseover="choseColor('td_purple')" onclick="selectColor('td_purple')" class="td_s" id="td_purple" style="background-color: purple;">&nbsp;</td>
-<td onmouseout="selCol('td_fuchsia')" onmouseover="choseColor('td_fuchsia')" onclick="selectColor('td_fuchsia')" class="td_s" id="td_fuchsia" style="background-color: fuchsia;">&nbsp;</td>
-<td onmouseout="selCol('td_maroon')" onmouseover="choseColor('td_maroon')" onclick="selectColor('td_maroon')" class="td_s" id="td_maroon" style="background-color: maroon;">&nbsp;</td>
-<td onmouseout="selCol('td_red')" onmouseover="choseColor('td_red')" onclick="selectColor('td_red')" class="td_s" id="td_red" style="background-color: red;">&nbsp;</td>
-<td onmouseout="selCol('td_olive')" onmouseover="choseColor('td_olive')" onclick="selectColor('td_olive')" class="td_s" id="td_olive" style="background-color: olive;">&nbsp;</td>
-<td onmouseout="selCol('td_yellow')" onmouseover="choseColor('td_yellow')" onclick="selectColor('td_yellow')" class="td_s" id="td_yellow" style="background-color: yellow;">&nbsp;</td>
-<td onmouseout="selCol('td_white')" onmouseover="choseColor('td_white')" onclick="selectColor('td_white')" class="td_s" id="td_white" style="background-color: white;">&nbsp;</td>
-<td onmouseout="selCol('td_silver')" onmouseover="choseColor('td_silver')" onclick="selectColor('td_silver')" class="td_s" id="td_silver" style="background-color: silver;">&nbsp;</td>
-<td onmouseout="selCol('td_gray')" onmouseover="choseColor('td_gray')" onclick="selectColor('td_gray')" class="td_s" id="td_gray" style="background-color: gray;">&nbsp;</td>
-<td onmouseout="selCol('td_black')" onmouseover="choseColor('td_black')" onclick="selectColor('td_black')" class="td_s" id="td_black" style="background-color: black;">&nbsp;</td>
+<td onmouseout="selCol('td_green')" onmouseover="cCol('td_green')" onclick="sColor('td_green')" class="td_s" id="td_green" style="background-color: green;">&nbsp;</td>
+<td onmouseout="selCol('td_lime')" onmouseover="cCol('td_lime')" onclick="sColor('td_lime')" class="td_s" id="td_lime" style="background-color: lime;">&nbsp;</td>
+<td onmouseout="selCol('td_teal')" onmouseover="cCol('td_teal')" onclick="sColor('td_teal')" class="td_s" id="td_teal" style="background-color: teal;">&nbsp;</td>
+<td onmouseout="selCol('td_aqua')" onmouseover="cCol('td_aqua')" onclick="sColor('td_aqua')" class="td_s" id="td_aqua" style="background-color: aqua;">&nbsp;</td>
+<td onmouseout="selCol('td_navy')" onmouseover="cCol('td_navy')" onclick="sColor('td_navy')" class="td_s" id="td_navy" style="background-color: navy;">&nbsp;</td>
+<td onmouseout="selCol('td_blue')" onmouseover="cCol('td_blue')" onclick="sColor('td_blue')" class="td_s" id="td_blue" style="background-color: blue;">&nbsp;</td>
+<td onmouseout="selCol('td_purple')" onmouseover="cCol('td_purple')" onclick="sColor('td_purple')" class="td_s" id="td_purple" style="background-color: purple;">&nbsp;</td>
+<td onmouseout="selCol('td_fuchsia')" onmouseover="cCol('td_fuchsia')" onclick="sColor('td_fuchsia')" class="td_s" id="td_fuchsia" style="background-color: fuchsia;">&nbsp;</td>
+<td onmouseout="selCol('td_maroon')" onmouseover="cCol('td_maroon')" onclick="sColor('td_maroon')" class="td_s" id="td_maroon" style="background-color: maroon;">&nbsp;</td>
+<td onmouseout="selCol('td_red')" onmouseover="cCol('td_red')" onclick="sColor('td_red')" class="td_s" id="td_red" style="background-color: red;">&nbsp;</td>
+<td onmouseout="selCol('td_olive')" onmouseover="cCol('td_olive')" onclick="sColor('td_olive')" class="td_s" id="td_olive" style="background-color: olive;">&nbsp;</td>
+<td onmouseout="selCol('td_yellow')" onmouseover="cCol('td_yellow')" onclick="sColor('td_yellow')" class="td_s" id="td_yellow" style="background-color: yellow;">&nbsp;</td>
+<td onmouseout="selCol('td_white')" onmouseover="cCol('td_white')" onclick="sColor('td_white')" class="td_s" id="td_white" style="background-color: white;">&nbsp;</td>
+<td onmouseout="selCol('td_silver')" onmouseover="cCol('td_silver')" onclick="sColor('td_silver')" class="td_s" id="td_silver" style="background-color: silver;">&nbsp;</td>
+<td onmouseout="selCol('td_gray')" onmouseover="cCol('td_gray')" onclick="sColor('td_gray')" class="td_s" id="td_gray" style="background-color: gray;">&nbsp;</td>
+<td onmouseout="selCol('td_black')" onmouseover="cCol('td_black')" onclick="sColor('td_black')" class="td_s" id="td_black" style="background-color: black;">&nbsp;</td>
 </tr>
 </tbody></table>
 <div style="width: 100%; clear: both; margin-top: 8px;">Additional:</div>
 <table summary="This table is named colros." id="namedColorsTable" class="thinDarkblueBorders">
 <tbody><tr>
-<td onmouseout="selCol('td_darkolivegreen')" onmouseover="choseColor('td_darkolivegreen')" onclick="selectColor('td_darkolivegreen')" class="td_s" id="td_darkolivegreen" style="background-color: rgb(85, 107, 47);">
+<td onmouseout="selCol('td_darkolivegreen')" onmouseover="cCol('td_darkolivegreen')" onclick="sColor('td_darkolivegreen')" class="td_s" id="td_darkolivegreen" style="background-color: rgb(85, 107, 47);">
 &nbsp;</td>
-<td onmouseout="selCol('td_darkgreen')" onmouseover="choseColor('td_darkgreen')" onclick="selectColor('td_darkgreen')" class="td_s" id="td_darkgreen" style="background-color: rgb(0, 100, 0);">&nbsp;</td>
-<td onmouseout="selCol('td_darkslategray')" onmouseover="choseColor('td_darkslategray')" onclick="selectColor('td_darkslategray')" class="td_s" id="td_darkslategray" style="background-color: rgb(47, 79, 79);">&nbsp;</td>
-<td onmouseout="selCol('td_slategray')" onmouseover="choseColor('td_slategray')" onclick="selectColor('td_slategray')" class="td_s" id="td_slategray" style="background-color: rgb(112, 128, 144);">&nbsp;</td>
-<td onmouseout="selCol('td_darkblue')" onmouseover="choseColor('td_darkblue')" onclick="selectColor('td_darkblue')" class="td_s" id="td_darkblue" style="background-color: rgb(0, 0, 139);">&nbsp;</td>
-<td onmouseout="selCol('td_midnightblue')" onmouseover="choseColor('td_midnightblue')" onclick="selectColor('td_midnightblue')" class="td_s" id="td_midnightblue" style="background-color: rgb(25, 25, 112);">&nbsp;</td>
-<td onmouseout="selCol('td_indigo')" onmouseover="choseColor('td_indigo')" onclick="selectColor('td_indigo')" class="td_s" id="td_indigo" style="background-color: rgb(75, 0, 130);">&nbsp;</td>
-<td onmouseout="selCol('td_darkmagenta')" onmouseover="choseColor('td_darkmagenta')" onclick="selectColor('td_darkmagenta')" class="td_s" id="td_darkmagenta" style="background-color: rgb(139, 0, 139);">&nbsp;</td>
-<td onmouseout="selCol('td_brown')" onmouseover="choseColor('td_brown')" onclick="selectColor('td_brown')" class="td_s" id="td_brown" style="background-color: rgb(165, 42, 42);">&nbsp;</td>
-<td onmouseout="selCol('td_darkred')" onmouseover="choseColor('td_darkred')" onclick="selectColor('td_darkred')" class="td_s" id="td_darkred" style="background-color: rgb(139, 0, 0);">&nbsp;</td>
-<td onmouseout="selCol('td_sienna')" onmouseover="choseColor('td_sienna')" onclick="selectColor('td_sienna')" class="td_s" id="td_sienna" style="background-color: rgb(160, 82, 45);">&nbsp;</td>
-<td onmouseout="selCol('td_saddlebrown')" onmouseover="choseColor('td_saddlebrown')" onclick="selectColor('td_saddlebrown')" class="td_s" id="td_saddlebrown" style="background-color: rgb(139, 69, 19);">&nbsp;</td>
-<td onmouseout="selCol('td_darkgoldenrod')" onmouseover="choseColor('td_darkgoldenrod')" onclick="selectColor('td_darkgoldenrod')" class="td_s" id="td_darkgoldenrod" style="background-color: rgb(184, 134, 11);">&nbsp;</td>
-<td onmouseout="selCol('td_beige')" onmouseover="choseColor('td_beige')" onclick="selectColor('td_beige')" class="td_s" id="td_beige" style="background-color: rgb(245, 245, 220);">&nbsp;</td>
-<td onmouseout="selCol('td_honeydew')" onmouseover="choseColor('td_honeydew')" onclick="selectColor('td_honeydew')" class="td_s" id="td_honeydew" style="background-color: rgb(240, 255, 240);">&nbsp;</td>
-<td onmouseout="selCol('td_dimgray')" onmouseover="choseColor('td_dimgray')" onclick="selectColor('td_dimgray')" class="td_s" id="td_dimgray" style="background-color: rgb(105, 105, 105);">&nbsp;</td>
+<td onmouseout="selCol('td_darkgreen')" onmouseover="cCol('td_darkgreen')" onclick="sColor('td_darkgreen')" class="td_s" id="td_darkgreen" style="background-color: rgb(0, 100, 0);">&nbsp;</td>
+<td onmouseout="selCol('td_darkslategray')" onmouseover="cCol('td_darkslategray')" onclick="sColor('td_darkslategray')" class="td_s" id="td_darkslategray" style="background-color: rgb(47, 79, 79);">&nbsp;</td>
+<td onmouseout="selCol('td_slategray')" onmouseover="cCol('td_slategray')" onclick="sColor('td_slategray')" class="td_s" id="td_slategray" style="background-color: rgb(112, 128, 144);">&nbsp;</td>
+<td onmouseout="selCol('td_darkblue')" onmouseover="cCol('td_darkblue')" onclick="sColor('td_darkblue')" class="td_s" id="td_darkblue" style="background-color: rgb(0, 0, 139);">&nbsp;</td>
+<td onmouseout="selCol('td_midnightblue')" onmouseover="cCol('td_midnightblue')" onclick="sColor('td_midnightblue')" class="td_s" id="td_midnightblue" style="background-color: rgb(25, 25, 112);">&nbsp;</td>
+<td onmouseout="selCol('td_indigo')" onmouseover="cCol('td_indigo')" onclick="sColor('td_indigo')" class="td_s" id="td_indigo" style="background-color: rgb(75, 0, 130);">&nbsp;</td>
+<td onmouseout="selCol('td_darkmagenta')" onmouseover="cCol('td_darkmagenta')" onclick="sColor('td_darkmagenta')" class="td_s" id="td_darkmagenta" style="background-color: rgb(139, 0, 139);">&nbsp;</td>
+<td onmouseout="selCol('td_brown')" onmouseover="cCol('td_brown')" onclick="sColor('td_brown')" class="td_s" id="td_brown" style="background-color: rgb(165, 42, 42);">&nbsp;</td>
+<td onmouseout="selCol('td_darkred')" onmouseover="cCol('td_darkred')" onclick="sColor('td_darkred')" class="td_s" id="td_darkred" style="background-color: rgb(139, 0, 0);">&nbsp;</td>
+<td onmouseout="selCol('td_sienna')" onmouseover="cCol('td_sienna')" onclick="sColor('td_sienna')" class="td_s" id="td_sienna" style="background-color: rgb(160, 82, 45);">&nbsp;</td>
+<td onmouseout="selCol('td_saddlebrown')" onmouseover="cCol('td_saddlebrown')" onclick="sColor('td_saddlebrown')" class="td_s" id="td_saddlebrown" style="background-color: rgb(139, 69, 19);">&nbsp;</td>
+<td onmouseout="selCol('td_darkgoldenrod')" onmouseover="cCol('td_darkgoldenrod')" onclick="sColor('td_darkgoldenrod')" class="td_s" id="td_darkgoldenrod" style="background-color: rgb(184, 134, 11);">&nbsp;</td>
+<td onmouseout="selCol('td_beige')" onmouseover="cCol('td_beige')" onclick="sColor('td_beige')" class="td_s" id="td_beige" style="background-color: rgb(245, 245, 220);">&nbsp;</td>
+<td onmouseout="selCol('td_honeydew')" onmouseover="cCol('td_honeydew')" onclick="sColor('td_honeydew')" class="td_s" id="td_honeydew" style="background-color: rgb(240, 255, 240);">&nbsp;</td>
+<td onmouseout="selCol('td_dimgray')" onmouseover="cCol('td_dimgray')" onclick="sColor('td_dimgray')" class="td_s" id="td_dimgray" style="background-color: rgb(105, 105, 105);">&nbsp;</td>
 </tr>
 <tr>
-<td onmouseout="selCol('td_olivedrab')" onmouseover="choseColor('td_olivedrab')" onclick="selectColor('td_olivedrab')" class="td_s" id="td_olivedrab" style="background-color: rgb(107, 142, 35);">&nbsp;</td>
-<td onmouseout="selCol('td_forestgreen')" onmouseover="choseColor('td_forestgreen')" onclick="selectColor('td_forestgreen')" class="td_s" id="td_forestgreen" style="background-color: rgb(34, 139, 34);">&nbsp;</td>
-<td onmouseout="selCol('td_darkcyan')" onmouseover="choseColor('td_darkcyan')" onclick="selectColor('td_darkcyan')" class="td_s" id="td_darkcyan" style="background-color: rgb(0, 139, 139);">&nbsp;</td>
-<td onmouseout="selCol('td_lightslategray')" onmouseover="choseColor('td_lightslategray')" onclick="selectColor('td_lightslategray')" class="td_s" id="td_lightslategray" style="background-color: rgb(119, 136, 153);">
+<td onmouseout="selCol('td_olivedrab')" onmouseover="cCol('td_olivedrab')" onclick="sColor('td_olivedrab')" class="td_s" id="td_olivedrab" style="background-color: rgb(107, 142, 35);">&nbsp;</td>
+<td onmouseout="selCol('td_forestgreen')" onmouseover="cCol('td_forestgreen')" onclick="sColor('td_forestgreen')" class="td_s" id="td_forestgreen" style="background-color: rgb(34, 139, 34);">&nbsp;</td>
+<td onmouseout="selCol('td_darkcyan')" onmouseover="cCol('td_darkcyan')" onclick="sColor('td_darkcyan')" class="td_s" id="td_darkcyan" style="background-color: rgb(0, 139, 139);">&nbsp;</td>
+<td onmouseout="selCol('td_lightslategray')" onmouseover="cCol('td_lightslategray')" onclick="sColor('td_lightslategray')" class="td_s" id="td_lightslategray" style="background-color: rgb(119, 136, 153);">
 &nbsp;</td>
-<td onmouseout="selCol('td_mediumblue')" onmouseover="choseColor('td_mediumblue')" onclick="selectColor('td_mediumblue')" class="td_s" id="td_mediumblue" style="background-color: rgb(0, 0, 205);">&nbsp;</td>
-<td onmouseout="selCol('td_darkslateblue')" onmouseover="choseColor('td_darkslateblue')" onclick="selectColor('td_darkslateblue')" class="td_s" id="td_darkslateblue" style="background-color: rgb(72, 61, 139);">&nbsp;</td>
-<td onmouseout="selCol('td_darkviolet')" onmouseover="choseColor('td_darkviolet')" onclick="selectColor('td_darkviolet')" class="td_s" id="td_darkviolet" style="background-color: rgb(148, 0, 211);">&nbsp;</td>
-<td onmouseout="selCol('td_mediumvioletred')" onmouseover="choseColor('td_mediumvioletred')" onclick="selectColor('td_mediumvioletred')" class="td_s" id="td_mediumvioletred" style="background-color: rgb(199, 21, 133);">
+<td onmouseout="selCol('td_mediumblue')" onmouseover="cCol('td_mediumblue')" onclick="sColor('td_mediumblue')" class="td_s" id="td_mediumblue" style="background-color: rgb(0, 0, 205);">&nbsp;</td>
+<td onmouseout="selCol('td_darkslateblue')" onmouseover="cCol('td_darkslateblue')" onclick="sColor('td_darkslateblue')" class="td_s" id="td_darkslateblue" style="background-color: rgb(72, 61, 139);">&nbsp;</td>
+<td onmouseout="selCol('td_darkviolet')" onmouseover="cCol('td_darkviolet')" onclick="sColor('td_darkviolet')" class="td_s" id="td_darkviolet" style="background-color: rgb(148, 0, 211);">&nbsp;</td>
+<td onmouseout="selCol('td_mediumvioletred')" onmouseover="cCol('td_mediumvioletred')" onclick="sColor('td_mediumvioletred')" class="td_s" id="td_mediumvioletred" style="background-color: rgb(199, 21, 133);">
 &nbsp;</td>
-<td onmouseout="selCol('td_indianred')" onmouseover="choseColor('td_indianred')" onclick="selectColor('td_indianred')" class="td_s" id="td_indianred" style="background-color: rgb(205, 92, 92);">&nbsp;</td>
-<td onmouseout="selCol('td_firebrick')" onmouseover="choseColor('td_firebrick')" onclick="selectColor('td_firebrick')" class="td_s" id="td_firebrick" style="background-color: rgb(178, 34, 34);">&nbsp;</td>
-<td onmouseout="selCol('td_chocolate')" onmouseover="choseColor('td_chocolate')" onclick="selectColor('td_chocolate')" class="td_s" id="td_chocolate" style="background-color: rgb(210, 105, 30);">&nbsp;</td>
-<td onmouseout="selCol('td_peru')" onmouseover="choseColor('td_peru')" onclick="selectColor('td_peru')" class="td_s" id="td_peru" style="background-color: rgb(205, 133, 63);">&nbsp;</td>
-<td onmouseout="selCol('td_goldenrod')" onmouseover="choseColor('td_goldenrod')" onclick="selectColor('td_goldenrod')" class="td_s" id="td_goldenrod" style="background-color: rgb(218, 165, 32);">&nbsp;</td>
-<td onmouseout="selCol('td_lightgoldenrodyellow')" onmouseover="choseColor('td_lightgoldenrodyellow')" onclick="selectColor('td_lightgoldenrodyellow')" class="td_s" id="td_lightgoldenrodyellow" style="background-color: rgb(250, 250, 210);">
+<td onmouseout="selCol('td_indianred')" onmouseover="cCol('td_indianred')" onclick="sColor('td_indianred')" class="td_s" id="td_indianred" style="background-color: rgb(205, 92, 92);">&nbsp;</td>
+<td onmouseout="selCol('td_firebrick')" onmouseover="cCol('td_firebrick')" onclick="sColor('td_firebrick')" class="td_s" id="td_firebrick" style="background-color: rgb(178, 34, 34);">&nbsp;</td>
+<td onmouseout="selCol('td_chocolate')" onmouseover="cCol('td_chocolate')" onclick="sColor('td_chocolate')" class="td_s" id="td_chocolate" style="background-color: rgb(210, 105, 30);">&nbsp;</td>
+<td onmouseout="selCol('td_peru')" onmouseover="cCol('td_peru')" onclick="sColor('td_peru')" class="td_s" id="td_peru" style="background-color: rgb(205, 133, 63);">&nbsp;</td>
+<td onmouseout="selCol('td_goldenrod')" onmouseover="cCol('td_goldenrod')" onclick="sColor('td_goldenrod')" class="td_s" id="td_goldenrod" style="background-color: rgb(218, 165, 32);">&nbsp;</td>
+<td onmouseout="selCol('td_lightgoldenrodyellow')" onmouseover="cCol('td_lightgoldenrodyellow')" onclick="sColor('td_lightgoldenrodyellow')" class="td_s" id="td_lightgoldenrodyellow" style="background-color: rgb(250, 250, 210);">
 &nbsp;</td>
-<td onmouseout="selCol('td_mintcream')" onmouseover="choseColor('td_mintcream')" onclick="selectColor('td_mintcream')" class="td_s" id="td_mintcream" style="background-color: rgb(245, 255, 250);">&nbsp;</td>
-<td onmouseout="selCol('td_darkgray')" onmouseover="choseColor('td_darkgray')" onclick="selectColor('td_darkgray')" class="td_s" id="td_darkgray" style="background-color: rgb(169, 169, 169);">&nbsp;</td>
+<td onmouseout="selCol('td_mintcream')" onmouseover="cCol('td_mintcream')" onclick="sColor('td_mintcream')" class="td_s" id="td_mintcream" style="background-color: rgb(245, 255, 250);">&nbsp;</td>
+<td onmouseout="selCol('td_darkgray')" onmouseover="cCol('td_darkgray')" onclick="sColor('td_darkgray')" class="td_s" id="td_darkgray" style="background-color: rgb(169, 169, 169);">&nbsp;</td>
 </tr>
 <tr>
-<td onmouseout="selCol('td_yellowgreen')" onmouseover="choseColor('td_yellowgreen')" onclick="selectColor('td_yellowgreen')" class="td_s" id="td_yellowgreen" style="background-color: rgb(154, 205, 50);">&nbsp;</td>
-<td onmouseout="selCol('td_seagreen')" onmouseover="choseColor('td_seagreen')" onclick="selectColor('td_seagreen')" class="td_s" id="td_seagreen" style="background-color: rgb(46, 139, 87);">&nbsp;</td>
-<td onmouseout="selCol('td_cadetblue')" onmouseover="choseColor('td_cadetblue')" onclick="selectColor('td_cadetblue')" class="td_s" id="td_cadetblue" style="background-color: rgb(95, 158, 160);">&nbsp;</td>
-<td onmouseout="selCol('td_steelblue')" onmouseover="choseColor('td_steelblue')" onclick="selectColor('td_steelblue')" class="td_s" id="td_steelblue" style="background-color: rgb(70, 130, 180);">&nbsp;</td>
-<td onmouseout="selCol('td_royalblue')" onmouseover="choseColor('td_royalblue')" onclick="selectColor('td_royalblue')" class="td_s" id="td_royalblue" style="background-color: rgb(65, 105, 225);">&nbsp;</td>
-<td onmouseout="selCol('td_blueviolet')" onmouseover="choseColor('td_blueviolet')" onclick="selectColor('td_blueviolet')" class="td_s" id="td_blueviolet" style="background-color: rgb(138, 43, 226);">&nbsp;</td>
-<td onmouseout="selCol('td_darkorchid')" onmouseover="choseColor('td_darkorchid')" onclick="selectColor('td_darkorchid')" class="td_s" id="td_darkorchid" style="background-color: rgb(153, 50, 204);">&nbsp;</td>
-<td onmouseout="selCol('td_deeppink')" onmouseover="choseColor('td_deeppink')" onclick="selectColor('td_deeppink')" class="td_s" id="td_deeppink" style="background-color: rgb(255, 20, 147);">&nbsp;</td>
-<td onmouseout="selCol('td_rosybrown')" onmouseover="choseColor('td_rosybrown')" onclick="selectColor('td_rosybrown')" class="td_s" id="td_rosybrown" style="background-color: rgb(188, 143, 143);">&nbsp;</td>
-<td onmouseout="selCol('td_crimson')" onmouseover="choseColor('td_crimson')" onclick="selectColor('td_crimson')" class="td_s" id="td_crimson" style="background-color: rgb(220, 20, 60);">&nbsp;</td>
-<td onmouseout="selCol('td_darkorange')" onmouseover="choseColor('td_darkorange')" onclick="selectColor('td_darkorange')" class="td_s" id="td_darkorange" style="background-color: rgb(255, 140, 0);">&nbsp;</td>
-<td onmouseout="selCol('td_burlywood')" onmouseover="choseColor('td_burlywood')" onclick="selectColor('td_burlywood')" class="td_s" id="td_burlywood" style="background-color: rgb(222, 184, 135);">&nbsp;</td>
-<td onmouseout="selCol('td_darkkhaki')" onmouseover="choseColor('td_darkkhaki')" onclick="selectColor('td_darkkhaki')" class="td_s" id="td_darkkhaki" style="background-color: rgb(189, 183, 107);">&nbsp;</td>
-<td onmouseout="selCol('td_lightyellow')" onmouseover="choseColor('td_lightyellow')" onclick="selectColor('td_lightyellow')" class="td_s" id="td_lightyellow" style="background-color: rgb(255, 255, 224);">&nbsp;</td>
-<td onmouseout="selCol('td_azure')" onmouseover="choseColor('td_azure')" onclick="selectColor('td_azure')" class="td_s" id="td_azure" style="background-color: rgb(240, 255, 255);">&nbsp;</td>
-<td onmouseout="selCol('td_lightgrey')" onmouseover="choseColor('td_lightgrey')" onclick="selectColor('td_lightgrey')" class="td_s" id="td_lightgrey" style="background-color: rgb(211, 211, 211);">&nbsp;</td>
+<td onmouseout="selCol('td_yellowgreen')" onmouseover="cCol('td_yellowgreen')" onclick="sColor('td_yellowgreen')" class="td_s" id="td_yellowgreen" style="background-color: rgb(154, 205, 50);">&nbsp;</td>
+<td onmouseout="selCol('td_seagreen')" onmouseover="cCol('td_seagreen')" onclick="sColor('td_seagreen')" class="td_s" id="td_seagreen" style="background-color: rgb(46, 139, 87);">&nbsp;</td>
+<td onmouseout="selCol('td_cadetblue')" onmouseover="cCol('td_cadetblue')" onclick="sColor('td_cadetblue')" class="td_s" id="td_cadetblue" style="background-color: rgb(95, 158, 160);">&nbsp;</td>
+<td onmouseout="selCol('td_steelblue')" onmouseover="cCol('td_steelblue')" onclick="sColor('td_steelblue')" class="td_s" id="td_steelblue" style="background-color: rgb(70, 130, 180);">&nbsp;</td>
+<td onmouseout="selCol('td_royalblue')" onmouseover="cCol('td_royalblue')" onclick="sColor('td_royalblue')" class="td_s" id="td_royalblue" style="background-color: rgb(65, 105, 225);">&nbsp;</td>
+<td onmouseout="selCol('td_blueviolet')" onmouseover="cCol('td_blueviolet')" onclick="sColor('td_blueviolet')" class="td_s" id="td_blueviolet" style="background-color: rgb(138, 43, 226);">&nbsp;</td>
+<td onmouseout="selCol('td_darkorchid')" onmouseover="cCol('td_darkorchid')" onclick="sColor('td_darkorchid')" class="td_s" id="td_darkorchid" style="background-color: rgb(153, 50, 204);">&nbsp;</td>
+<td onmouseout="selCol('td_deeppink')" onmouseover="cCol('td_deeppink')" onclick="sColor('td_deeppink')" class="td_s" id="td_deeppink" style="background-color: rgb(255, 20, 147);">&nbsp;</td>
+<td onmouseout="selCol('td_rosybrown')" onmouseover="cCol('td_rosybrown')" onclick="sColor('td_rosybrown')" class="td_s" id="td_rosybrown" style="background-color: rgb(188, 143, 143);">&nbsp;</td>
+<td onmouseout="selCol('td_crimson')" onmouseover="cCol('td_crimson')" onclick="sColor('td_crimson')" class="td_s" id="td_crimson" style="background-color: rgb(220, 20, 60);">&nbsp;</td>
+<td onmouseout="selCol('td_darkorange')" onmouseover="cCol('td_darkorange')" onclick="sColor('td_darkorange')" class="td_s" id="td_darkorange" style="background-color: rgb(255, 140, 0);">&nbsp;</td>
+<td onmouseout="selCol('td_burlywood')" onmouseover="cCol('td_burlywood')" onclick="sColor('td_burlywood')" class="td_s" id="td_burlywood" style="background-color: rgb(222, 184, 135);">&nbsp;</td>
+<td onmouseout="selCol('td_darkkhaki')" onmouseover="cCol('td_darkkhaki')" onclick="sColor('td_darkkhaki')" class="td_s" id="td_darkkhaki" style="background-color: rgb(189, 183, 107);">&nbsp;</td>
+<td onmouseout="selCol('td_lightyellow')" onmouseover="cCol('td_lightyellow')" onclick="sColor('td_lightyellow')" class="td_s" id="td_lightyellow" style="background-color: rgb(255, 255, 224);">&nbsp;</td>
+<td onmouseout="selCol('td_azure')" onmouseover="cCol('td_azure')" onclick="sColor('td_azure')" class="td_s" id="td_azure" style="background-color: rgb(240, 255, 255);">&nbsp;</td>
+<td onmouseout="selCol('td_lightgrey')" onmouseover="cCol('td_lightgrey')" onclick="sColor('td_lightgrey')" class="td_s" id="td_lightgrey" style="background-color: rgb(211, 211, 211);">&nbsp;</td>
 </tr>
 <tr>
-<td onmouseout="selCol('td_lawngreen')" onmouseover="choseColor('td_lawngreen')" onclick="selectColor('td_lawngreen')" class="td_s" id="td_lawngreen" style="background-color: rgb(124, 252, 0);">&nbsp;</td>
-<td onmouseout="selCol('td_mediumseagreen')" onmouseover="choseColor('td_mediumseagreen')" onclick="selectColor('td_mediumseagreen')" class="td_s" id="td_mediumseagreen" style="background-color: rgb(60, 179, 113);">
+<td onmouseout="selCol('td_lawngreen')" onmouseover="cCol('td_lawngreen')" onclick="sColor('td_lawngreen')" class="td_s" id="td_lawngreen" style="background-color: rgb(124, 252, 0);">&nbsp;</td>
+<td onmouseout="selCol('td_mediumseagreen')" onmouseover="cCol('td_mediumseagreen')" onclick="sColor('td_mediumseagreen')" class="td_s" id="td_mediumseagreen" style="background-color: rgb(60, 179, 113);">
 &nbsp;</td>
-<td onmouseout="selCol('td_lightseagreen')" onmouseover="choseColor('td_lightseagreen')" onclick="selectColor('td_lightseagreen')" class="td_s" id="td_lightseagreen" style="background-color: rgb(32, 178, 170);">&nbsp;</td>
-<td onmouseout="selCol('td_deepskyblue')" onmouseover="choseColor('td_deepskyblue')" onclick="selectColor('td_deepskyblue')" class="td_s" id="td_deepskyblue" style="background-color: rgb(0, 191, 255);">&nbsp;</td>
-<td onmouseout="selCol('td_dodgerblue')" onmouseover="choseColor('td_dodgerblue')" onclick="selectColor('td_dodgerblue')" class="td_s" id="td_dodgerblue" style="background-color: rgb(30, 144, 255);">&nbsp;</td>
-<td onmouseout="selCol('td_slateblue')" onmouseover="choseColor('td_slateblue')" onclick="selectColor('td_slateblue')" class="td_s" id="td_slateblue" style="background-color: rgb(106, 90, 205);">&nbsp;</td>
-<td onmouseout="selCol('td_mediumorchid')" onmouseover="choseColor('td_mediumorchid')" onclick="selectColor('td_mediumorchid')" class="td_s" id="td_mediumorchid" style="background-color: rgb(186, 85, 211);">&nbsp;</td>
-<td onmouseout="selCol('td_palevioletred')" onmouseover="choseColor('td_palevioletred')" onclick="selectColor('td_palevioletred')" class="td_s" id="td_palevioletred" style="background-color: rgb(216, 112, 147);">&nbsp;</td>
-<td onmouseout="selCol('td_salmon')" onmouseover="choseColor('td_salmon')" onclick="selectColor('td_salmon')" class="td_s" id="td_salmon" style="background-color: rgb(250, 128, 114);">&nbsp;</td>
-<td onmouseout="selCol('td_orangered')" onmouseover="choseColor('td_orangered')" onclick="selectColor('td_orangered')" class="td_s" id="td_orangered" style="background-color: rgb(255, 69, 0);">&nbsp;</td>
-<td onmouseout="selCol('td_sandybrown')" onmouseover="choseColor('td_sandybrown')" onclick="selectColor('td_sandybrown')" class="td_s" id="td_sandybrown" style="background-color: rgb(244, 164, 96);">&nbsp;</td>
-<td onmouseout="selCol('td_tan')" onmouseover="choseColor('td_tan')" onclick="selectColor('td_tan')" class="td_s" id="td_tan" style="background-color: rgb(210, 180, 140);">&nbsp;</td>
-<td onmouseout="selCol('td_gold')" onmouseover="choseColor('td_gold')" onclick="selectColor('td_gold')" class="td_s" id="td_gold" style="background-color: rgb(255, 215, 0);">&nbsp;</td>
-<td onmouseout="selCol('td_ivory')" onmouseover="choseColor('td_ivory')" onclick="selectColor('td_ivory')" class="td_s" id="td_ivory" style="background-color: rgb(255, 255, 240);">&nbsp;</td>
-<td onmouseout="selCol('td_ghostwhite')" onmouseover="choseColor('td_ghostwhite')" onclick="selectColor('td_ghostwhite')" class="td_s" id="td_ghostwhite" style="background-color: rgb(248, 248, 255);">&nbsp;</td>
-<td onmouseout="selCol('td_gainsboro')" onmouseover="choseColor('td_gainsboro')" onclick="selectColor('td_gainsboro')" class="td_s" id="td_gainsboro" style="background-color: rgb(220, 220, 220);">&nbsp;</td>
+<td onmouseout="selCol('td_lightseagreen')" onmouseover="cCol('td_lightseagreen')" onclick="sColor('td_lightseagreen')" class="td_s" id="td_lightseagreen" style="background-color: rgb(32, 178, 170);">&nbsp;</td>
+<td onmouseout="selCol('td_deepskyblue')" onmouseover="cCol('td_deepskyblue')" onclick="sColor('td_deepskyblue')" class="td_s" id="td_deepskyblue" style="background-color: rgb(0, 191, 255);">&nbsp;</td>
+<td onmouseout="selCol('td_dodgerblue')" onmouseover="cCol('td_dodgerblue')" onclick="sColor('td_dodgerblue')" class="td_s" id="td_dodgerblue" style="background-color: rgb(30, 144, 255);">&nbsp;</td>
+<td onmouseout="selCol('td_slateblue')" onmouseover="cCol('td_slateblue')" onclick="sColor('td_slateblue')" class="td_s" id="td_slateblue" style="background-color: rgb(106, 90, 205);">&nbsp;</td>
+<td onmouseout="selCol('td_mediumorchid')" onmouseover="cCol('td_mediumorchid')" onclick="sColor('td_mediumorchid')" class="td_s" id="td_mediumorchid" style="background-color: rgb(186, 85, 211);">&nbsp;</td>
+<td onmouseout="selCol('td_palevioletred')" onmouseover="cCol('td_palevioletred')" onclick="sColor('td_palevioletred')" class="td_s" id="td_palevioletred" style="background-color: rgb(216, 112, 147);">&nbsp;</td>
+<td onmouseout="selCol('td_salmon')" onmouseover="cCol('td_salmon')" onclick="sColor('td_salmon')" class="td_s" id="td_salmon" style="background-color: rgb(250, 128, 114);">&nbsp;</td>
+<td onmouseout="selCol('td_orangered')" onmouseover="cCol('td_orangered')" onclick="sColor('td_orangered')" class="td_s" id="td_orangered" style="background-color: rgb(255, 69, 0);">&nbsp;</td>
+<td onmouseout="selCol('td_sandybrown')" onmouseover="cCol('td_sandybrown')" onclick="sColor('td_sandybrown')" class="td_s" id="td_sandybrown" style="background-color: rgb(244, 164, 96);">&nbsp;</td>
+<td onmouseout="selCol('td_tan')" onmouseover="cCol('td_tan')" onclick="sColor('td_tan')" class="td_s" id="td_tan" style="background-color: rgb(210, 180, 140);">&nbsp;</td>
+<td onmouseout="selCol('td_gold')" onmouseover="cCol('td_gold')" onclick="sColor('td_gold')" class="td_s" id="td_gold" style="background-color: rgb(255, 215, 0);">&nbsp;</td>
+<td onmouseout="selCol('td_ivory')" onmouseover="cCol('td_ivory')" onclick="sColor('td_ivory')" class="td_s" id="td_ivory" style="background-color: rgb(255, 255, 240);">&nbsp;</td>
+<td onmouseout="selCol('td_ghostwhite')" onmouseover="cCol('td_ghostwhite')" onclick="sColor('td_ghostwhite')" class="td_s" id="td_ghostwhite" style="background-color: rgb(248, 248, 255);">&nbsp;</td>
+<td onmouseout="selCol('td_gainsboro')" onmouseover="cCol('td_gainsboro')" onclick="sColor('td_gainsboro')" class="td_s" id="td_gainsboro" style="background-color: rgb(220, 220, 220);">&nbsp;</td>
 </tr>
 <tr>
-<td onmouseout="selCol('td_chartreuse')" onmouseover="choseColor('td_chartreuse')" onclick="selectColor('td_chartreuse')" class="td_s" id="td_chartreuse" style="background-color: rgb(127, 255, 0);">&nbsp;</td>
-<td onmouseout="selCol('td_limegreen')" onmouseover="choseColor('td_limegreen')" onclick="selectColor('td_limegreen')" class="td_s" id="td_limegreen" style="background-color: rgb(50, 205, 50);">&nbsp;</td>
-<td onmouseout="selCol('td_mediumaquamarine')" onmouseover="choseColor('td_mediumaquamarine')" onclick="selectColor('td_mediumaquamarine')" class="td_s" id="td_mediumaquamarine" style="background-color: rgb(102, 205, 170);">
+<td onmouseout="selCol('td_chartreuse')" onmouseover="cCol('td_chartreuse')" onclick="sColor('td_chartreuse')" class="td_s" id="td_chartreuse" style="background-color: rgb(127, 255, 0);">&nbsp;</td>
+<td onmouseout="selCol('td_limegreen')" onmouseover="cCol('td_limegreen')" onclick="sColor('td_limegreen')" class="td_s" id="td_limegreen" style="background-color: rgb(50, 205, 50);">&nbsp;</td>
+<td onmouseout="selCol('td_mediumaquamarine')" onmouseover="cCol('td_mediumaquamarine')" onclick="sColor('td_mediumaquamarine')" class="td_s" id="td_mediumaquamarine" style="background-color: rgb(102, 205, 170);">
 &nbsp;</td>
-<td onmouseout="selCol('td_darkturquoise')" onmouseover="choseColor('td_darkturquoise')" onclick="selectColor('td_darkturquoise')" class="td_s" id="td_darkturquoise" style="background-color: rgb(0, 206, 209);">&nbsp;</td>
-<td onmouseout="selCol('td_cornflowerblue')" onmouseover="choseColor('td_cornflowerblue')" onclick="selectColor('td_cornflowerblue')" class="td_s" id="td_cornflowerblue" style="background-color: rgb(100, 149, 237);">
+<td onmouseout="selCol('td_darkturquoise')" onmouseover="cCol('td_darkturquoise')" onclick="sColor('td_darkturquoise')" class="td_s" id="td_darkturquoise" style="background-color: rgb(0, 206, 209);">&nbsp;</td>
+<td onmouseout="selCol('td_cornflowerblue')" onmouseover="cCol('td_cornflowerblue')" onclick="sColor('td_cornflowerblue')" class="td_s" id="td_cornflowerblue" style="background-color: rgb(100, 149, 237);">
 &nbsp;</td>
-<td onmouseout="selCol('td_mediumslateblue')" onmouseover="choseColor('td_mediumslateblue')" onclick="selectColor('td_mediumslateblue')" class="td_s" id="td_mediumslateblue" style="background-color: rgb(123, 104, 238);">
+<td onmouseout="selCol('td_mediumslateblue')" onmouseover="cCol('td_mediumslateblue')" onclick="sColor('td_mediumslateblue')" class="td_s" id="td_mediumslateblue" style="background-color: rgb(123, 104, 238);">
 &nbsp;</td>
-<td onmouseout="selCol('td_orchid')" onmouseover="choseColor('td_orchid')" onclick="selectColor('td_orchid')" class="td_s" id="td_orchid" style="background-color: rgb(218, 112, 214);">&nbsp;</td>
-<td onmouseout="selCol('td_hotpink')" onmouseover="choseColor('td_hotpink')" onclick="selectColor('td_hotpink')" class="td_s" id="td_hotpink" style="background-color: rgb(255, 105, 180);">&nbsp;</td>
-<td onmouseout="selCol('td_lightcoral')" onmouseover="choseColor('td_lightcoral')" onclick="selectColor('td_lightcoral')" class="td_s" id="td_lightcoral" style="background-color: rgb(240, 128, 128);">&nbsp;</td>
-<td onmouseout="selCol('td_tomato')" onmouseover="choseColor('td_tomato')" onclick="selectColor('td_tomato')" class="td_s" id="td_tomato" style="background-color: rgb(255, 99, 71);">&nbsp;</td>
-<td onmouseout="selCol('td_orange')" onmouseover="choseColor('td_orange')" onclick="selectColor('td_orange')" class="td_s" id="td_orange" style="background-color: rgb(255, 165, 0);">&nbsp;</td>
-<td onmouseout="selCol('td_bisque')" onmouseover="choseColor('td_bisque')" onclick="selectColor('td_bisque')" class="td_s" id="td_bisque" style="background-color: rgb(255, 228, 196);">&nbsp;</td>
-<td onmouseout="selCol('td_khaki')" onmouseover="choseColor('td_khaki')" onclick="selectColor('td_khaki')" class="td_s" id="td_khaki" style="background-color: rgb(240, 230, 140);">&nbsp;</td>
-<td onmouseout="selCol('td_cornsilk')" onmouseover="choseColor('td_cornsilk')" onclick="selectColor('td_cornsilk')" class="td_s" id="td_cornsilk" style="background-color: rgb(255, 248, 220);">&nbsp;</td>
-<td onmouseout="selCol('td_linen')" onmouseover="choseColor('td_linen')" onclick="selectColor('td_linen')" class="td_s" id="td_linen" style="background-color: rgb(250, 240, 230);">&nbsp;</td>
-<td onmouseout="selCol('td_whitesmoke')" onmouseover="choseColor('td_whitesmoke')" onclick="selectColor('td_whitesmoke')" class="td_s" id="td_whitesmoke" style="background-color: rgb(245, 245, 245);">&nbsp;</td>
+<td onmouseout="selCol('td_orchid')" onmouseover="cCol('td_orchid')" onclick="sColor('td_orchid')" class="td_s" id="td_orchid" style="background-color: rgb(218, 112, 214);">&nbsp;</td>
+<td onmouseout="selCol('td_hotpink')" onmouseover="cCol('td_hotpink')" onclick="sColor('td_hotpink')" class="td_s" id="td_hotpink" style="background-color: rgb(255, 105, 180);">&nbsp;</td>
+<td onmouseout="selCol('td_lightcoral')" onmouseover="cCol('td_lightcoral')" onclick="sColor('td_lightcoral')" class="td_s" id="td_lightcoral" style="background-color: rgb(240, 128, 128);">&nbsp;</td>
+<td onmouseout="selCol('td_tomato')" onmouseover="cCol('td_tomato')" onclick="sColor('td_tomato')" class="td_s" id="td_tomato" style="background-color: rgb(255, 99, 71);">&nbsp;</td>
+<td onmouseout="selCol('td_orange')" onmouseover="cCol('td_orange')" onclick="sColor('td_orange')" class="td_s" id="td_orange" style="background-color: rgb(255, 165, 0);">&nbsp;</td>
+<td onmouseout="selCol('td_bisque')" onmouseover="cCol('td_bisque')" onclick="sColor('td_bisque')" class="td_s" id="td_bisque" style="background-color: rgb(255, 228, 196);">&nbsp;</td>
+<td onmouseout="selCol('td_khaki')" onmouseover="cCol('td_khaki')" onclick="sColor('td_khaki')" class="td_s" id="td_khaki" style="background-color: rgb(240, 230, 140);">&nbsp;</td>
+<td onmouseout="selCol('td_cornsilk')" onmouseover="cCol('td_cornsilk')" onclick="sColor('td_cornsilk')" class="td_s" id="td_cornsilk" style="background-color: rgb(255, 248, 220);">&nbsp;</td>
+<td onmouseout="selCol('td_linen')" onmouseover="cCol('td_linen')" onclick="sColor('td_linen')" class="td_s" id="td_linen" style="background-color: rgb(250, 240, 230);">&nbsp;</td>
+<td onmouseout="selCol('td_whitesmoke')" onmouseover="cCol('td_whitesmoke')" onclick="sColor('td_whitesmoke')" class="td_s" id="td_whitesmoke" style="background-color: rgb(245, 245, 245);">&nbsp;</td>
 </tr>
 <tr>
-<td onmouseout="selCol('td_greenyellow')" onmouseover="choseColor('td_greenyellow')" onclick="selectColor('td_greenyellow')" class="td_s" id="td_greenyellow" style="background-color: rgb(173, 255, 47);">&nbsp;</td>
-<td onmouseout="selCol('td_darkseagreen')" onmouseover="choseColor('td_darkseagreen')" onclick="selectColor('td_darkseagreen')" class="td_s" id="td_darkseagreen" style="background-color: rgb(143, 188, 143);">&nbsp;</td>
-<td onmouseout="selCol('td_turquoise')" onmouseover="choseColor('td_turquoise')" onclick="selectColor('td_turquoise')" class="td_s" id="td_turquoise" style="background-color: rgb(64, 224, 208);">&nbsp;</td>
-<td onmouseout="selCol('td_mediumturquoise')" onmouseover="choseColor('td_mediumturquoise')" onclick="selectColor('td_mediumturquoise')" class="td_s" id="td_mediumturquoise" style="background-color: rgb(72, 209, 204);">
+<td onmouseout="selCol('td_greenyellow')" onmouseover="cCol('td_greenyellow')" onclick="sColor('td_greenyellow')" class="td_s" id="td_greenyellow" style="background-color: rgb(173, 255, 47);">&nbsp;</td>
+<td onmouseout="selCol('td_darkseagreen')" onmouseover="cCol('td_darkseagreen')" onclick="sColor('td_darkseagreen')" class="td_s" id="td_darkseagreen" style="background-color: rgb(143, 188, 143);">&nbsp;</td>
+<td onmouseout="selCol('td_turquoise')" onmouseover="cCol('td_turquoise')" onclick="sColor('td_turquoise')" class="td_s" id="td_turquoise" style="background-color: rgb(64, 224, 208);">&nbsp;</td>
+<td onmouseout="selCol('td_mediumturquoise')" onmouseover="cCol('td_mediumturquoise')" onclick="sColor('td_mediumturquoise')" class="td_s" id="td_mediumturquoise" style="background-color: rgb(72, 209, 204);">
 &nbsp;</td>
-<td onmouseout="selCol('td_skyblue')" onmouseover="choseColor('td_skyblue')" onclick="selectColor('td_skyblue')" class="td_s" id="td_skyblue" style="background-color: rgb(135, 206, 235);">&nbsp;</td>
-<td onmouseout="selCol('td_mediumpurple')" onmouseover="choseColor('td_mediumpurple')" onclick="selectColor('td_mediumpurple')" class="td_s" id="td_mediumpurple" style="background-color: rgb(147, 112, 216);">&nbsp;</td>
-<td onmouseout="selCol('td_violet')" onmouseover="choseColor('td_violet')" onclick="selectColor('td_violet')" class="td_s" id="td_violet" style="background-color: rgb(238, 130, 238);">&nbsp;</td>
-<td onmouseout="selCol('td_lightpink')" onmouseover="choseColor('td_lightpink')" onclick="selectColor('td_lightpink')" class="td_s" id="td_lightpink" style="background-color: rgb(255, 182, 193);">&nbsp;</td>
-<td onmouseout="selCol('td_darksalmon')" onmouseover="choseColor('td_darksalmon')" onclick="selectColor('td_darksalmon')" class="td_s" id="td_darksalmon" style="background-color: rgb(233, 150, 122);">&nbsp;</td>
-<td onmouseout="selCol('td_coral')" onmouseover="choseColor('td_coral')" onclick="selectColor('td_coral')" class="td_s" id="td_coral" style="background-color: rgb(255, 127, 80);">&nbsp;</td>
-<td onmouseout="selCol('td_navajowhite')" onmouseover="choseColor('td_navajowhite')" onclick="selectColor('td_navajowhite')" class="td_s" id="td_navajowhite" style="background-color: rgb(255, 222, 173);">&nbsp;</td>
-<td onmouseout="selCol('td_blanchedalmond')" onmouseover="choseColor('td_blanchedalmond')" onclick="selectColor('td_blanchedalmond')" class="td_s" id="td_blanchedalmond" style="background-color: rgb(255, 235, 205);">
+<td onmouseout="selCol('td_skyblue')" onmouseover="cCol('td_skyblue')" onclick="sColor('td_skyblue')" class="td_s" id="td_skyblue" style="background-color: rgb(135, 206, 235);">&nbsp;</td>
+<td onmouseout="selCol('td_mediumpurple')" onmouseover="cCol('td_mediumpurple')" onclick="sColor('td_mediumpurple')" class="td_s" id="td_mediumpurple" style="background-color: rgb(147, 112, 216);">&nbsp;</td>
+<td onmouseout="selCol('td_violet')" onmouseover="cCol('td_violet')" onclick="sColor('td_violet')" class="td_s" id="td_violet" style="background-color: rgb(238, 130, 238);">&nbsp;</td>
+<td onmouseout="selCol('td_lightpink')" onmouseover="cCol('td_lightpink')" onclick="sColor('td_lightpink')" class="td_s" id="td_lightpink" style="background-color: rgb(255, 182, 193);">&nbsp;</td>
+<td onmouseout="selCol('td_darksalmon')" onmouseover="cCol('td_darksalmon')" onclick="sColor('td_darksalmon')" class="td_s" id="td_darksalmon" style="background-color: rgb(233, 150, 122);">&nbsp;</td>
+<td onmouseout="selCol('td_coral')" onmouseover="cCol('td_coral')" onclick="sColor('td_coral')" class="td_s" id="td_coral" style="background-color: rgb(255, 127, 80);">&nbsp;</td>
+<td onmouseout="selCol('td_navajowhite')" onmouseover="cCol('td_navajowhite')" onclick="sColor('td_navajowhite')" class="td_s" id="td_navajowhite" style="background-color: rgb(255, 222, 173);">&nbsp;</td>
+<td onmouseout="selCol('td_blanchedalmond')" onmouseover="cCol('td_blanchedalmond')" onclick="sColor('td_blanchedalmond')" class="td_s" id="td_blanchedalmond" style="background-color: rgb(255, 235, 205);">
 &nbsp;</td>
-<td onmouseout="selCol('td_palegoldenrod')" onmouseover="choseColor('td_palegoldenrod')" onclick="selectColor('td_palegoldenrod')" class="td_s" id="td_palegoldenrod" style="background-color: rgb(238, 232, 170);">&nbsp;</td>
-<td onmouseout="selCol('td_oldlace')" onmouseover="choseColor('td_oldlace')" onclick="selectColor('td_oldlace')" class="td_s" id="td_oldlace" style="background-color: rgb(253, 245, 230);">&nbsp;</td>
-<td onmouseout="selCol('td_seashell')" onmouseover="choseColor('td_seashell')" onclick="selectColor('td_seashell')" class="td_s" id="td_seashell" style="background-color: rgb(255, 245, 238);">&nbsp;</td>
-<td onmouseout="selCol('td_ghostwhite')" onmouseover="choseColor('td_ghostwhite')" onclick="selectColor('td_ghostwhite')" class="td_s" id="td_ghostwhite2" style="background-color: rgb(248, 248, 255);">&nbsp;</td>
+<td onmouseout="selCol('td_palegoldenrod')" onmouseover="cCol('td_palegoldenrod')" onclick="sColor('td_palegoldenrod')" class="td_s" id="td_palegoldenrod" style="background-color: rgb(238, 232, 170);">&nbsp;</td>
+<td onmouseout="selCol('td_oldlace')" onmouseover="cCol('td_oldlace')" onclick="sColor('td_oldlace')" class="td_s" id="td_oldlace" style="background-color: rgb(253, 245, 230);">&nbsp;</td>
+<td onmouseout="selCol('td_seashell')" onmouseover="cCol('td_seashell')" onclick="sColor('td_seashell')" class="td_s" id="td_seashell" style="background-color: rgb(255, 245, 238);">&nbsp;</td>
+<td onmouseout="selCol('td_ghostwhite')" onmouseover="cCol('td_ghostwhite')" onclick="sColor('td_ghostwhite')" class="td_s" id="td_ghostwhite2" style="background-color: rgb(248, 248, 255);">&nbsp;</td>
 </tr>
 <tr>
-<td onmouseout="selCol('td_palegreen')" onmouseover="choseColor('td_palegreen')" onclick="selectColor('td_palegreen')" class="td_s" id="td_palegreen" style="background-color: rgb(152, 251, 152);">&nbsp;</td>
-<td onmouseout="selCol('td_springgreen')" onmouseover="choseColor('td_springgreen')" onclick="selectColor('td_springgreen')" class="td_s" id="td_springgreen" style="background-color: rgb(0, 255, 127);">&nbsp;</td>
-<td onmouseout="selCol('td_aquamarine')" onmouseover="choseColor('td_aquamarine')" onclick="selectColor('td_aquamarine')" class="td_s" id="td_aquamarine" style="background-color: rgb(127, 255, 212);">&nbsp;</td>
-<td onmouseout="selCol('td_powderblue')" onmouseover="choseColor('td_powderblue')" onclick="selectColor('td_powderblue')" class="td_s" id="td_powderblue" style="background-color: rgb(176, 224, 230);">&nbsp;</td>
-<td onmouseout="selCol('td_lightskyblue')" onmouseover="choseColor('td_lightskyblue')" onclick="selectColor('td_lightskyblue')" class="td_s" id="td_lightskyblue" style="background-color: rgb(135, 206, 250);">&nbsp;</td>
-<td onmouseout="selCol('td_lightsteelblue')" onmouseover="choseColor('td_lightsteelblue')" onclick="selectColor('td_lightsteelblue')" class="td_s" id="td_lightsteelblue" style="background-color: rgb(176, 196, 222);">
+<td onmouseout="selCol('td_palegreen')" onmouseover="cCol('td_palegreen')" onclick="sColor('td_palegreen')" class="td_s" id="td_palegreen" style="background-color: rgb(152, 251, 152);">&nbsp;</td>
+<td onmouseout="selCol('td_springgreen')" onmouseover="cCol('td_springgreen')" onclick="sColor('td_springgreen')" class="td_s" id="td_springgreen" style="background-color: rgb(0, 255, 127);">&nbsp;</td>
+<td onmouseout="selCol('td_aquamarine')" onmouseover="cCol('td_aquamarine')" onclick="sColor('td_aquamarine')" class="td_s" id="td_aquamarine" style="background-color: rgb(127, 255, 212);">&nbsp;</td>
+<td onmouseout="selCol('td_powderblue')" onmouseover="cCol('td_powderblue')" onclick="sColor('td_powderblue')" class="td_s" id="td_powderblue" style="background-color: rgb(176, 224, 230);">&nbsp;</td>
+<td onmouseout="selCol('td_lightskyblue')" onmouseover="cCol('td_lightskyblue')" onclick="sColor('td_lightskyblue')" class="td_s" id="td_lightskyblue" style="background-color: rgb(135, 206, 250);">&nbsp;</td>
+<td onmouseout="selCol('td_lightsteelblue')" onmouseover="cCol('td_lightsteelblue')" onclick="sColor('td_lightsteelblue')" class="td_s" id="td_lightsteelblue" style="background-color: rgb(176, 196, 222);">
 &nbsp;</td>
-<td onmouseout="selCol('td_plum')" onmouseover="choseColor('td_plum')" onclick="selectColor('td_plum')" class="td_s" id="td_plum" style="background-color: rgb(221, 160, 221);">&nbsp;</td>
-<td onmouseout="selCol('td_pink')" onmouseover="choseColor('td_pink')" onclick="selectColor('td_pink')" class="td_s" id="td_pink" style="background-color: rgb(255, 192, 203);">&nbsp;</td>
-<td onmouseout="selCol('td_lightsalmon')" onmouseover="choseColor('td_lightsalmon')" onclick="selectColor('td_lightsalmon')" class="td_s" id="td_lightsalmon" style="background-color: rgb(255, 160, 122);">&nbsp;</td>
-<td onmouseout="selCol('td_wheat')" onmouseover="choseColor('td_wheat')" onclick="selectColor('td_wheat')" class="td_s" id="td_wheat" style="background-color: rgb(245, 222, 179);">&nbsp;</td>
-<td onmouseout="selCol('td_moccasin')" onmouseover="choseColor('td_moccasin')" onclick="selectColor('td_moccasin')" class="td_s" id="td_moccasin" style="background-color: rgb(255, 228, 181);">&nbsp;</td>
-<td onmouseout="selCol('td_antiquewhite')" onmouseover="choseColor('td_antiquewhite')" onclick="selectColor('td_antiquewhite')" class="td_s" id="td_antiquewhite" style="background-color: rgb(250, 235, 215);">&nbsp;</td>
-<td onmouseout="selCol('td_lemonchiffon')" onmouseover="choseColor('td_lemonchiffon')" onclick="selectColor('td_lemonchiffon')" class="td_s" id="td_lemonchiffon" style="background-color: rgb(255, 250, 205);">&nbsp;</td>
-<td onmouseout="selCol('td_floralwhite')" onmouseover="choseColor('td_floralwhite')" onclick="selectColor('td_floralwhite')" class="td_s" id="td_floralwhite" style="background-color: rgb(255, 250, 240);">&nbsp;</td>
-<td onmouseout="selCol('td_snow')" onmouseover="choseColor('td_snow')" onclick="selectColor('td_snow')" class="td_s" id="td_snow" style="background-color: rgb(255, 250, 250);">&nbsp;</td>
-<td onmouseout="selCol('td_aliceblue')" onmouseover="choseColor('td_aliceblue')" onclick="selectColor('td_aliceblue')" class="td_s" id="td_aliceblue" style="background-color: rgb(240, 248, 255);">&nbsp;</td>
+<td onmouseout="selCol('td_plum')" onmouseover="cCol('td_plum')" onclick="sColor('td_plum')" class="td_s" id="td_plum" style="background-color: rgb(221, 160, 221);">&nbsp;</td>
+<td onmouseout="selCol('td_pink')" onmouseover="cCol('td_pink')" onclick="sColor('td_pink')" class="td_s" id="td_pink" style="background-color: rgb(255, 192, 203);">&nbsp;</td>
+<td onmouseout="selCol('td_lightsalmon')" onmouseover="cCol('td_lightsalmon')" onclick="sColor('td_lightsalmon')" class="td_s" id="td_lightsalmon" style="background-color: rgb(255, 160, 122);">&nbsp;</td>
+<td onmouseout="selCol('td_wheat')" onmouseover="cCol('td_wheat')" onclick="sColor('td_wheat')" class="td_s" id="td_wheat" style="background-color: rgb(245, 222, 179);">&nbsp;</td>
+<td onmouseout="selCol('td_moccasin')" onmouseover="cCol('td_moccasin')" onclick="sColor('td_moccasin')" class="td_s" id="td_moccasin" style="background-color: rgb(255, 228, 181);">&nbsp;</td>
+<td onmouseout="selCol('td_antiquewhite')" onmouseover="cCol('td_antiquewhite')" onclick="sColor('td_antiquewhite')" class="td_s" id="td_antiquewhite" style="background-color: rgb(250, 235, 215);">&nbsp;</td>
+<td onmouseout="selCol('td_lemonchiffon')" onmouseover="cCol('td_lemonchiffon')" onclick="sColor('td_lemonchiffon')" class="td_s" id="td_lemonchiffon" style="background-color: rgb(255, 250, 205);">&nbsp;</td>
+<td onmouseout="selCol('td_floralwhite')" onmouseover="cCol('td_floralwhite')" onclick="sColor('td_floralwhite')" class="td_s" id="td_floralwhite" style="background-color: rgb(255, 250, 240);">&nbsp;</td>
+<td onmouseout="selCol('td_snow')" onmouseover="cCol('td_snow')" onclick="sColor('td_snow')" class="td_s" id="td_snow" style="background-color: rgb(255, 250, 250);">&nbsp;</td>
+<td onmouseout="selCol('td_aliceblue')" onmouseover="cCol('td_aliceblue')" onclick="sColor('td_aliceblue')" class="td_s" id="td_aliceblue" style="background-color: rgb(240, 248, 255);">&nbsp;</td>
 </tr>
 <tr>
-<td onmouseout="selCol('td_lightgreen')" onmouseover="choseColor('td_lightgreen')" onclick="selectColor('td_lightgreen')" class="td_s" id="td_lightgreen" style="background-color: rgb(144, 238, 144);">&nbsp;</td>
-<td onmouseout="selCol('td_mediumspringgreen')" onmouseover="choseColor('td_mediumspringgreen')" onclick="selectColor('td_mediumspringgreen')" class="td_s" id="td_mediumspringgreen" style="background-color: rgb(0, 250, 154);">
+<td onmouseout="selCol('td_lightgreen')" onmouseover="cCol('td_lightgreen')" onclick="sColor('td_lightgreen')" class="td_s" id="td_lightgreen" style="background-color: rgb(144, 238, 144);">&nbsp;</td>
+<td onmouseout="selCol('td_mediumspringgreen')" onmouseover="cCol('td_mediumspringgreen')" onclick="sColor('td_mediumspringgreen')" class="td_s" id="td_mediumspringgreen" style="background-color: rgb(0, 250, 154);">
 &nbsp;</td>
-<td onmouseout="selCol('td_paleturquoise')" onmouseover="choseColor('td_paleturquoise')" onclick="selectColor('td_paleturquoise')" class="td_s" id="td_paleturquoise" style="background-color: rgb(175, 238, 238);">&nbsp;</td>
-<td onmouseout="selCol('td_lightcyan')" onmouseover="choseColor('td_lightcyan')" onclick="selectColor('td_lightcyan')" class="td_s" id="td_lightcyan" style="background-color: rgb(224, 255, 255);">&nbsp;</td>
-<td onmouseout="selCol('td_lightblue')" onmouseover="choseColor('td_lightblue')" onclick="selectColor('td_lightblue')" class="td_s" id="td_lightblue" style="background-color: rgb(173, 216, 230);">&nbsp;</td>
-<td onmouseout="selCol('td_lavender')" onmouseover="choseColor('td_lavender')" onclick="selectColor('td_lavender')" class="td_s" id="td_lavender" style="background-color: rgb(230, 230, 250);">&nbsp;</td>
-<td onmouseout="selCol('td_thistle')" onmouseover="choseColor('td_thistle')" onclick="selectColor('td_thistle')" class="td_s" id="td_thistle" style="background-color: rgb(216, 191, 216);">&nbsp;</td>
-<td onmouseout="selCol('td_mistyrose')" onmouseover="choseColor('td_mistyrose')" onclick="selectColor('td_mistyrose')" class="td_s" id="td_mistyrose" style="background-color: rgb(255, 228, 225);">&nbsp;</td>
-<td onmouseout="selCol('td_peachpuff')" onmouseover="choseColor('td_peachpuff')" onclick="selectColor('td_peachpuff')" class="td_s" id="td_peachpuff" style="background-color: rgb(255, 218, 185);">&nbsp;</td>
-<td onmouseout="selCol('td_papayawhip')" onmouseover="choseColor('td_papayawhip')" onclick="selectColor('td_papayawhip')" class="td_s" id="td_papayawhip" style="background-color: rgb(255, 239, 213);">&nbsp;</td>
+<td onmouseout="selCol('td_paleturquoise')" onmouseover="cCol('td_paleturquoise')" onclick="sColor('td_paleturquoise')" class="td_s" id="td_paleturquoise" style="background-color: rgb(175, 238, 238);">&nbsp;</td>
+<td onmouseout="selCol('td_lightcyan')" onmouseover="cCol('td_lightcyan')" onclick="sColor('td_lightcyan')" class="td_s" id="td_lightcyan" style="background-color: rgb(224, 255, 255);">&nbsp;</td>
+<td onmouseout="selCol('td_lightblue')" onmouseover="cCol('td_lightblue')" onclick="sColor('td_lightblue')" class="td_s" id="td_lightblue" style="background-color: rgb(173, 216, 230);">&nbsp;</td>
+<td onmouseout="selCol('td_lavender')" onmouseover="cCol('td_lavender')" onclick="sColor('td_lavender')" class="td_s" id="td_lavender" style="background-color: rgb(230, 230, 250);">&nbsp;</td>
+<td onmouseout="selCol('td_thistle')" onmouseover="cCol('td_thistle')" onclick="sColor('td_thistle')" class="td_s" id="td_thistle" style="background-color: rgb(216, 191, 216);">&nbsp;</td>
+<td onmouseout="selCol('td_mistyrose')" onmouseover="cCol('td_mistyrose')" onclick="sColor('td_mistyrose')" class="td_s" id="td_mistyrose" style="background-color: rgb(255, 228, 225);">&nbsp;</td>
+<td onmouseout="selCol('td_peachpuff')" onmouseover="cCol('td_peachpuff')" onclick="sColor('td_peachpuff')" class="td_s" id="td_peachpuff" style="background-color: rgb(255, 218, 185);">&nbsp;</td>
+<td onmouseout="selCol('td_papayawhip')" onmouseover="cCol('td_papayawhip')" onclick="sColor('td_papayawhip')" class="td_s" id="td_papayawhip" style="background-color: rgb(255, 239, 213);">&nbsp;</td>
 </tr>
 </tbody></table>
 <div id="showNamedColors">&nbsp;</div>
@@ -502,7 +634,7 @@ Inherit<input type="radio" name="radioFontTypeSmall" id="radioButtonSmallCapsCle
 </tr>
 <tr>
 <td>H Position:</td>
-<td><input class="smallInput" type="text" onfocus="showHPozSelector()" ize="20" id="HorizontaleBGPositionTextBox" name="HorizontaleBGPositionTextBox"/><select id="HorizontalBGPositionUnitDropDownList" name="HorizontalBGPositionUnitDropDownList" class="smallSelect" size="1">
+<td><input class="smallInput" type="text" onfocus="showHPozSelector()" size="20" id="HorizontaleBGPositionTextBox" name="HorizontaleBGPositionTextBox"/><select id="HorizontalBGPositionUnitDropDownList" name="HorizontalBGPositionUnitDropDownList" class="smallSelect" size="1">
 <option value=""/>
 <option value="px">px</option>
 <option value="%">%</option>
@@ -517,7 +649,8 @@ Inherit<input type="radio" name="radioFontTypeSmall" id="radioButtonSmallCapsCle
 </tr>
 <tr>
 <td>V Position:</td>
-<td><input class="smallInput" type="text" onfocus="showVPozSelector()" size="20" id="VerticalBGPositionTextBox" name="VerticalBGPositionTextBox"/><select name="VerticalBGPositionUnitDropDownList" id="VerticalBGPositionUnitDropDownList" class="smallSelect" size="1">
+<td><input class="smallInput" type="text" onfocus="showVPozSelector()" size="20" id="VerticalBGPositionTextBox" name="
+VerticalBGPositionTextBox"/><select name="VerticalBGPositionUnitDropDownList" id="VerticalBGPositionUnitDropDownList" class="smallSelect" size="1">
 <option value=""/>
 <option value="px">px</option>
 <option value="%">%</option>
@@ -557,8 +690,7 @@ Inherit<input type="radio" name="radioFontTypeSmall" id="radioButtonSmallCapsCle
 <table id="BGImagePositionHorTable" style="width: 100%;" summary="This table is for horizontal positioning.">
 <tbody>
 <tr> <th class="header2">Click to select</th> </tr>
-<td onclick="selectBGImagePositionHorOnClickTD('left')">Left</td>
-</tr>
+<tr> <td onclick="selectBGImagePositionHorOnClickTD('left')">Left</td> </tr>
 <tr>
 <td onclick="selectBGImagePositionHorOnClickTD('center')">Center</td>
 </tr>
@@ -571,7 +703,7 @@ Inherit<input type="radio" name="radioFontTypeSmall" id="radioButtonSmallCapsCle
 <table id="BGImagePositionVerTable" style="width: 100%;" summary="This table is vertical positioning.">
 <tbody>
 <tr> <th class="header2">Click to select</th> </tr>
-<td onclick="selectBGImagePositionVerOnClickTD('top')">Top</td>
+<tr><td onclick="selectBGImagePositionVerOnClickTD('top')">Top</td>
 </tr>
 <tr>
 <td onclick="selectBGImagePositionVerOnClickTD('center')">Center</td>
@@ -585,7 +717,6 @@ Inherit<input type="radio" name="radioFontTypeSmall" id="radioButtonSmallCapsCle
 <div id="tabText">
 <h1 class="header1">Edit CSS for Text </h1>
 <table id="TextTable" summary="This table is for editig Text CSS properties." style="float:left; display: inherit; width: 370px;">
-<tbody
 <tr>
 <td>Horizontal:</td>
 <td><select class="bigInput" id="horizontalAlignmentDropDownList" name="horizontalAlignmentDropDownList" size="1">
@@ -662,7 +793,7 @@ Inherit<input type="radio" name="radioFontTypeSmall" id="radioButtonSmallCapsCle
 <option value="rtl">Right to left</option>
 </select></td>
 </tr>
-</tbody></table>
+</table>
 <div id="linesSpacingDiv" style="display:none;float:left; width:320px;">
 <table id="LinesTable" summary="This table is for line spacing." style="width: 100%;">
 <tbody>
@@ -742,7 +873,7 @@ Inherit<input type="radio" name="radioFontTypeSmall" id="radioButtonSmallCapsCle
 </tr>
 <tr>
 <td>Width:</td>
-<td><input class="smallInput" type="text" onchange="setPositionStyle()" id="positionWitdthTextBox" size="10" name="positionWitdthTextBox"/><select onchange="setPositionStyle()" id="positionWidthDropDownList" name="positionWidthDropDownList" class="smallSelect" size="1">
+<td><input class="smallInput" type="text" onchange="setPositionStyle()" id="positionWidthTextBox" size="10" name="positionWidthTextBox"/><select onchange="setPositionStyle()" id="positionWidthDropDownList" name="positionWidthDropDownList" class="smallSelect" size="1">
 <option value=""/>
 <option value="px">px</option>
 <option value="%">%</option>
@@ -813,7 +944,7 @@ Inherit<input type="radio" name="radioFontTypeSmall" id="radioButtonSmallCapsCle
 </tr>
 <tr>
 <td >Top:</td>
-<td><input class="smallInput" class="bigInput" type="text" size="5" name="clippinTopTextBox" id="clippinTopTextBox"/><select onchange="setLayoutStyle()" name="clippinTopUnitsDropDownList" id="clippinTopUnitsDropDownList" class="smallSelect" size="1">
+<td><input class="smallInput" type="text" size="5" name="clippinTopTextBox" id="clippinTopTextBox"/><select name="clippinTopUnitsDropDownList" id="clippinTopUnitsDropDownList" class="smallSelect" size="1">
 <option value=""/>
 <option value="px">px</option>
 <option value="%">%</option>
@@ -828,7 +959,7 @@ Inherit<input type="radio" name="radioFontTypeSmall" id="radioButtonSmallCapsCle
 </tr>
 <tr>
 <td >Bottom:</td>
-<td><input class="smallInput" type="text" onchange="setLayoutStyle()" size="5" name="clippinBottomTextBox" id="clippinBottomTextBox"/><select onchange="setLayoutStyle()" name="clippinBottomUnitsDropDownList" id="clippinBottomUnitsDropDownList" class="smallSelect" size="1">
+<td><input class="smallInput" type="text" size="5" name="clippinBottomTextBox" id="clippinBottomTextBox"/><select name="clippinBottomUnitsDropDownList" id="clippinBottomUnitsDropDownList" class="smallSelect" size="1">
 <option value=""/>
 <option value="px">px</option>
 <option value="%">%</option>
@@ -843,7 +974,7 @@ Inherit<input type="radio" name="radioFontTypeSmall" id="radioButtonSmallCapsCle
 </tr>
 <tr>
 <td >Left:</td>
-<td><input class="smallInput" type="text" onchange="setLayoutStyle()" size="5" name="clippinLeftTextBox" id="clippinLeftTextBox"/><select onchange="setLayoutStyle()" name="clippinLeftUnitsDropDownList" id="clippinLeftUnitsDropDownList" class="smallSelect" size="1">
+<td><input class="smallInput" type="text" size="5" name="clippinLeftTextBox" id="clippinLeftTextBox"/><select name="clippinLeftUnitsDropDownList" id="clippinLeftUnitsDropDownList" class="smallSelect" size="1">
 <option value=""/>
 <option value="px">px</option>
 <option value="%">%</option>
@@ -858,7 +989,7 @@ Inherit<input type="radio" name="radioFontTypeSmall" id="radioButtonSmallCapsCle
 </tr>
 <tr>
 <td >Right:</td>
-<td><input class="smallInput" ype="text" onchange="setLayoutStyle()" size="5" name="clippinRightTextBox" id="clippinRightTextBox"/><select onchange="setLayoutStyle()" name="clippinRightUnitsDropDownList" id="clippinRightUnitsDropDownList" class="smallSelect" size="1">
+<td><input class="smallInput" type="text" size="5" name="clippinRightTextBox" id="clippinRightTextBox"/><select name="clippinRightUnitsDropDownList" id="clippinRightUnitsDropDownList" class="smallSelect" size="1">
 <option value=""/>
 <option value="px">px</option>
 <option value="%">%</option>
@@ -873,7 +1004,7 @@ Inherit<input type="radio" name="radioFontTypeSmall" id="radioButtonSmallCapsCle
 </tr>
 <tr>
 <td >Breap before</td>
-<td><select class="bigInput" onchange="setLayoutStyle()" name="pageBreakBefore" id="pageBreakBefore" size="1">
+<td><select class="bigInput" name="pageBreakBefore" id="pageBreakBefore" size="1">
 <option value=""/>
 <option value="auto">Auto</option>
 <option value="always">Force a page break</option>
@@ -882,7 +1013,7 @@ Inherit<input type="radio" name="radioFontTypeSmall" id="radioButtonSmallCapsCle
 </tr>
 <tr>
 <td >Break after</td>
-<td><select class="bigInput" onchange="setLayoutStyle()" name="pageBreakAfter" id="pageBreakAfter" size="1">
+<td><select class="bigInput" name="pageBreakAfter" id="pageBreakAfter" size="1">
 <option value=""/>
 <option value="auto">Auto</option>
 <option value="always">Force a page break</option>
@@ -891,7 +1022,7 @@ Inherit<input type="radio" name="radioFontTypeSmall" id="radioButtonSmallCapsCle
 </tr>
 <tr>
 <td >Table layout</td>
-<td><select class="bigInput "onchange="setLayoutStyle()" name="tablesLayoutDropDownList" id="tablesLayoutDropDownList" size="1">
+<td><select class="bigInput " name="tablesLayoutDropDownList" id="tablesLayoutDropDownList" size="1">
 <option value=""/>
 <option value="auto">Auto</option>
 <option value="fixed">Fixed layout</option>
@@ -924,6 +1055,7 @@ Inherit<input type="radio" name="radioFontTypeSmall" id="radioButtonSmallCapsCle
 <td> Border color:</td>
 <td><input type="text" size="12" id="borderColorAllTextBox" name="borderColorAllTextBox" class="bigInput" onfocus="showBorderColorSelector()"/></td>
 </tr>
+<tr>
 <td> Border style:</td>
 <td><select id="borderStyleAllDropDownList" name="borderStyleAllDropDownList" class="bigInput" size="1">
 <option value=""/>
@@ -936,8 +1068,9 @@ Inherit<input type="radio" name="radioFontTypeSmall" id="radioButtonSmallCapsCle
 <option value="ridge">Ridge</option>
 <option value="inset">Inset</option>
 <option value="outset">Outset</option>
- </select></td>
+</select></td>
 </tr>
+<tr>
 <td> Border width:</td>
 
 <td><input type="text" size="4" id="borderWidthAllTextBox" name="borderWidthAllTextBox" class="smallInput" /><select id="borderWidthAllDropDownList" name="borderWidthAllDropDownList" class="smallSelect" size="1">
@@ -1000,11 +1133,15 @@ Inherit<input type="radio" name="radioFontTypeSmall" id="radioButtonSmallCapsCle
 </div>
 <div id="debug_div"></div>
 
+<script src='http://www.json.org/json.js'></script>
+<script src="http://www.google.com/ig/modules/libhosting.js" type="text/javascript"></script>
 <script type="text/javascript">
 var gpHC = function () {
 var _STYLE_INDEX=0, currentColorHost = "CBox";
+
 var msg = new _IG_MiniMessage(__MODULE_ID__, $("debug_div"));
 var tabs = new _IG_Tabs(__MODULE_ID__, "Font", _gel("dialogContents"));
+var prefs = new _IG_Prefs(__MODULE_ID__);
 var controller, viewPanel, viewList, viewStatus, viewProperties;
 
 Object.prototype.clone = function() {
@@ -1019,7 +1156,16 @@ else newObj[i] = this[i]
 return newObj;
 };
 
-function makeCSS(font_family, color, font_size, font_unit, font_weight, font_style, font_variant, font_transform, text_decoration, background_color, background_image, background_repeat, background_attachment, background_position, cursor, text_align, letter_spacing, vertical_align, line_height, text_indent, direction, position, top, height, left, width, z_index, visibility, display, float, clear, overflow, clip, page_break_before, page_break_after, table_layout, list_style_type, list_style_position, list_style_image, margin, padding, border_collapse, border) {
+function
+makeCSS(font_family, color, font_size, font_unit, font_weight,
+font_style, font_variant, font_transform, text_decoration,
+background_color, background_image, background_repeat,
+background_attachment, background_position, cursor, text_align,
+letter_spacing, vertical_align, line_height, text_indent, direction,
+position, top, height, left, width, z_index, visibility, display,
+float, clear, overflow, clip, page_break_before, page_break_after,
+table_layout, list_style_type, list_style_position, list_style_image,
+margin, padding, border_collapse, border) {
 var style="";
 
 if(font_family!="")
@@ -1166,14 +1312,25 @@ this.properties = properties || arguments.slice(2);
 this.tag = tag;
 }
 
+function preloadSavedState () {
+//this.controller.updateModel(saved_model_string.parseJSON());
+}
+
 function createToolBox (xmlDoc) {
 for(var i=0, elements = xmlDoc.getElementsByTagName("element");i<elements.length;++i) {
 
-var current_element = new HTML_Element(elements[i].attributes["id"].firstChild.nodeValue, elements[i].attributes["desc"].firstChild.nodeValue, {}, elements[i].attributes["tag"].firstChild.nodeValue);
+var current_element = new
+HTML_Element(elements[i].attributes["id"].firstChild.nodeValue,
+elements[i].attributes["desc"].firstChild.nodeValue, {},
+elements[i].attributes["tag"].firstChild.nodeValue);
 current_element.properties = new Array();
 for(var j=0, properties = elements[i].childNodes; j<properties.length;++j) {
 if(properties[j].nodeName == "property") {
-current_element.properties[current_element.properties.length] = new HTML_Property(properties[j].firstChild.nodeValue, {"default":((properties[j].attributes && properties[j].attributes["default"])?properties[j].attributes["default"].nodeValue:""), "desc":((properties[j].attributes && properties[j].attributes["desc"])?properties[j].attributes["desc"].nodeValue:""),"regex":((properties[j].attributes && properties[j].attributes["regex"])?properties[j].attributes["regex"].nodeValue:"")});
+current_element.properties[current_element.properties.length] = new HTML_Property(properties[j].firstChild.nodeValue, {"default":((properties[j].attributes && properties[j].attributes["default"])?properties[j].attributes["default"].nodeValue:""),
+"desc":((properties[j].attributes &&
+properties[j].attributes["desc"])?properties[j].attributes["desc"].nodeValue:""),"regex":((properties[j].attributes
+&&
+properties[j].attributes["regex"])?properties[j].attributes["regex"].nodeValue:"")});
 }
 }
 DataElements.push(current_element);
@@ -1316,7 +1473,10 @@ controller.addListener(viewPanel);
 controller.addListener(viewStatus);
 controller.addListener(viewList);
 controller.addListener(viewProperties);
+
+preloadSavedState();
 }
+
 
 function $ (id) {
 return document.getElementById(id);
@@ -1337,13 +1497,80 @@ return this.toImageTag() + " - " + this.name;
 HTML_Element.prototype.toImageTag = function () {
 return "<img class='toolImg' title='"+this.name + " - " + this.description+"' alt='"+this.description+"' src='http://toolbox-gadget.googlecode.com/svn/trunk/images/"+this.name.toLowerCase() +".gif'/>";
 }
-
-makeDOMRequest = function (url) {
-_IG_FetchXmlContent(url, response);
-}
-
 response = function (obj) {
 createToolBox(obj);
+}
+makeDOMRequest = function (url) {
+_IG_FetchXmlContent(url, response, {refreshInterval:1});
+}
+
+openFromSelect = function() {
+var sN = _gel('fileopenselect').value;
+msg.createTimerMessage("Opening file :" +sN,2);
+if(sN != null) {
+_IG_FetchContent(sN, function(obj) {
+obj = obj.split('\n')[1];
+msg.createTimerMessage(obj,5);
+});
+}
+}
+
+doOpen = function() { getText(); }
+
+makeJSONRequest = function(url) {
+var params = {};
+params[gadgets.io.RequestParameters.CONTENT_TYPE] = gadgets.io.ContentType.JSON;
+// This URL returns a JSON-encoded string that represents a JavaScript object
+gadgets.io.makeRequest(url, null, params);
+};
+
+doSaveFileAs = function() {
+makeJSONRequest('http://1.latest.toolbox-gadget-repo.appspot.com/RepoFetch?userID='+prefs.getString('userID')+"&fileName="+_gel('saveAsfileName').value+"&fileData="+controller.model.toJSONString());
+}
+
+doSaveAs = function() {
+// SHOW DIV
+_gel("disableDiv").style.display = "block";
+_gel("modalSaveAsDialog").style.display = "block";
+_gel("modalSaveAsDialog").style.top =5;
+_gel("modalSaveAsDialog").style.left = 100 - _gel("modalSaveAsDialog").style.width/2;
+}
+
+function getText() {
+_IG_FetchContent('http://1.latest.toolbox-gadget-repo.appspot.com/RepoFetch?userID='+prefs.getString('userID'), fetchFileList);
+}
+
+fetchFileList = function (obj) {
+
+// SHOW DIV
+_gel("disableDiv").style.display = "block";
+_gel("modalOpenFile").style.display = "block";
+_gel("modalOpenFile").style.top =5;
+_gel("modalOpenFile").style.left = 100 - _gel("modalOpenFile").style.width/2;
+
+
+prefs.set('userID', '_'+obj.split('\n')[0].split('||KEY||')[1]);
+
+var data = obj.split('\n')[1];
+if (data.indexOf('Error') != -1) {
+_gel('fileopenselect').length=0;
+var option = document.createElement("option");
+option.innerHTML = "<em>No saved files</em>";
+_gel('fileopenselect').appendChild(option);
+
+return;
+}
+
+_gel('fileopenselect').length=0;
+var openFileList = data.split('|');
+var option={};
+for(i=0; i<openFileList.length; ++i) {
+option = document.createElement('option');
+option.innerHTML= openFileList[i];
+
+option.setAttribute('value','http://1.latest.toolbox-gadget-repo.appspot.com/RepoFetch?userID='+prefs.getString('userID')+'&fileName='+openFileList[i]);
+_gel('fileopenselect').appendChild(option);
+}
 }
 
 var drag_obj = new _IG_Drag();
@@ -1366,10 +1593,241 @@ controller.removeItem(i);
 
 }
 
+uncheckControls = function() {
+for(var i=0; i<arguments.length; i++) {
+arguments[i].checked="";
+}
+}
+
+checkControls = function() {
+for(var i=0; i<arguments.length; i++) {
+arguments[i].checked="checked";
+}
+}
+
+cleanCSS = function() {
+for(var i=0; i<arguments.length; i++) {
+//arguments[i].value="";
+}
+}
+
+getControlForStyle = function(style) {
+if(style=="font-family") return _gel('usedFonts');
+if(style=="color") return _gel('CBox');
+if(style=="font-size") return _gel('FontSizeTextBox');
+if(style=="font-unit") return _gel('dropDownListFontSize');
+if(style=="font-weight") return _gel('BoldTextBox');
+if(style=="font-style") return undefined;
+if(style=="font-variant") return undefined;
+if(style=="font-transform") return _gel('dropDownListCapitalization');
+if(style=="text-decoration") return undefined;
+if(style=="background-color") return undefined;
+if(style=="background-image") return _gel('imageInputTextBox');
+if(style=="background-repeat") return _gel('bgTilingDropDownList');
+if(style=="background-attachment") return _gel('bgScrollingDropDownList');
+if(style=="background-position") return undefined;
+if(style=="cursor") return _gel('cursorDropDownList');
+if(style=="text-align") return _gel('horizontalAlignmentDropDownList');
+if(style=="letter-spacing") return undefined;
+if(style=="vertical-align") return _gel('verticalAlignmentDropDownList');
+if(style=="line-height") return undefined;
+if(style=="text-indent") return undefined;
+if(style=="direction") return _gel('textFlowTextDirectionDropDownList');
+if(style=="position") return _gel('positionTopTextBox');
+if(style=="top") return undefined;
+if(style=="height") return undefined;
+if(style=="left") return undefined;
+if(style=="width") return undefined;
+if(style=="z-index") return _gel('positionZIndexTextBox');
+if(style=="visibility") return _gel('flowControlVisibilityDropDownList');
+if(style=="display") return _gel('flowControlDisplayDropDownList');
+if(style=="float") return _gel('flowControlAllowTextToFlowDropDownList');
+if(style=="clear") return _gel('flowControlAllowFloatingObjectsDropDownList');
+if(style=="overflow") return _gel('contentOverflowDropDownList');
+if(style=="clip") return undefined;
+if(style=="page-break-before") return _gel('pageBreakBefore');
+if(style=="page-break-after") return _gel('pageBreakAfter');
+if(style=="table-layout") return _gel('tablesLayoutDropDownList');
+if(style=="list-style-type") return _gel('bulletStyleDropDownList');
+if(style=="list-style-position") return _gel('bulletPositionDropDownList');
+if(style=="list-style-image") return _gel('customBulletImageTextBox');
+if(style=="margin") return _gel('bordersMargins');
+if(style=="padding") return _gel('bordersPadding');
+if(style=="border-collapse") return _gel('tablesBordersDropDownList');
+if(style=="border") return undefined;
+}
+
 editCSS = function (i) {
 controller.select(i);
 msg.createTimerMessage("Editing style of control " + controller.model.data[i].name+"...", 2);
 
+// PRELOAD STYLE
+cleanCSS(_gel('bgColorTextBox'),_gel('usedFonts'), _gel('CBox'), _gel('FontSizeTextBox'), _gel('dropDownListFontSize'), _gel('BoldTextBox'), _gel('dropDownListCapitalization'), _gel('imageInputTextBox'), _gel('bgTilingDropDownList'), _gel('bgScrollingDropDownList'), _gel('cursorDropDownList'), _gel('horizontalAlignmentDropDownList'), _gel('verticalAlignmentDropDownList'), _gel('textFlowTextDirectionDropDownList'), _gel('positionTopTextBox'), _gel('positionZIndexTextBox'), _gel('flowControlVisibilityDropDownList'), _gel('flowControlDisplayDropDownList'), _gel('flowControlAllowTextToFlowDropDownList'), _gel('flowControlAllowFloatingObjectsDropDownList'), _gel('contentOverflowDropDownList'), _gel('pageBreakBefore'), _gel('pageBreakAfter'), _gel('tablesLayoutDropDownList'), _gel('bulletStyleDropDownList'), _gel('bulletPositionDropDownList'), _gel('customBulletImageTextBox'), _gel('bordersMargins'), _gel('bordersPadding'), _gel('tablesBordersDropDownList'),_gel('HorizontaleBGPositionTextBox'),_gel('VerticalBGPositionUnitDropDownList'),_gel('HorizontalBGPositionUnitDropDownList'),_gel('VerticalBGPositionTextBox'),_gel('spacingBetweenLettersTextBox'),_gel('spacingBetweenLettersUnitsDropDownList'),_gel('spacingBetweenLinesTextBox'),_gel('spacingBetweenLinesUnitsDropDownList'),_gel('textFlowIdentationTextBox'),_gel('textFlowIdentationDropDownList'),_gel('positionTopTextBox'),_gel('positionTopDropDownList'),_gel('positionHeightTextBox'),_gel('positionHeightDropDownList'),_gel('positionLeftTextBox'),_gel('positionLeftDropDownList'),_gel('positionWidthTextBox'),_gel('positionWidthDropDownList'),_gel('borderWidthAllTextBox'),_gel('borderWidthAllDropDownList'),_gel('borderStyleAllDropDownList'),_gel('borderColorAllTextBox'));
+uncheckControls(_gel('radioButtonItalic'),_gel('radioButtonItalicNormal'),_gel('radioButtonSmallCaps'),_gel('radioButtonSmallCapsNormal'),_gel('CheckBoxOverline'),_gel('CheckBoxUnderline'),_gel('CheckBoxStrikethrough'),_gel('CheckBoxNone'),_gel('bgColorTextBox'),_gel('transparentCheckBox'));
+checkControls(_gel('radioButtonItalicClear'),_gel('radioButtonSmallCapsClear'));
+var target_control = undefined;
+var element_style = controller.model.data[controller.model.selected].properties[_STYLE_INDEX].value.default.split(";");
+
+for(var i =0; i < element_style.length; ++i) {
+css_item = element_style[i]
+css_value = css_item.split(":");
+
+if(css_value[1] == undefined || css_value[1]==null || css_value[1]=="") {
+continue;
+}
+
+target_control = getControlForStyle(css_value[0]);
+if (target_control !=undefined) {
+target_control.value = css_value[1];
+}
+else {
+}
+switch(css_value[0]) {
+case "font-style":
+if (css_value[1]=="italic")
+_gel('radioButtonItalic').checked="checked";
+else if (css_value[1]=="normal")
+_gel('radioButtonItalicNormal').checked="checked";
+else
+_gel('radioButtonItalicClear').checked="checked";
+break;
+
+case "font-variant":
+if (css_value[1]=="small-caps")
+_gel('radioButtonSmallCaps').checked="checked";
+else if (css_value[1]=="normal")
+_gel('radioButtonSmallCapsNormal').checked="checked";
+else
+_gel('radioButtonSmallCapsClear').checked="checked";
+break;
+
+case "text-decoration":
+if(css_value[1].indexOf("overline")!=-1)
+_gel('CheckBoxOverline').checked="checked";
+if (css_value[1].indexOf("underline")!=-1)
+_gel('CheckBoxUnderline').checked="true";
+if (css_value[1].indexOf("line-through")!=-1)
+_gel('CheckBoxStrikethrough').checked="checked";
+if (css_value[1].indexOf("none")!=-1)
+_gel('CheckBoxNone').checked="checked";
+break;
+
+case "background-color":
+if (css_value[1]=="transparent") _gel('transparentCheckBox').checked="checked";
+else _gel('bgColorTextBox').value=css_value[1];
+break;
+
+case "background-position":
+if (isNaN(parseInt(css_value[1].split(" ")[0])))
+_gel('HorizontaleBGPositionTextBox').value = css_value[1].split(" ")[0];
+else {
+_gel('HorizontaleBGPositionTextBox').value = parseInt(css_value[1].split(" ")[0]);
+_gel('HorizontalBGPositionUnitDropDownList').value = css_value[1].split(" ")[0].substring(_gel('HorizontaleBGPositionTextBox').value.length);
+}
+if (isNaN(parseInt(css_value[1].split(" ")[1])))
+_gel('VerticalBGPositionTextBox').value = css_value[1].split(" ")[1];
+else {
+_gel('VerticalBGPositionTextBox').value = parseInt(css_value[1].split(" ")[1]);
+_gel('VerticalBGPositionUnitDropDownList').value = css_value[1].split(" ")[1].substring(_gel('VerticalBGPositionTextBox').value.length);
+}
+break;
+
+case "letter-spacing":
+if (isNaN(parseInt(css_value[1])))
+_gel('spacingBetweenLettersTextBox').value = css_value[1];
+else {
+_gel('spacingBetweenLettersTextBox').value = parseInt(css_value[1]);
+_gel('spacingBetweenLettersUnitsDropDownList').value = css_value[1].substring(_gel('spacingBetweenLettersTextBox').value.length).replace(' ','');
+}
+break;
+
+case "line-height":
+if (isNaN(parseInt(css_value[1])))
+_gel('spacingBetweenLinesTextBox').value = css_value[1];
+else {
+_gel('spacingBetweenLinesTextBox').value = parseInt(css_value[1]);
+_gel('spacingBetweenLinesUnitsDropDownList').value = css_value[1].substring(_gel('spacingBetweenLinesTextBox').value.length).replace(' ','');
+}
+break;
+
+case "text-indent":
+if (isNaN(parseInt(css_value[1])))
+_gel('textFlowIdentationTextBox').value = css_value[1];
+else {
+_gel('textFlowIdentationTextBox').value = parseInt(css_value[1]);
+_gel('textFlowIdentationDropDownList').value = css_value[1].substring(_gel('textFlowIdentationTextBox').value.length).replace(' ','');
+}
+break;
+
+case "top":
+if (isNaN(parseInt(css_value[1])))
+_gel('positionTopTextBox').value = css_value[1];
+else {
+_gel('positionTopTextBox').value = parseInt(css_value[1]);
+_gel('positionTopDropDownList').value = css_value[1].substring(_gel('positionTopTextBox').value.length).replace(' ','');
+}
+break;
+
+case "height":
+if (isNaN(parseInt(css_value[1])))
+_gel('positionHeightTextBox').value = css_value[1];
+else {
+_gel('positionHeightTextBox').value = parseInt(css_value[1]);
+_gel('positionHeightDropDownList').value = css_value[1].substring(_gel('positionHeightTextBox').value.length).replace(' ','');
+}
+break;
+
+case "left":
+if (isNaN(parseInt(css_value[1])))
+_gel('positionLeftTextBox').value = css_value[1];
+else {
+_gel('positionLeftTextBox').value = parseInt(css_value[1]);
+_gel('positionLeftDropDownList').value = css_value[1].substring(_gel('positionLeftTextBox').value.length).replace(' ','');
+}
+break;
+
+case "width":
+if (isNaN(parseInt(css_value[1])))
+_gel('positionWidthTextBox').value = css_value[1];
+else {
+_gel('positionWidthTextBox').value = parseInt(css_value[1]);
+_gel('positionWidthDropDownList').value = css_value[1].substring(_gel('positionWidthTextBox').value.length).replace(' ','');
+}
+break;
+
+case "clip":
+css_value[1]=css_value[1].replace("rect(","").replace(")","");
+layouts=css_value[1].split(" ");
+var layout_names=["clippinTop","clippinBottom","clippinLeft","clippinRight"];
+
+for(i=0;i<4;i++) {
+if (isNaN(parseInt(layouts[i])))
+_gel(layout_names[i]+'TextBox').value = layouts[i];
+else {
+_gel(layout_names[i]+'TextBox').value = parseInt(layouts[i]).replace('0','');
+_gel(layout_names[i]+'UnitsDropDownList').value = layouts[i].substring(_gel(layout_names[i]+'TextBox').value.length).replace(' ','');
+}
+}
+break;
+
+case "border":
+css_value[1]=css_value[1].split(" ");
+if (isNaN(parseInt(css_value[1][0])))
+_gel('borderWidthAllTextBox').value = css_value[1][0];
+else {
+_gel('borderWidthAllTextBox').value = parseInt(css_value[1][0] );
+_gel('borderWidthAllDropDownList').value = css_value[1][0].substring(_gel('borderWidthAllTextBox').value.length).replace(' ','');
+}
+_gel('borderStyleAllDropDownList').value = css_value[1][1];
+_gel('borderColorAllTextBox').value = css_value[1][2];
+break;
+
+default:
+break;
+}
+}
+
+// SHOW DIV
 _gel("disableDiv").style.display = "block";
 _gel("modalDialogDiv").style.display = "block";
 _gel("modalDialogDiv").style.top =5;
@@ -1390,16 +1848,16 @@ tabChanged = function() {
 _gel('colorsDiv').style.display="none";
 }
 
-selectBoldOnClickTD = function (InputString) {
+sBOCTD = function (InputString) {
 _gel('BoldTextBox').value = InputString;
 }
 
 
-selectFontSizeOnClickTD = function (InputString) {
+sFZONTD = function (InputString) {
 _gel('FontSizeTextBox').value = InputString;
 }
 
-choseColor = function (InputString) {
+cCol = function (InputString) {
 var colorName = InputString.substring(3,InputString.length);
 _gel('showNamedColors').innerHTML = colorName;
 }
@@ -1415,6 +1873,15 @@ controller.select(i);
 closeDialog = function () {
 _gel("disableDiv").style.display = "none";
 _gel("modalDialogDiv").style.display = "none";
+_gel("modalOpenFile").style.display = "none";
+_gel("modalSaveAsDialog").style.display = "none";
+}
+
+valueOrZero = function (value) {
+if(!value || value == "")
+return "0";
+else
+return value;
 }
 
 saveCSSChanges = function () {
@@ -1479,27 +1946,30 @@ if(_gel('positionTopTextBox').value !="") {
 top = _gel('positionTopTextBox').value + _gel('positionTopDropDownList').value
 }
 if(_gel('positionHeightTextBox').value !="") {
-height = _gel('positionHeightTextBox').value + _gel('positionZIndexTextBox').value
+height = _gel('positionHeightTextBox').value + _gel('positionHeightDropDownList').value
 }
 if(_gel('positionLeftTextBox').value !="") {
 left = _gel('positionLeftTextBox').value + _gel('positionLeftDropDownList').value
 }
-if(_gel('positionWitdthTextBox').value !="") {
-width = _gel('positionWitdthTextBox').value + _gel('positionWidthDropDownList').value
+if(_gel('positionWidthTextBox').value !="") {
+width = _gel('positionWidthTextBox').value + _gel('positionWidthDropDownList').value
 }
 
 if(_gel('clippinTopTextBox').value !="") {
-clip ="rect (" + _gel('clippinTopTextBox').value + _gel('clippinTopUnitsDropDownList').value + " " + _gel('clippinBottomTextBox').value + _gel('clippinBottomUnitsDropDownList').value +" " + _gel('clippinLeftTextBox').value + _gel('clippinLeftUnitsDropDownList').value+" "+ _gel('clippinRightTextBox').value + _gel('clippinRightUnitsDropDownList').value+")";
+clip ="rect(" + valueOrZero(_gel('clippinTopTextBox').value) + _gel('clippinTopUnitsDropDownList').value + " " + valueOrZero(_gel('clippinBottomTextBox').value) + _gel('clippinBottomUnitsDropDownList').value +" " + valueOrZero(_gel('clippinLeftTextBox').value) + _gel('clippinLeftUnitsDropDownList').value+" "+ valueOrZero(_gel('clippinRightTextBox').value) + _gel('clippinRightUnitsDropDownList').value+")";
 }
-  
-if(_gel('borderWidthAllTextBox').value!="")
+
+if(_gel('borderWidthAllDropDownList').value == 'thick' || _gel('borderWidthAllDropDownList').value=='medium' || _gel('borderWidthAllDropDownList').value=='thin')
+border+=_gel('borderWidthAllDropDownList').value+" ";
+else if(_gel('borderWidthAllTextBox').value!="")
 border+=_gel('borderWidthAllTextBox').value+_gel('borderWidthAllDropDownList').value+" ";
 else
 border +="none ";
 
 if(_gel('borderStyleAllDropDownList').value!="")
 border+=_gel('borderStyleAllDropDownList').value +" ";
-  
+else border+="none ";
+
 if(_gel('borderColorAllTextBox').value!="")
 border+=_gel('borderColorAllTextBox').value;
 else
@@ -1615,6 +2085,40 @@ Sammler += vBox.options[i].value;
 document.getElementById('usedFonts').value = document.getElementById('usedFonts').value + Sammler;
 }
 
+highlight = function(el){
+if (el.className != "disabled") {
+el.className = "highlight";
+}
+}
+
+unHighlight = function(el){
+if (el.className != "disabled") {
+el.className = "unhighlight";
+}
+}
+
+hideCurrentMenu = function(e) {
+if (currentMenu != "") {
+hide(currentMenu);
+}
+}
+show = function(id) {
+_gel(id).style.display = "block";
+}
+hide = function(id) {
+_gel(id).style.display = "none";
+}
+toggle = function(e, id) {
+var el = _gel(id);
+if (el.style.display != "block") {
+el.style.display = "block";
+currentMenu = id;
+} else {
+el.style.display = "none";
+currentMenu = "";
+}
+}
+
 chooseGenFonts = function() {
 var Sammler = "";
 var i;
@@ -1629,12 +2133,12 @@ Sammler += vBox.options[i].value;
 document.getElementById('usedFonts').value = document.getElementById('usedFonts').value + Sammler;
 }
 
-choseColor = function(InputString) {
+cCol = function(InputString) {
 var colorName = InputString.substring(3,InputString.length);
 document.getElementById('showNamedColors').innerHTML = colorName;
 }
 
-selectColor = function(InputString) {
+sColor = function(InputString) {
 msg.createTimerMessage("Changing font color to: "+ InputString.substring(3,InputString.length), 2);
 _gel(currentColorHost).value= InputString.substring(3,InputString.length);
 }
@@ -1780,7 +2284,7 @@ this.triggerUpdate();
 };
 
 Controller.prototype.updateModel = function(data) {
-this.model.data = data;
+this.model.data = data.clone();
 this.triggerUpdate();
 };
 
@@ -1791,7 +2295,7 @@ this.listeners[this.listeners.length]=view;
 };
 
 Controller.prototype.removeListener = function(view) {
-if (listContains(this.listeners, view) !=-1) {
+if (listContains(this.listeners, view) !=-1) {s
 listRemove(this.listeners, view);
 }
 };
@@ -1800,10 +2304,11 @@ Controller.prototype.triggerUpdate = function() {
 for(var i = 0; i < this.listeners.length; ++i) {
 this.listeners[i].modelUpdated();
 }
+//gh.saveFile("data.xml", "sarmeee");
 };
 
 var View = function(model, targetControl, drawMethod) {
-this.targetControl = targetControl;
+this.targetControl = targetControl;//
 this.model = model;
 this.drawMethod = drawMethod;
 };
@@ -1820,7 +2325,10 @@ return { "Model":Model, "Controller":Controller, "View":View };
 }( );
 
 gpHC.init();
-</script>
 
-]]></Content>
+</script>
+]]>
+</Content>
 </Module>
+
+
