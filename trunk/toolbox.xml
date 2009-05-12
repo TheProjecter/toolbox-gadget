@@ -1519,6 +1519,7 @@ doOpen = function() { getText(); }
 
 makeJSONRequest = function(url) {
 var params = {};
+params[gadgets.io.RequestParameters.METHOD] = gadgets.io.MethodType.POST;
 params[gadgets.io.RequestParameters.CONTENT_TYPE] = gadgets.io.ContentType.JSON;
 // This URL returns a JSON-encoded string that represents a JavaScript object
 gadgets.io.makeRequest(url, null, params);
