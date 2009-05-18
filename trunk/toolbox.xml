@@ -56,14 +56,14 @@ font-weight:normal; line-height:normal;}
 .smallInput {width:120px;}
 
 #modalDialogDiv
-td#dialogClose, #modalOpenFile td#dialogClose, #modalSaveAsDialog td#dialogClose{padding-right: 2px;
+td#dialogClose, #modalOpenFile td#dialogClose, #modalSaveAsDialog td#dialogClose, #modalDeleteFile td#dialogClose{padding-right: 2px;
 background-color:#DBE6DE;border-bottom:1px solid #aaaaaa;width:15px;}
 #modalDialogDiv
-td#dialogTitle, #modalOpenFile td#dialogTitle, #modalSaveAsDialog td#dialogTitle{padding: 2px; font-size:13px;
+td#dialogTitle, #modalOpenFile td#dialogTitle, #modalSaveAsDialog td#dialogTitle, #modalDeleteFile td#dialogTitle{padding: 2px; font-size:13px;
 background-color:#DBE6DE;border-bottom:1px solid
 #aaaaaa;font-weight:bold;}
-#modalDialogDiv table, #modalOpenFile table, #modalSaveAsDialog table {border:medium none;width:100%;}
-#modalDialogDiv,#modalOpenFile, #modalSaveAsDialog{ background-color:#ffffff;border:1px solid
+#modalDialogDiv table, #modalOpenFile table, #modalSaveAsDialog table, #modalDeleteFile table{border:medium none;width:100%;}
+#modalDialogDiv,#modalOpenFile, #modalSaveAsDialog, #modalDeleteFile{ background-color:#ffffff;border:1px solid
 #676767;display:none;position:absolute;z-index:100; height:400px;
 width:700px}
 
@@ -113,15 +113,6 @@ body {scrollbar-face-color: #f0f0f0;scrollbar-highlight-color: #cccccc;scrollbar
 <td>
 <div onclick="hide('fileMenu');doOpen();" id="fileOpen">
 Open...
-</div>
-</td>
-<td>&nbsp;</td>
-</tr>
-<tr onmouseout="unHighlight(this);" onmouseover="highlight(this);" id="fileopenurlrow" class="unhighlight">
-<td>&nbsp;</td>
-<td>
-<div onclick="hide('fileMenu');doSave();" id="fileSave" class="">
-Save
 </div>
 </td>
 <td>&nbsp;</td>
@@ -217,6 +208,27 @@ Enter a filename: <br/>
 <p><input type="button" onclick="openFromSelect(); closeDialog();" value="Open file"/>&nbsp;<input type="button" value="Cancel" onclick="closeDialog();"/></p>
 </center>
 </div>
+
+<div id="modalDeleteFile">
+<table summary="This table is a caption of the modal dialog." cellspacing="0" cellpadding="0" border="0">
+<tbody>
+<tr>
+<td id="dialogtitle">Choose a file</td>
+<td id="dialogClose">
+<img alt="Close modal dialog" onclick="closeDialog();" src="http://img0.gmodules.com/ig/modules/close_box.gif"/>
+</td>
+</tr>
+</tbody>
+</table>
+<br />
+<center>
+<select ondblclick="deleteFile(this);" style="width: 90%;" size="15" id="filedeleteselect">
+</select>
+<div style="clear:both"></div>
+<p><input type="button" onclick="deleteFile(); closeDialog();" value="Delete file"/>&nbsp;<input type="button" value="Cancel" onclick="closeDialog();"/></p>
+</center>
+</div>
+
 
 <div id="modalDialogDiv">
 <table summary="This table is a caption of the modal dialog." cellspacing="0" cellpadding="0" border="0">
@@ -1312,8 +1324,8 @@ this.properties = properties || arguments.slice(2);
 this.tag = tag;
 }
 
-function preloadSavedState () {
-//this.controller.updateModel(saved_model_string.parseJSON());
+function preloadSavedState (saved_model_string) {
+controller.updateModel(saved_model_string);
 }
 
 function createToolBox (xmlDoc) {
@@ -1473,8 +1485,6 @@ controller.addListener(viewPanel);
 controller.addListener(viewStatus);
 controller.addListener(viewList);
 controller.addListener(viewProperties);
-
-preloadSavedState();
 }
 
 
@@ -1510,23 +1520,58 @@ msg.createTimerMessage("Opening file :" +sN,2);
 if(sN != null) {
 _IG_FetchContent(sN, function(obj) {
 obj = obj.split('\n')[1];
-msg.createTimerMessage(obj,5);
+preloadSavedState(obj);
 });
 }
 }
 
-doOpen = function() { getText(); }
+doDelete = function() {
+// SHOW DIV
+_gel("disableDiv").style.display = "block";
+_gel("modalDeleteFile").style.display = "block";
+_gel("modalDeleteFile").style.top =5;
+_gel("modalDeleteFile").style.left = 100 - _gel("modalDeleteFile").style.width/2;
 
-makeJSONRequest = function(url) {
-var params = {};
-params[gadgets.io.RequestParameters.METHOD] = gadgets.io.MethodType.POST;
-params[gadgets.io.RequestParameters.CONTENT_TYPE] = gadgets.io.ContentType.JSON;
-// This URL returns a JSON-encoded string that represents a JavaScript object
-gadgets.io.makeRequest(url, null, params);
+getDeleteList();
+}
+
+function makeGETRequest(url) {
+   var params = {};
+   params[gadgets.io.RequestParameters.METHOD] = gadgets.io.MethodType.GET;
+   gadgets.io.makeRequest(url, delete_response, params); 
 };
 
+function delete_response(obj) {
+if(obj.text.indexOf("true"))
+alert("File deleted succesfully"); 
+};
+
+deleteFile = function() {
+makeGETRequest(_gel('filedeleteselect').value);
+}
+
+doOpen = function() { getText(); }
+
+function makePOSTRequest(url, postdata) {
+var params = {};
+postdata = gadgets.io.encodeValues(postdata);
+params[gadgets.io.RequestParameters.METHOD] = gadgets.io.MethodType.POST;
+params[gadgets.io.RequestParameters.POST_DATA]= postdata;
+gadgets.io.makeRequest(url, fileSaved, params); 
+};
+
+
+fileSaved = function() {
+closeDialog();
+}
+
 doSaveFileAs = function() {
-makeJSONRequest('http://1.latest.toolbox-gadget-repo.appspot.com/RepoFetch?userID='+prefs.getString('userID')+"&fileName="+_gel('saveAsfileName').value+"&fileData="+controller.model.toJSONString());
+var params = {
+userID : prefs.getString('userID'),
+fileName : _gel('saveAsfileName').value,
+fileData : controller.model.data.toJSONString()
+};
+makePOSTRequest('http://1.latest.toolbox-gadget-repo.appspot.com/RepoUpload', params);
 }
 
 doSaveAs = function() {
@@ -1539,6 +1584,10 @@ _gel("modalSaveAsDialog").style.left = 100 - _gel("modalSaveAsDialog").style.wid
 
 function getText() {
 _IG_FetchContent('http://1.latest.toolbox-gadget-repo.appspot.com/RepoFetch?userID='+prefs.getString('userID'), fetchFileList);
+}
+
+function getDeleteList() {
+_IG_FetchContent('http://1.latest.toolbox-gadget-repo.appspot.com/RepoFetch?userID='+prefs.getString('userID'), fetchFileDeleteList);
 }
 
 fetchFileList = function (obj) {
@@ -1571,6 +1620,30 @@ option.innerHTML= openFileList[i];
 
 option.setAttribute('value','http://1.latest.toolbox-gadget-repo.appspot.com/RepoFetch?userID='+prefs.getString('userID')+'&fileName='+openFileList[i]);
 _gel('fileopenselect').appendChild(option);
+}
+}
+
+fetchFileDeleteList = function (obj) {
+
+var data = obj.split('\n')[1];
+if (data.indexOf('Error') != -1) {
+_gel('filedeleteselect').length=0;
+var option = document.createElement("option");
+option.innerHTML = "<em>No saved files</em>";
+_gel('filedeleteselect').appendChild(option);
+
+return;
+}
+
+_gel('filedeleteselect').length=0;
+var openFileList = data.split('|');
+var option={};
+for(i=0; i<openFileList.length; ++i) {
+option = document.createElement('option');
+option.innerHTML= openFileList[i];
+
+option.setAttribute('value','http://1.latest.toolbox-gadget-repo.appspot.com/RepoFetch?userID='+prefs.getString('userID')+'&fileDelName='+openFileList[i]);
+_gel('filedeleteselect').appendChild(option);
 }
 }
 
@@ -1876,6 +1949,7 @@ _gel("disableDiv").style.display = "none";
 _gel("modalDialogDiv").style.display = "none";
 _gel("modalOpenFile").style.display = "none";
 _gel("modalSaveAsDialog").style.display = "none";
+_gel("modalDeleteFile").style.display = "none";
 }
 
 valueOrZero = function (value) {
@@ -2284,8 +2358,8 @@ this.model.removeItem(item);
 this.triggerUpdate();
 };
 
-Controller.prototype.updateModel = function(data) {
-this.model.data = data.clone();
+Controller.prototype.updateModel = function(dataText) {
+this.model.data = dataText.parseJSON();
 this.triggerUpdate();
 };
 
