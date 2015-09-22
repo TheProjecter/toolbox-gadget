@@ -1,0 +1,1 @@
+Toolbox gadget is a simple gadget used to create and style HTML controls using an intuitive GUI and for later reuse in other gadgets via drag-and-drop technique.
